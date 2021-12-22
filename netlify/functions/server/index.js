@@ -20,9 +20,9 @@ exports.handler =
   process.env.NODE_ENV === "production"
     ? createRequestHandler({ build: require("./build") })
     : (event, context) => {
-        purgeRequireCache();
-        return createRequestHandler({ build: require("./build") })(
-          event,
-          context
-        );
-      };
+      purgeRequireCache();
+      return createRequestHandler({ build: require("./build") })(
+        event,
+        context
+      );
+    };
