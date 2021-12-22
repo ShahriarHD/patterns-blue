@@ -22,7 +22,9 @@ export type PostMarkdownAttributes = {
     title: string;
 };
 
-const sequencesPath = path.join(__dirname, "..", "content/");
+// TODO: please don't read from a file :D use a database or something
+const sequencesPath = path.join(__dirname, "../../../..", "content/");
+
 function isValidPostAttributes(
     attributes: any
 ): attributes is PostMarkdownAttributes {
