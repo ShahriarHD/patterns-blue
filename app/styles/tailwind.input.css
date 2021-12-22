@@ -1,0 +1,97 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+    @apply bg-slate-100 dark:bg-blue-900 dark:bg-opacity-30 bg-blend-multiply transition-colors;
+
+    background-image: url('/img/mymind.com-artwork-7.jpg');
+}
+
+.grained {
+    @apply filter contrast-125 brightness-110;
+    background-image:
+      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.prompt {
+    @apply w-full p-4 desktop:p-8 shadow-2xl rounded-2xl;
+    @apply bg-white bg-blend-multiply bg-opacity-60;
+    @apply prose prose-blue font-display;
+}
+
+.table-of-contents {
+    @apply bg-slate-200 bg-opacity-50  bg-blend-multiply;
+    @apply prose-slate;
+    @apply rounded-xl p-4 shadow-md;
+    @apply filter contrast-125 brightness-110;
+}
+
+.table-of-contents ul {
+    @apply flex flex-col gap-2;
+}
+
+.table-of-contents li {
+    @apply p-2 transition bg-sky-200 bg-opacity-40 hover:bg-opacity-80 rounded-full;
+}
+
+.sequence-layout {
+    @apply grid gap-4 w-full justify-items-center;
+
+    grid-template-areas:
+    ".  . header . . "
+    "steps content content content tools"
+    "steps content content content tools"
+    "steps content content content tools"
+    ". . footer . .";
+}
+
+.sequence-layout header {
+    grid-area: header;
+}
+
+.sequence-layout main {
+    @apply place-self-center;
+    grid-area: content;
+}
+
+.sequence-layout main figure>img {
+    @apply shadow-2xl rounded-md transition-all;
+}
+
+.sequence-layout aside {
+    @apply sticky;
+    width: 20rem;
+}
+
+.sequence-layout aside:first-of-type {
+    grid-area: steps;
+}
+
+.sequence-layout aside:last-of-type {
+    grid-area: tools;
+}
+
+.sequence-layout footer {
+    grid-area: footer;
+
+    @apply w-full;
+}
+
+.sequence-layout footer a {
+    @apply px-6 py-3 text-lg font-display font-light;
+    @apply bg-black bg-opacity-70 text-white rounded-lg shadow-xl;
+    @apply transition duration-200;
+    @apply ring-2 ring-transparent;
+    @apply hover:ring-blue-300 focus:ring-blue-500 active:ring-blue-700 active:scale-90;
+}
+
+ul li {
+    list-style: none;
+}
+
+ul li::before {
+    @apply px-4 scale-75;
+
+    content: "💠";
+}
