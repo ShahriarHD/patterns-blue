@@ -1,5 +1,7 @@
 ---
-    title: A Sequence to see inner light
+    title: Become sensitive to inner light
 ---
 
-## Some practical techniques to be more sensitive to inner
+# Developing your senses to feel inner
+
+This is a series of practices that will improve your sensibility towards the inner light.

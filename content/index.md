@@ -8,4 +8,5 @@ and as it approaches and reveals the I.
 This mysterious quality of inner light,
 is at the heart of Christopher Alexander's color theory.
 This theory is part of bigger school of thought, published in four volumes of **Nature of Order**.
-This website aims to present the color theory as from multiple practical sequences.
+
+This website aims to tell the story of colors through a series of informative and interactive sequences.
