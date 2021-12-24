@@ -38,10 +38,10 @@ export default function Index() {
     <div className="flex flex-row items-stretch justify-center gap-8 mx-4 tablet:mx-8 desktop:mx-16">
       <main className="prompt grained"  dangerouslySetInnerHTML={{__html: data.prompt }} />
       <ul className="table-of-contents grained prose">
-        <h3 className="text-center pb-1 border-b border-slate-700">Topics</h3>
+        <h3 className="text-center pb-1 border-b border-slate-700">Sequences</h3>
         {data.sequences.map(({title, slug}, index) => (
           <li key={`topic-${index}`}>
-            <Link to={slug} >{title}</Link>
+            <Link to={slug} prefetch="intent" >{title}</Link>
           </li>
         ))}
       </ul>

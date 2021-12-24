@@ -61,6 +61,8 @@ export default function SequenceIndexPage() {
             <PlaygroundContextProvider>
                 <header className="prose pt-8">
                     <h2>
+                        <Link to={`/`} className="font-display font-bold">Home</Link>
+                        {" > "}
                         <Link to={`/${sequenceIndex.slug}`} className="font-display font-bold">{sequenceIndex.title} </Link>
                     </h2>
                 </header>
@@ -73,7 +75,7 @@ export default function SequenceIndexPage() {
                         {
                             sequenceSteps.map(({ stepSlug, title }, index) => (
                                 <li key={`step-${index}`}>
-                                    <NavLink to={stepSlug} reloadDocument className={({ isActive }) => isActive ? 'font-bold' : ''}>{title}</NavLink>
+                                    <NavLink to={stepSlug} prefetch="intent" reloadDocument className={({ isActive }) => isActive ? 'font-bold' : ''}>{title}</NavLink>
                                 </li>
                             ))
                         }
