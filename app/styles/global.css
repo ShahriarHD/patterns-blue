@@ -1945,6 +1945,7 @@ body {
 }
 
 .sequence-layout main figure>img {
+  max-height: 20rem;
   border-radius: 0.375rem;
   --tw-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
   --tw-shadow-colored: 0 25px 50px -12px var(--tw-shadow-color);
@@ -1952,6 +1953,52 @@ body {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 150ms;
+}
+
+.sequence-layout main .gallery {
+  position: relative;
+  display: flex;
+  max-width: 24rem;
+  margin: auto;
+  padding-top: 24rem;
+}
+
+.sequence-layout main .gallery figure {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  z-index: 0;
+  opacity: 0;
+  transition-property: color, background-color, border-color, fill, stroke, opacity, box-shadow, transform, filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+  transition-property: color, background-color, border-color, text-decoration-color, fill, stroke, opacity, box-shadow, transform, filter, backdrop-filter, -webkit-text-decoration-color, -webkit-backdrop-filter;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
+}
+
+.sequence-layout main .gallery .gallery-thumb {
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
+  display: block;
+  width: 5rem;
+}
+
+.sequence-layout main .gallery input {
+  position: absolute;
+  opacity: 0;
+}
+
+.sequence-layout main .gallery input:checked + figure {
+  z-index: 50;
+  opacity: 1;
+}
+
+.sequence-layout main .gallery input:checked ~ .gallery-thumb>img {
+  --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
+  --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
+  box-shadow: var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow, 0 0 #0000);
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(245 158 11 / var(--tw-ring-opacity));
 }
 
 .sequence-layout aside {

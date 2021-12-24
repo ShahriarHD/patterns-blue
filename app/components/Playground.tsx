@@ -75,7 +75,7 @@ export default function Playground(props: PropsWithChildren<{}>) {
         if (imageElements && imageElements.length > 0) {
             const imgInfoDictionary: ImageInfoDictionary = {}
             Array.from(imageElements).forEach((imgElement, index) => {
-                const imageId = uuidV4();
+                const imageId = imgElement.getAttribute('id') || uuidV4();
                 imgElement.setAttribute('id', imageId);
                 imgElement.onclick = (event) => {
                     event.stopPropagation();

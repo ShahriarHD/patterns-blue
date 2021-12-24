@@ -56,7 +56,30 @@ body {
 }
 
 .sequence-layout main figure>img {
-    @apply shadow-2xl rounded-md transition-all;
+    @apply shadow-2xl rounded-md transition-all max-h-80;
+}
+
+.sequence-layout main .gallery {
+    @apply flex relative max-w-sm;
+    @apply pt-96 m-auto;
+}
+
+.sequence-layout main .gallery figure {
+    @apply absolute top-0 left-0 opacity-0 z-0 transition;
+}
+
+.sequence-layout main .gallery .gallery-thumb {
+    @apply block mx-2 w-20;
+}
+
+.sequence-layout main .gallery input {
+    @apply absolute opacity-0;
+}
+.sequence-layout main .gallery input:checked + figure {
+    @apply opacity-100 z-50;
+}
+.sequence-layout main .gallery input:checked ~ .gallery-thumb>img {
+    @apply ring-1 ring-amber-500;
 }
 
 .sequence-layout aside {
