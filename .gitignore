@@ -5,3 +5,5 @@ node_modules
 /netlify/functions/server/build
 /public/build
 /.netlify
+
+.DS_Store

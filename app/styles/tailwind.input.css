@@ -3,118 +3,22 @@
 @tailwind utilities;
 
 body {
-    @apply bg-slate-100 dark:bg-blue-900 dark:bg-opacity-30 bg-blend-multiply transition-colors;
-
-    background-image: url('/img/mymind.com-artwork-7.jpg');
+    @apply bg-gray-200 dark:bg-gray-900;
+    @apply text-gray-900 dark:text-gray-100;
+    @apply transition;
+    @apply p-2 tablet:px-8 desktop:px-12;
+    @apply flex flex-col items-center gap-2;
+    @apply w-screen h-screen;
 }
 
-.grained {
-    @apply filter contrast-125 brightness-110;
-    background-image:
-      url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='2.5' numOctaves='5' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-}
-
-.prompt {
-    @apply w-full p-4 desktop:p-8 shadow-2xl rounded-2xl;
-    @apply bg-white bg-blend-multiply bg-opacity-60;
-    @apply prose prose-blue font-display;
-}
-
-.table-of-contents {
-    @apply bg-slate-200 bg-opacity-50  bg-blend-multiply;
-    @apply prose-slate;
-    @apply rounded-xl p-4 shadow-md;
-    @apply filter contrast-125 brightness-110;
-}
-
-.table-of-contents ul {
-    @apply flex flex-col gap-2;
-}
-
-.table-of-contents li {
-    @apply p-2 transition bg-sky-200 bg-opacity-40 hover:bg-opacity-80 rounded-full;
-}
-
-.sequence-layout {
-    @apply grid gap-4 w-full justify-items-center;
-
-    grid-template-areas:
-    ".  . header . . "
-    "steps content content content tools"
-    "steps content content content tools"
-    "steps content content content tools"
-    ". . footer . .";
-}
-
-.sequence-layout header {
-    grid-area: header;
-}
-
-.sequence-layout main {
-    @apply place-self-center;
-    grid-area: content;
-}
-
-.sequence-layout main figure>img {
-    @apply shadow-2xl rounded-md transition-all max-h-80;
-}
-
-.sequence-layout main .gallery {
-    @apply flex relative max-w-sm;
-    @apply pt-96 m-auto;
-}
-
-.sequence-layout main .gallery figure {
-    @apply absolute top-0 left-0 opacity-0 z-0 transition;
-}
-
-.sequence-layout main .gallery .gallery-thumb {
-    @apply block mx-2 w-20;
-}
-
-.sequence-layout main .gallery input {
-    @apply absolute opacity-0;
-}
-.sequence-layout main .gallery input:checked + figure {
-    @apply opacity-100 z-50;
-}
-.sequence-layout main .gallery input:checked ~ .gallery-thumb>img {
-    @apply ring-1 ring-amber-500;
-}
-
-.sequence-layout aside {
-    @apply sticky;
-    width: 20rem;
-}
-
-.sequence-layout aside:first-of-type {
-    grid-area: steps;
-}
-
-.sequence-layout aside:last-of-type {
-    grid-area: tools;
-}
-
-.sequence-layout footer {
-    grid-area: footer;
-
-    @apply w-full;
-}
-
-.sequence-layout footer a {
-    @apply px-6 py-3 text-lg font-display font-light;
-    @apply bg-black bg-opacity-70 text-white rounded-lg shadow-xl;
-    @apply transition duration-200;
-    @apply ring-2 ring-transparent;
-    @apply hover:ring-blue-300 focus:ring-blue-500 active:ring-blue-700 active:scale-90;
-}
-
-ul li {
-    list-style: none;
-}
-
-ul li::before {
-    @apply px-4 scale-75;
-
-    content: "💠";
+@layer components {
+    .button {
+        @apply p-1 text-base rounded-lg;
+        @apply ring-1 ring-transparent;
+        @apply box-border border-2 border-black-alpha-200;
+        @apply transition duration-200;
+        @apply shadow-sm shadow-black-alpha-400 dark:shadow-white-alpha-500;
+        @apply hover:shadow-md hover:shadow-black-alpha-300 dark:shadow-white-alpha-500;
+        @apply active:shadow-blue-700;
+    }
 }
