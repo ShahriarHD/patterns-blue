@@ -14,6 +14,20 @@ module.exports = {
       display: ['Noto Serif', ...defaultTheme.fontFamily.serif],
       body: [...defaultTheme.fontFamily.sans],
     },
+    zIndex: {
+      behind: -1,
+      base: 0,
+      route: 1,
+      route10: 10,
+      route20: 20,
+      route30: 30,
+      route40: 40,
+      boom: 100,
+      tools: 101,
+      modal: 200,
+      notification: 201,
+      menu: 202,
+    },
     colors: {
       gray: {
         100: "#fefefe",

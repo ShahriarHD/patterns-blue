@@ -130,7 +130,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                 </ul>
                 <DarkModeSwitch />
             </nav>
-            <main className="w-full h-full">
+            <main className="w-full h-full rounded-3xl overflow-hidden">
                 {children}
             </main>
         </>

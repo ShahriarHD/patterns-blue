@@ -18,14 +18,6 @@ export const loader: LoaderFunction = async (): Promise<IndexData> => {
   return {
     pages: [
       {
-        title: 'devlog',
-        link: '/devlog'
-      },
-      {
-        title: 'admin',
-        link: '/admin'
-      },
-      {
         title: 'login',
         link: '/login'
       },
@@ -51,7 +43,7 @@ export default function Index() {
   let data = useLoaderData<IndexData>();
 
   return (
-    <div className="flex flex-row items-stretch bg-white w-full h-full gap-8">
+    <div className="flex flex-row items-stretch bg-white w-96 h-96 rounded-3xl m-auto gap-8">
       <ul className="prose p-8">
         <h3 className="text-center pb-1 border-b border-slate-700">Links</h3>
         {data.pages.map(({title, link}, index) => (
