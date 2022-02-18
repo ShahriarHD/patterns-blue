@@ -1,5 +1,5 @@
+import type { LinksFunction } from "remix";
 import {
-    Link,
     Links,
     LiveReload,
     Meta,
@@ -8,11 +8,9 @@ import {
     ScrollRestoration,
     useCatch
 } from "remix";
-import type { LinksFunction } from "remix";
-
 import globalStylesUrl from "~/styles/global.css";
-import { useEffect, useState } from "react";
-import { RiSunFill, RiMoonFill } from 'react-icons/ri';
+import Layout from "./components/Layout";
+
 
 // https://remix.run/api/app#links
 export let links: LinksFunction = () => {
@@ -119,46 +117,3 @@ function Document({
     );
 }
 
-function Layout({ children }: { children: React.ReactNode }) {
-
-    return (
-        <>
-            <nav className="w-full bg-white shadow-xl dark:bg-blue-900 flex justify-between rounded-full py-4 px-8">
-                <ul className="flex gap-4">
-                    <li><Link to={'/'}>home</Link></li>
-                    <li><Link to={'/login'}>login</Link></li>
-                </ul>
-                <DarkModeSwitch />
-            </nav>
-            <main className="w-full h-full rounded-3xl overflow-hidden">
-                {children}
-            </main>
-        </>
-    );
-}
-
-function DarkModeSwitch() {
-    const [isInDarkMode, setIsInDarkMode] = useState(false);
-    useEffect(() => {
-        const htmlElem = document.getElementsByTagName('html')[0];
-        if (isInDarkMode) {
-            htmlElem.classList.add('dark');
-        } else {
-            htmlElem.classList.remove('dark');
-        }
-    }, [isInDarkMode]);
-
-    return (
-        <button
-            aria-label="dark mode switch"
-            onClick={() => setIsInDarkMode(!isInDarkMode)}
-            className="button"
-        >
-            {
-                isInDarkMode
-                    ? <RiMoonFill />
-                    : <RiSunFill />
-            }
-        </button>
-    )
-}

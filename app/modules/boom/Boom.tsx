@@ -13,7 +13,7 @@ import { machine } from './state/machine'
 import { Toolbar } from './components/Toolbar'
 import { Api } from './state/api'
 
-declare const window: Window & { boomApi: Api }
+declare const window: Window & { boomApi: Api, currentDrawingId: string | undefined }
 
 const onHoverShape: TLPointerEventHandler = (info, e) => {
   machine.send('HOVERED_SHAPE', info)
@@ -171,10 +171,11 @@ const onKeyUp: TLKeyboardEventHandler = (key, info, e) => {
 }
 
 interface BoomProps {
+  drawingId?: string,
   onMount?: (api: Api) => void
 }
 
-export default function Boom({ onMount }: BoomProps): JSX.Element {
+export default function Boom({ onMount, drawingId }: BoomProps): JSX.Element {
   const appState = useStateDesigner(machine)
 
   React.useEffect(() => {

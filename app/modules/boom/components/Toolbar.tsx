@@ -1,7 +1,7 @@
-import { machine } from '../state/machine'
-import { RiMouseFill, RiDeleteBin2Fill, RiPencilFill, RiAddBoxFill, RiArrowUpFill } from 'react-icons/ri';
-import { ButtonHTMLAttributes, HTMLProps, PropsWithChildren } from 'react';
-import cx from 'classnames'
+import cx from 'classnames';
+import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
+import {RiAddBoxLine , RiArrowUpFill, RiEraserFill, RiMouseFill, RiPencilFill } from 'react-icons/ri';
+import { machine } from '../state/machine';
 
 interface ToolbarProps {
   activeStates: string[]
@@ -18,35 +18,25 @@ const onReset = () => {
 
 export function Toolbar({ activeStates, lastEvent }: ToolbarProps) {
   return (
-    <ToolbarContainer>
-      <PrimaryTools>
+    <div className="grid grid-cols-1 gap-4 absolute bottom-2 w-full z-tools">
+      <div className="flex gap-4 w-fit rounded-full border overflow-hidden shadow-2xl py-2 px-4 justify-self-center bg-white-alpha-900 dark:bg-black-alpha-500">
         <PrimaryToolButton id="select" isActive={machine.isIn('select')} onClick={onToolSelect}>
-          <Highlight>
             <RiMouseFill />
-          </Highlight>
         </PrimaryToolButton>
         <PrimaryToolButton id="eraser" isActive={machine.isIn('eraser')} onClick={onToolSelect}>
-          <Highlight>
-            <RiDeleteBin2Fill />
-          </Highlight>
+            <RiEraserFill />
         </PrimaryToolButton>
         <PrimaryToolButton id="pencil" isActive={machine.isIn('pencil')} onClick={onToolSelect}>
-          <Highlight>
             <RiPencilFill />
-          </Highlight>
         </PrimaryToolButton>
         <PrimaryToolButton id="box" isActive={machine.isIn('box')} onClick={onToolSelect}>
-          <Highlight>
-            <RiAddBoxFill />
-          </Highlight>
+            <RiAddBoxLine />
         </PrimaryToolButton>
         <PrimaryToolButton id="arrow" isActive={machine.isIn('arrow')} onClick={onToolSelect}>
-          <Highlight>
             <RiArrowUpFill />
-          </Highlight>
         </PrimaryToolButton>
-      </PrimaryTools>
-      <StatusBar>
+      </div>
+      {/* <div className="flex items-center justify-between p-3 ">
         <div>
           <button onClick={onReset}>Reset</button>
           {activeStates
@@ -58,32 +48,14 @@ export function Toolbar({ activeStates, lastEvent }: ToolbarProps) {
             .join(' - ')}
         </div>
         <div>{lastEvent}</div>
-      </StatusBar>
-    </ToolbarContainer>
+      </div> */}
+    </div>
   )
 }
 
-
-const ToolbarContainer = ({ children }: PropsWithChildren<{}>) => (
-  <div className="grid grid-rows-2 grid-cols-1 gap-4 absolute bottom-0 w-full z-tools">{children}</div>
-);
-
-const PrimaryTools = ({ children }: PropsWithChildren<{}>) => (
-  <div className="flex gap-4 w-fit rounded-2xl border overflow-hidden shadow-2xl py-2 px-4 justify-self-center bg-gray-100">{children}</div>
-);
-
-const Highlight = ({ children }: PropsWithChildren<{}>) => (
-  <div className="flex items-center justify-center w-full h-full rounded-lg">{children}</div>
-);
-
-
-const PrimaryToolButton =({ children, isActive, ...rest }: PropsWithChildren<{isActive: boolean} & ButtonHTMLAttributes<HTMLButtonElement>>) => {
-  const className = cx ('button', {
-    'shadow-blue-500 shadow-xl': isActive
+const PrimaryToolButton = ({ children, isActive, ...rest }: PropsWithChildren<{ isActive: boolean } & ButtonHTMLAttributes<HTMLButtonElement>>) => {
+  const className = cx('button', {
+    'bg-blue-300 dark:bg-blue-600': isActive
   });
   return <button {...rest} className={className}>{children}</button>
 };
-
-const StatusBar = ({ children }: PropsWithChildren<{}>) => (
-  <div className="flex items-center justify-between p-3 ">{children}</div>
-);

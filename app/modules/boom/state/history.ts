@@ -1,7 +1,7 @@
 import { AppData, INITIAL_DATA, PERSIST_DATA } from './constants'
 import { current } from 'immer'
 
-export function makeHistory(ID = '@tldraw/core_advanced_example') {
+export function makeHistory(drawingId: string = 'anon') {
 
   // this is because first remix compiler stuff
   if (typeof localStorage === "undefined" || localStorage === null) {
@@ -9,7 +9,7 @@ export function makeHistory(ID = '@tldraw/core_advanced_example') {
   }
   let initialData = INITIAL_DATA
 
-  const saved = localStorage.getItem(ID)
+  const saved = localStorage.getItem(drawingId)
 
   if (PERSIST_DATA && saved !== null) {
     let restoredData = JSON.parse(saved)
@@ -28,7 +28,7 @@ export function makeHistory(ID = '@tldraw/core_advanced_example') {
   function persist(data: AppData) {
     delete data.pageState.hoveredId
     data.overlays.snapLines = []
-    localStorage.setItem(ID, JSON.stringify(data))
+    localStorage.setItem(drawingId, JSON.stringify(data))
   }
 
   function push(data: AppData) {
@@ -61,7 +61,7 @@ export function makeHistory(ID = '@tldraw/core_advanced_example') {
   function reset(data = INITIAL_DATA) {
     stack = [data]
     pointer = 0
-    localStorage.setItem(ID, JSON.stringify(data))
+    localStorage.setItem(drawingId, JSON.stringify(data))
     persist(data)
     return data
   }
