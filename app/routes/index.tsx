@@ -1,5 +1,8 @@
-import { Link, LoaderFunction, MetaFunction, useLoaderData } from "remix";
+import { useEffect } from "react";
+import { ActionFunction, Link, LoaderFunction, MetaFunction, useLoaderData, useSubmit } from "remix";
 import { getRooms, Room } from "~/modules/room";
+import { supabaseClient } from "~/modules/supabase/supabase.client";
+import { authenticator } from "~/services/auth.server";
 
 // https://remix.run/api/conventions#meta
 export const meta: MetaFunction = () => {
@@ -10,9 +13,9 @@ export const meta: MetaFunction = () => {
 };
 
 export const loader: LoaderFunction = () => {
+
   return getRooms();
 }
-
 
 // https://remix.run/guides/routing#index-routes
 export default function Index() {
