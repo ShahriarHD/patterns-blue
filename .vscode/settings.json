@@ -5,6 +5,8 @@
         "prefetch",
         "SUPABASE",
         "tailwindcss",
-        "tldraw"
+        "tldraw",
+        "Unhover",
+        "UNHOVERED"
     ]
 }

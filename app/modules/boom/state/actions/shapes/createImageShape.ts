@@ -1,23 +1,20 @@
-import type { TLPointerInfo } from '@tldraw/core'
+import { TLBoundsCorner, TLPointerInfo } from '@tldraw/core'
 import { shapeUtils } from '~/modules/boom/shapes'
 import type { Action } from '../../constants'
 import { getPagePoint } from '../../helpers'
 import { mutables } from '../../mutables'
 
-export const createPencilShape: Action = (data, payload: TLPointerInfo) => {
-  const shape = shapeUtils.pencil.getShape({
+export const createImageShape: Action = (data, payload: TLPointerInfo) => {
+  const shape = shapeUtils.image.getShape({
     parentId: 'page1',
     point: mutables.currentPoint,
-    points: [[0, 0]],
-    color: mutables.activeColor,
-    size: mutables.pencilStrokeWidth,
-    opacity: mutables.pencilOpacity,
+    size: [1, 1],
     childIndex: Object.values(data.page.shapes).length,
+
   })
 
   data.page.shapes[shape.id] = shape
   data.pageState.selectedIds = [shape.id]
 
-  mutables.rawPoints = [[0, 0]]
-  mutables.pointedShapeId = shape.id
+  mutables.pointedBoundsHandleId = TLBoundsCorner.BottomRight
 }

@@ -3,13 +3,13 @@ import type { PencilShape } from './PencilShape'
 import { getComponentSvgPath } from './pencil-helpers'
 
 export const PencilComponent = TLShapeUtil.Component<PencilShape, SVGSVGElement>(
-  ({ shape, events, isGhost, meta }, ref) => {
-    const color = meta.isDarkMode ? 'white' : 'black'
-    const pathData = getComponentSvgPath(shape.points)
+  ({ shape, events, isGhost, }, ref) => {
+    const {color, size, opacity} = shape;
+    const pathData = getComponentSvgPath(shape.points, size);
     return (
       <SVGContainer ref={ref} {...events}>
         <path d={pathData} stroke="transparent" strokeWidth={6} opacity={0} pointerEvents="all" />
-        <path d={pathData} fill={color} opacity={isGhost ? 0.3 : 1} />
+        <path d={pathData} fill={color} opacity={isGhost ? opacity/2 : opacity} />
       </SVGContainer>
     )
   }

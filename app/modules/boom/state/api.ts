@@ -1,7 +1,7 @@
 import { nanoid } from 'nanoid'
 import { Shape } from '../shapes'
 import type { CustomBinding } from './constants'
-import type { machine } from './machine'
+import { MachineType } from './useStateMachine'
 
 /*
 Example API
@@ -25,8 +25,8 @@ api.getShape('myBox')
 ```
 */
 
-export class Api {
-  constructor(private _machine: typeof machine) {}
+export class BoomApi {
+  constructor(private _machine:  MachineType) {}
 
   reset = () => {
     this.machine.send('RESET')
@@ -162,6 +162,10 @@ export class Api {
 
   get pageState() {
     return this.machine.data.pageState
+  }
+
+  get assets() {
+    return this.machine.data.assets
   }
 
   get selectedIds() {

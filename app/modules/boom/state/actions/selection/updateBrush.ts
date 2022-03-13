@@ -1,8 +1,7 @@
-import type { Action } from '../../constants'
 import { TLPointerInfo, Utils } from '@tldraw/core'
-import { mutables } from '../../mutables'
-import { getPagePoint } from '../../helpers'
 import { getShapeUtils } from '~/modules/boom/shapes'
+import type { Action } from '../../constants'
+import { mutables } from '../../mutables'
 
 export const updateBrush: Action = (data, payload: TLPointerInfo) => {
   const { initialPoint, snapshot } = mutables

@@ -1,10 +1,10 @@
 import { Utils } from '@tldraw/core'
 import Vec from '@tldraw/vec'
 import { ArrowShape, getShapeUtils, Shape } from '~/modules/boom/shapes'
-import type { AppData } from '../../constants'
+import type { DrawingAppData } from '../../constants'
 
 export function getBoundTarget(
-  data: AppData,
+  data: DrawingAppData,
   shape: ArrowShape,
   handlePoint: number[],
   oppositeHandleId: keyof ArrowShape['handles']

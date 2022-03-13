@@ -1,5 +1,5 @@
 import type { TLBinding, TLPage, TLPageState, TLPerformanceMode, TLSnapLine } from '@tldraw/core'
-import type { Shape } from '../shapes'
+import type { ImageAsset, Shape } from '../shapes'
 import type { S } from '@state-designer/react'
 
 export const VERSION = 1
@@ -15,67 +15,18 @@ export interface CustomBinding extends TLBinding {
 export const INITIAL_PAGE: TLPage<Shape, CustomBinding> = {
   id: 'page1',
   shapes: {
-    box1: {
-      id: 'box1',
-      type: 'box',
+    image1: {
+      id: 'image1',
+      type: 'image',
       parentId: 'page1',
-      name: 'Box',
-      childIndex: 1,
+      assetId: 'test',
       point: [100, 100],
       size: [100, 100],
-    },
-    box2: {
-      id: 'box2',
-      type: 'box',
-      parentId: 'page1',
-      name: 'Box',
-      childIndex: 2,
-      point: [250, 200],
-      size: [100, 100],
-    },
-    box3: {
-      id: 'box3',
-      type: 'box',
-      parentId: 'page1',
-      name: 'Box',
-      childIndex: 3,
-      point: [150, 400],
-      size: [100, 100],
-    },
-    arrow1: {
-      id: 'arrow1',
-      type: 'arrow',
-      parentId: 'page1',
-      name: 'Arrow',
-      childIndex: 3,
-      point: [231, 312],
-      handles: {
-        start: {
-          id: 'start',
-          index: 1,
-          point: [38, 0],
-        },
-        end: {
-          id: 'end',
-          index: 2,
-          point: [0, 76],
-        },
-      },
+      childIndex: 1,
+      name: 'imaaage',
     },
   },
   bindings: {
-    binding1: {
-      id: 'binding1',
-      fromId: 'arrow1',
-      toId: 'box2',
-      handleId: 'start',
-    },
-    binding2: {
-      id: 'binding2',
-      fromId: 'arrow1',
-      toId: 'box3',
-      handleId: 'end',
-    },
   },
 }
 
@@ -105,15 +56,23 @@ export const INITIAL_DATA = {
     isDarkMode: false,
   },
   performanceMode: undefined as TLPerformanceMode | undefined,
+  assets: {
+    test: {
+      type: 'image',
+      id: 'test',
+      size: [100,100],
+      src: '/img/matisse.jpg',
+    }
+  } as Record<string,ImageAsset>
 }
 
-export type AppDocument = {
+export type DrawingAppDocument = {
   id: string
   page: TLPage<Shape>
 }
 
-export type AppData = typeof INITIAL_DATA
+export type DrawingAppData = typeof INITIAL_DATA
 
-export type Action = S.Action<AppData>
+export type Action = S.Action<DrawingAppData>
 
-export type Condition = S.Condition<AppData>
+export type Condition = S.Condition<DrawingAppData>

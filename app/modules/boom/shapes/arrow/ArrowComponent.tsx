@@ -3,8 +3,7 @@ import type { ArrowShape } from './ArrowShape'
 import Vec from '@tldraw/vec'
 
 export const ArrowComponent = TLShapeUtil.Component<ArrowShape, SVGSVGElement>(
-  ({ shape, events, isGhost, meta }, ref) => {
-    const color = meta.isDarkMode ? 'white' : 'black'
+  ({ shape, events, isGhost }, ref) => {
     const { start, end } = shape.handles
 
     const u = Vec.uni(Vec.sub(end.point, start.point))
@@ -24,7 +23,7 @@ export const ArrowComponent = TLShapeUtil.Component<ArrowShape, SVGSVGElement>(
         />
         <path
           d={`M ${start.point} L ${end.point} M ${ahLeft} L ${end.point} ${ahRight}`}
-          stroke={color}
+          stroke={'#000'}
           strokeWidth={3}
           strokeLinejoin="round"
           strokeLinecap="round"

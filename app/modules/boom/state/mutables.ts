@@ -1,6 +1,6 @@
 import { TLBounds, TLBoundsHandle, TLBoundsWithCenter, Utils } from '@tldraw/core'
 import { ArrowShape, Shape } from '../shapes'
-import { AppData, INITIAL_DATA } from './constants'
+import { DrawingAppData, INITIAL_DATA } from './constants'
 import { makeHistory } from './history'
 
 /*
@@ -11,7 +11,7 @@ state, so we can throw it all into a regular object.
 */
 
 interface Mutables {
-  snapshot: AppData
+  snapshot: DrawingAppData
   rendererBounds: TLBounds
   viewport: TLBounds
   history: ReturnType<typeof makeHistory>
@@ -29,7 +29,11 @@ interface Mutables {
     initialBounds: TLBoundsWithCenter
     all: TLBoundsWithCenter[]
     others: TLBoundsWithCenter[]
-  }
+  },
+
+  activeColor: string
+  pencilStrokeWidth: number,
+  pencilOpacity: number
 }
 
 export const mutables: Mutables = {
@@ -53,4 +57,7 @@ export const mutables: Mutables = {
   pointedBoundsHandleId: undefined,
   initialCommonBounds: undefined,
   snapInfo: undefined,
+  activeColor: '#ffb400',
+  pencilStrokeWidth: 6,
+  pencilOpacity: 0.8,
 }

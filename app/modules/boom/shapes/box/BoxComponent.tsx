@@ -3,14 +3,13 @@ import type { BoxShape } from './BoxShape'
 
 export const BoxComponent = TLShapeUtil.Component<BoxShape, SVGSVGElement>(
   ({ shape, events, isGhost, meta }, ref) => {
-    const color = meta.isDarkMode ? 'white' : 'black'
 
     return (
       <SVGContainer ref={ref} {...events}>
         <rect
           width={shape.size[0]}
           height={shape.size[1]}
-          stroke={color}
+          stroke="black"
           strokeWidth={3}
           strokeLinejoin="round"
           fill="none"

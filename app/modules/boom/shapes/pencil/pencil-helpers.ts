@@ -1,8 +1,8 @@
 import { getStroke, getStrokePoints } from 'perfect-freehand'
 
-export function getComponentSvgPath(points: number[][]) {
+export function getComponentSvgPath(points: number[][], size: number) {
   const stroke = getStroke(points, {
-    size: 8,
+    size,
   })
 
   if (!stroke.length) return ''

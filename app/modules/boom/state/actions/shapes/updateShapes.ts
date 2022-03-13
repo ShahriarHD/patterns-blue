@@ -1,4 +1,4 @@
-import type { Shape } from 'shapes'
+import { Shape } from '~/modules/boom/shapes'
 import type { Action } from '../../constants'
 
 export const updateShapes: Action = (

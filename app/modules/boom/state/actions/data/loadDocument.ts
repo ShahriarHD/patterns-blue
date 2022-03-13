@@ -1,8 +1,8 @@
 import { current } from 'immer'
-import type { Action, AppDocument } from '../../constants'
+import type { Action, DrawingAppDocument } from '../../constants'
 import { mutables } from '../../mutables'
 
-export const loadDocument: Action = (data, payload: { doc: AppDocument }) => {
+export const loadDocument: Action = (data, payload: { doc: DrawingAppDocument }) => {
   Object.assign(data, payload.doc)
 
   const snapshot = current(data)

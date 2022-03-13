@@ -12,3 +12,4 @@ export * from './transform'
 export * from './translate'
 export * from './mutables'
 export * from './performance'
+export * from './pencil-controls';

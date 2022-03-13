@@ -1,39 +1,34 @@
 import cx from 'classnames';
 import { ButtonHTMLAttributes, PropsWithChildren } from 'react';
-import {RiAddBoxLine , RiArrowUpFill, RiEraserFill, RiMouseFill, RiPencilFill } from 'react-icons/ri';
-import { machine } from '../state/machine';
+import { RiCursorFill, RiEraserFill, RiPencilFill } from 'react-icons/ri';
+import { BoomApi } from '../state/api';
 
 interface ToolbarProps {
-  activeStates: string[]
-  lastEvent: string
+  activeStates?: string[]
+  lastEvent?: string
 }
+declare const window: Window & { boomApi: BoomApi }
 
 const onToolSelect = (e: React.MouseEvent) => {
-  machine.send('SELECTED_TOOL', { name: e.currentTarget.id })
+  window.boomApi.send('SELECTED_TOOL', { name: e.currentTarget.id })
 }
 
 const onReset = () => {
-  machine.send('RESET')
+  window.boomApi.send('RESET')
 }
 
 export function Toolbar({ activeStates, lastEvent }: ToolbarProps) {
   return (
     <div className="grid grid-cols-1 gap-4 absolute bottom-2 w-full z-tools">
       <div className="flex gap-4 w-fit rounded-full border overflow-hidden shadow-2xl py-2 px-4 justify-self-center bg-white-alpha-900 dark:bg-black-alpha-500">
-        <PrimaryToolButton id="select" isActive={machine.isIn('select')} onClick={onToolSelect}>
-            <RiMouseFill />
+        <PrimaryToolButton id="select" isActive={window.boomApi?.isIn('select')} onClick={onToolSelect}>
+            <RiCursorFill />
         </PrimaryToolButton>
-        <PrimaryToolButton id="eraser" isActive={machine.isIn('eraser')} onClick={onToolSelect}>
+        <PrimaryToolButton id="eraser" isActive={window.boomApi?.isIn('eraser')} onClick={onToolSelect}>
             <RiEraserFill />
         </PrimaryToolButton>
-        <PrimaryToolButton id="pencil" isActive={machine.isIn('pencil')} onClick={onToolSelect}>
+        <PrimaryToolButton id="pencil" isActive={window.boomApi?.isIn('pencil')} onClick={onToolSelect}>
             <RiPencilFill />
-        </PrimaryToolButton>
-        <PrimaryToolButton id="box" isActive={machine.isIn('box')} onClick={onToolSelect}>
-            <RiAddBoxLine />
-        </PrimaryToolButton>
-        <PrimaryToolButton id="arrow" isActive={machine.isIn('arrow')} onClick={onToolSelect}>
-            <RiArrowUpFill />
         </PrimaryToolButton>
       </div>
       {/* <div className="flex items-center justify-between p-3 ">

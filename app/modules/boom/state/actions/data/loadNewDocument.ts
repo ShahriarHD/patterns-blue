@@ -1,10 +1,10 @@
 import { current } from 'immer'
 import { nanoid } from 'nanoid'
-import type { Action, AppData, AppDocument } from '../../constants'
+import type { Action, DrawingAppData, DrawingAppDocument } from '../../constants'
 import { mutables } from '../../mutables'
 
 export const loadNewDocument: Action = (data) => {
-  const newData: AppData = {
+  const newData: DrawingAppData = {
     ...data,
     id: nanoid(),
     page: {

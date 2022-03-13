@@ -6,7 +6,7 @@ import {
 } from '@tldraw/intersect'
 import { nanoid } from 'nanoid'
 import { PencilComponent } from './PencilComponent'
-import { PencilIndicator } from './PenclIndicator'
+import { PencilIndicator } from './PencilIndicator'
 import type { PencilShape } from './PencilShape'
 import Vec from '@tldraw/vec'
 import { CustomShapeUtil } from '../CustomShapeUtil'
@@ -43,6 +43,9 @@ export class PencilUtil extends CustomShapeUtil<T, E> {
       parentId: 'page1',
       point: [0, 0],
       points: [[0, 0]],
+      color: '#000',
+      size: 4,
+      opacity: 0.8,
       childIndex: 1,
       ...props,
     }

@@ -1,4 +1,4 @@
-import { AppData, INITIAL_DATA, PERSIST_DATA } from './constants'
+import { DrawingAppData, INITIAL_DATA, PERSIST_DATA } from './constants'
 import { current } from 'immer'
 
 export function makeHistory(drawingId: string = 'anon') {
@@ -22,16 +22,16 @@ export function makeHistory(drawingId: string = 'anon') {
     initialData = restoredData
   }
 
-  let stack: AppData[] = [initialData]
+  let stack: DrawingAppData[] = [initialData]
   let pointer = 0
 
-  function persist(data: AppData) {
+  function persist(data: DrawingAppData) {
     delete data.pageState.hoveredId
     data.overlays.snapLines = []
     localStorage.setItem(drawingId, JSON.stringify(data))
   }
 
-  function push(data: AppData) {
+  function push(data: DrawingAppData) {
     if (pointer < stack.length - 1) {
       stack = stack.slice(0, pointer + 1)
     }

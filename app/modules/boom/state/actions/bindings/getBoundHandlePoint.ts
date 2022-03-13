@@ -2,10 +2,10 @@ import { Utils } from '@tldraw/core'
 import { intersectLineSegmentBounds } from '@tldraw/intersect'
 import Vec from '@tldraw/vec'
 import { ArrowShape, getShapeUtils, Shape } from '~/modules/boom/shapes'
-import { AppData, BINDING_PADDING } from '../../constants'
+import { DrawingAppData, BINDING_PADDING } from '../../constants'
 
 export function getBoundHandlePoint(
-  data: AppData,
+  data: DrawingAppData,
   fromShape: ArrowShape,
   toShape: Shape,
   handleId: keyof ArrowShape['handles']
