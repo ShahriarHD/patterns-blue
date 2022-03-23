@@ -78,8 +78,16 @@ module.exports = {
       white: colors.white,
       transparent: 'transparent',
       current: 'currentColor',
-    }
+    },
+    extend: {
+      borderRadius: {
+        '4xl': '2rem',
+        '5xl': '2.5rem',
+        '6xl': '3rem'
+      }
+    },
   },
+
   plugins: [
     require('@tailwindcss/typography'),
     require('@tailwindcss/forms')

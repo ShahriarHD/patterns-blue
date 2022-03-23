@@ -15,16 +15,26 @@ export interface CustomBinding extends TLBinding {
 export const INITIAL_PAGE: TLPage<Shape, CustomBinding> = {
   id: 'page1',
   shapes: {
-    image1: {
-      id: 'image1',
-      type: 'image',
+    sequence1: {
+      id: 'sequence1',
+      type: 'sequence-box',
       parentId: 'page1',
-      assetId: 'test',
-      point: [100, 100],
-      size: [100, 100],
       childIndex: 1,
-      name: 'imaaage',
-    },
+      name: 'sds',
+      title: 'a sequence box',
+      steps: ['hello', 'world'],
+      point: [0, 0],
+    }
+    // image1: {
+    //   id: 'image1',
+    //   type: 'image',
+    //   parentId: 'page1',
+    //   assetId: 'test',
+    //   point: [100, 100],
+    //   size: [100, 100],
+    //   childIndex: 1,
+    //   name: 'imaaage',
+    // },
   },
   bindings: {
   },

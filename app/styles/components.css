@@ -1,0 +1,102 @@
+@tailwind components;
+
+@layer components {
+
+
+    .box {
+        @apply bg-white-alpha-500 dark:bg-white-alpha-200 filter backdrop-blur-2xl;
+        @apply shadow-2xl;
+        @apply transition;
+
+        transition-property: background-color, border-color, fill, stroke, opacity, box-shadow, transform;
+    }
+
+    .ornament {
+        @apply relative grid place-items-center shrink-0;
+        @apply rounded-full overflow-hidden p-px bg-transparent;
+        @apply transition duration-200;
+        @apply bg-white focus:bg-blue-200 hover:bg-blue-300  active:bg-blue-400;
+        @apply dark:bg-white-alpha-300 dark:focus:bg-blue-800 dark:hover:bg-blue-700  dark:active:bg-blue-600;
+        @apply shadow-md hover:shadow-lg active:shadow;
+        @apply hover:scale-110 active:scale-95;
+
+        &.sm {
+            @apply w-8 h-8;
+        }
+
+        &.md {
+            @apply w-12 h-12;
+        }
+
+        &.lg {
+            @apply w-16 h-16;
+        }
+
+
+        &.spinning {
+            @apply animate-spin;
+        }
+
+        & img {
+            @apply w-full h-full object-cover rounded-full overflow-hidden;
+            @apply select-none pointer-events-none border-none;
+        }
+
+
+
+    }
+
+    .button {
+        @apply p-2 text-base font-black rounded-lg;
+        @apply bg-accent-600 dark:bg-blue-600;
+        @apply border-b-4 border-black-alpha-600 dark:border-white-alpha-500;
+        @apply text-white;
+        @apply transition duration-200;
+        @apply shadow-lg hover:shadow-xl active:shadow-blue-500 active:shadow-lg;
+        @apply hover:scale-105 active:scale-95;
+        @apply bg-repeat bg-blend-multiply;
+
+        background-image: url('/img/button-bg/checkerboard-cross.png');
+    }
+
+    .hulls-container {
+
+        @apply w-full py-8 px-8 tablet:px-0;
+        @apply flex flex-col desktop:flex-row gap-6 items-center justify-center;
+        @apply overflow-x-scroll shrink-0 snap-mandatory snap-y desktop:snap-x scroll-p-16;
+
+        & > .hull-card {
+            @apply w-full tablet:w-1/2 desktop:w-1/3 shrink-0;
+            @apply flex flex-col items-center gap-2;
+            @apply snap-center;
+
+            & > a {
+                @apply box p-4 w-full flex flex-col items-center gap-4;
+                @apply rounded-lg;
+                @apply shadow-md hover:shadow-lg;
+                @apply ring-2 ring-transparent hover:ring-black-alpha-100;
+            }
+
+            & img {
+                @apply w-full max-h-96 object-cover border-b shadow select-none pointer-events-none;
+            }
+
+            & h4 {
+                @apply text-2xl px-4 font-bold font-display;
+            }
+        }
+    }
+
+    input.text-input, textarea.text-input {
+        @apply p-2 shrink-0;
+        @apply rounded-xl shadow-inner shadow-black-alpha-300 bg-white-alpha-500 dark:bg-black-alpha-500;
+        @apply border border-black-alpha-200;
+        @apply placeholder:font-thin;
+
+        min-height: 2rem;
+    }
+
+    label {
+        @apply font-semibold;
+    }
+}

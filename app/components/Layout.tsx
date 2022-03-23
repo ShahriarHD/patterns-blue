@@ -1,43 +1,61 @@
-import { useEffect, useRef, useState } from "react";
-import { RiMoonFill, RiSunFill, RiLoginBoxFill, RiAncientPavilionFill } from "react-icons/ri";
-import { Link } from "remix";
+import cx from 'classnames';
+import { createContext, useContext, useEffect, useState } from "react";
+import { Outlet } from 'remix';
+import { Ornament, OrnamentSize } from "./ornament";
 
-export default function Layout({ children }: { children: React.ReactNode }) {
+declare interface LayoutContextShape {
+    toggleHeader(value: 'minimize' | 'expand'): void
+}
+
+const LayoutContext = createContext<LayoutContextShape>({
+    toggleHeader() { }
+});
+
+export function useLayoutContext() {
+    return useContext(LayoutContext);
+}
+
+export default function Layout() {
+    const [isHeaderMinimized, setIsHeaderMinimized] = useState(false);
+
+    const navClassName = cx('main-nav', {
+        minimized: isHeaderMinimized,
+    });
 
     return (
-        <>
-            <nav className="main-nav">
-                <Link to={'/'} className="w-10 h-10 rounded-full flex justify-center items-center p-2 bg-gradient-to-b from-blue-300 to-blue-500 shadow-lg border-b border-black-alpha-300">
-                    <RiAncientPavilionFill className="w-full h-full" />
-                </Link>
-                <div className="flex gap-4">
-                    <DarkModeSwitch />
-                    <Link to={'/login'} className="button">
-                        <RiLoginBoxFill />
-                    </Link>
-                </div>
-
+        <LayoutContext.Provider
+            value={{ toggleHeader: (value) => setIsHeaderMinimized(value === 'minimize') }}
+        >
+            <nav className={navClassName}>
+                <Ornament.Link
+                    decoration="rainbow-flower"
+                    size={isHeaderMinimized ? 'sm': 'lg'}
+                    aria-label='go to home page'
+                    to='/'
+                />
+                <h1>
+                    Patterns.Blue
+                </h1>
+                <DarkModeSwitch
+                    size={isHeaderMinimized ? 'sm': 'lg'}
+                />
             </nav>
-            <main className="w-full mb-6" style={{ height: 'calc(100vh - 6.5rem)' }}>
-                {children}
+            <main className="w-full">
+                <Outlet />
             </main>
-            <PixiCanvas />
-        </>
+            {/* <div className="orb-canvas" /> */}
+        </LayoutContext.Provider>
     );
 }
 
-
-function PixiCanvas() {
-
-    return (
-        <canvas className="orb-canvas"></canvas>
-    )
+interface DarkModeSwitchProps {
+    size: OrnamentSize
 }
 
-function DarkModeSwitch() {
+function DarkModeSwitch({size}: DarkModeSwitchProps) {
     const [isInDarkMode, setIsInDarkMode] = useState(false);
     useEffect(() => {
-        const htmlElem = document.getElementsByTagName('html')[0];
+        const htmlElem = document?.getElementsByTagName('html')[0];
         if (isInDarkMode) {
             htmlElem.classList.add('dark');
         } else {
@@ -46,16 +64,13 @@ function DarkModeSwitch() {
     }, [isInDarkMode]);
 
     return (
-        <button
-            aria-label="dark mode switch"
+
+        <Ornament.Button
+            size={size}
+            decoration={isInDarkMode ? 'moon' : 'sun'}
+            aria-label='light switch'
             onClick={() => setIsInDarkMode(!isInDarkMode)}
-            className="button"
-        >
-            {
-                isInDarkMode
-                    ? <RiMoonFill />
-                    : <RiSunFill />
-            }
-        </button>
+            className="shadow-lg shadow-accent-400 dark:shadow-blue-400"
+        />
     )
 }

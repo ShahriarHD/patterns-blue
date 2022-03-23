@@ -6,7 +6,7 @@ import { authenticator } from '~/services/auth.server'
 
 export const action: ActionFunction = async ({ request }) => {
     await authenticator.authenticate('sb-magic-link', request, {
-        successRedirect: '/private',
+        successRedirect: '/',
         failureRedirect: '/login',
     })
 }

@@ -4,11 +4,11 @@ import { authenticator, magicLinkStrategy } from '~/services/auth.server'
 
 type LoaderData = { email?: string }
 
-export const action: ActionFunction = async({ request }) => {
+export const action: ActionFunction = async ({ request }) => {
   await authenticator.logout(request, { redirectTo: '/login' })
 }
 
-export const loader: LoaderFunction = async({ request }) => {
+export const loader: LoaderFunction = async ({ request }) => {
   const session = await magicLinkStrategy.checkSession(request, {
     failureRedirect: '/login',
   })
@@ -19,12 +19,9 @@ export const loader: LoaderFunction = async({ request }) => {
 export default function Screen() {
   const { email } = useLoaderData<LoaderData>()
   return (
-    <>
-      <h1>Hello {email}</h1>
-
-      <Form method="post">
-        <button>Log Out</button>
-      </Form>
-    </>
+    <Form method="post" className='flex flex-col gap-4'>
+      <h3>Hello {email}</h3>
+      <button className='button'>Log Out</button>
+    </Form>
   )
 }

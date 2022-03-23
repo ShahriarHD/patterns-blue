@@ -1,5 +1,6 @@
 import { ActionFunction, LoaderFunction, redirect, useActionData, useTransition } from 'remix'
 import { Form, json, useLoaderData, useSearchParams } from 'remix'
+import { Ornament } from '~/components/ornament'
 import { supabaseAdmin, ApiError } from '~/modules/supabase/supabase.server'
 import { authenticator, sessionStorage, magicLinkStrategy } from '~/services/auth.server'
 
@@ -13,7 +14,7 @@ type ActionData = {
 
 export const loader: LoaderFunction = async ({ request }) => {
     await magicLinkStrategy.checkSession(request, {
-        successRedirect: '/private',
+        successRedirect: '/hull',
     })
 
     const session = await sessionStorage.getSession(
@@ -45,20 +46,42 @@ export const action: ActionFunction = async ({ request }) => {
 export default function Screen() {
     const transition = useTransition()
     const { error } = useActionData<ActionData>() || {}
-    const {error: loaderError} = useLoaderData<LoaderData>();
+    const { error: loaderError } = useLoaderData<LoaderData>();
 
     return (
-        <Form method="post" className="box w-96 p-10 mx-auto flex flex-col gap-4">
-            <h2 className='text-3xl text-center'>Login</h2>
-            {error && <div>{error.message}</div>}
-            {error && <div>{error.message}</div>}
-
-            <div className='flex flex-col gap-1'>
-                <label className='font-semibold' htmlFor="email">Email</label>
-                <input className="rounded-xl" type="email" name="email" id="email" />
+        <Form method="post" className="">
+            <div className='absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+                <Ornament.Button
+                    decoration={error ? 'error' : 'loading'}
+                    size="md"
+                    behavior={transition.state === 'idle' ? 'idle' : 'spinning'}
+                />
             </div>
 
-            <button className='button'>{transition.submission ? 'Sending you a magic link' : 'Send Magic Link'}</button>
+            <section className='flex flex-col gap-4 prose prose-lg dark:prose-invert'>
+
+
+
+                <div className='flex flex-col gap-1'>
+                    <label htmlFor="email">Email</label>
+                    <input
+                        className="text-input"
+                        type="email"
+                        name="email"
+                        id="email"
+                        placeholder="Type here ..."
+                    />
+                </div>
+
+                <button className='button'>{transition.submission ? 'Sending you a magic link' : 'Send Magic Link'}</button>
+
+                <p className='text-center leading-6'>
+                    Write your email in the field above and click on the "send magic link" button.
+                    You will receive a login link to enter.
+                </p>
+                {error && <div>{error.message}</div>}
+                {error && <div>{error.message}</div>}
+            </section>
         </Form>
     )
 }
