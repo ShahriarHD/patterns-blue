@@ -3,7 +3,7 @@ import { LoaderFunction, Link, useLoaderData, Outlet, ActionFunction, Form, useT
 import invariant from "tiny-invariant";
 import { useLayoutContext } from "~/components/Layout";
 import { Ornament } from "~/components/ornament";
-import { deleteHullById, getHulls, Hull } from "~/modules/hull/hulls";
+import { deleteHullById, getHulls, Hull } from "~/models/hulls.server";
 
 export const action: ActionFunction = async ({ request }) => {
     const form = await request.clone().formData();

@@ -37,4 +37,5 @@ export const authenticator = new Authenticator<Session>(sessionStorage, {
   sessionErrorKey: magicLinkStrategy.sessionErrorKey,
 })
 
-authenticator.use(magicLinkStrategy, 'sb-magic-link')
+authenticator.use(magicLinkStrategy, 'sb-magic-link');
+

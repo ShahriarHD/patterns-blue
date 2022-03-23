@@ -1531,6 +1531,14 @@ select {
   }
 }
 
+@media (min-width: 900px) {
+
+  .hulls-container {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+  }
+}
+
 .hulls-container {
   display: flex;
   flex-direction: column;

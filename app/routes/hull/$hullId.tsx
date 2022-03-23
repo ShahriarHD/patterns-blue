@@ -2,7 +2,7 @@ import { useEffect, useLayoutEffect } from "react";
 import { Link, LoaderFunction, Outlet, useLoaderData } from "remix";
 import invariant from "tiny-invariant";
 import { useLayoutContext } from "~/components/Layout";
-import { getHullById, Hull } from "~/modules/hull/hulls";
+import { getHullById, Hull } from "~/models/hulls.server";
 
 declare type LoaderData = {
     hull: Hull

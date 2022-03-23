@@ -61,7 +61,7 @@
 
     .hulls-container {
 
-        @apply w-full py-8 px-8 tablet:px-0;
+        @apply w-full py-8 px-8 tablet:px-0 desktop:py-3;
         @apply flex flex-col desktop:flex-row gap-6 items-center justify-center;
         @apply overflow-x-scroll shrink-0 snap-mandatory snap-y desktop:snap-x scroll-p-16;
 

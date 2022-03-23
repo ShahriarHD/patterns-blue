@@ -1,7 +1,7 @@
 import { ActionFunction, Form, json, LoaderFunction, redirect, useActionData, useLoaderData, useTransition } from "remix"
 import invariant from "tiny-invariant"
 import { Ornament } from "~/components/ornament"
-import { createHull } from "~/modules/hull/hulls"
+import { createHull } from "~/models/hulls.server"
 
 declare type LoaderData = {
     at: number
