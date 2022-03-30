@@ -4,7 +4,7 @@ import { Outlet } from 'remix';
 import { Ornament, OrnamentSize } from "./ornament";
 
 declare interface LayoutContextShape {
-    toggleHeader(value: 'minimize' | 'expand'): void
+    toggleHeader(value: 'minimize' | 'expand'): void,
 }
 
 const LayoutContext = createContext<LayoutContextShape>({
@@ -24,7 +24,9 @@ export default function Layout() {
 
     return (
         <LayoutContext.Provider
-            value={{ toggleHeader: (value) => setIsHeaderMinimized(value === 'minimize') }}
+            value={{
+                toggleHeader: (value) => setIsHeaderMinimized(value === 'minimize'),
+            }}
         >
             <nav className={navClassName}>
                 <Ornament.Link

@@ -16,7 +16,7 @@
     nav.main-nav {
         @apply p-2;
         @apply flex flex-row items-center justify-center gap-4;
-        @apply z-route;
+        @apply z-route40;
 
         &, & *  {
             @apply transition-all;

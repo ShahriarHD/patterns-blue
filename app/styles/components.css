@@ -48,13 +48,14 @@
 
     .button {
         @apply p-2 text-base font-black rounded-lg;
-        @apply bg-accent-600 dark:bg-blue-600;
+        @apply bg-accent-600 dark:bg-blue-600 disabled:bg-gray-500;
         @apply border-b-4 border-black-alpha-600 dark:border-white-alpha-500;
         @apply text-white;
         @apply transition duration-200;
         @apply shadow-lg hover:shadow-xl active:shadow-blue-500 active:shadow-lg;
         @apply hover:scale-105 active:scale-95;
         @apply bg-repeat bg-blend-multiply;
+        @apply disabled:pointer-events-none disabled:cursor-not-allowed;
 
         background-image: url('/img/button-bg/checkerboard-cross.png');
     }
@@ -91,7 +92,7 @@
         @apply p-2 shrink-0;
         @apply rounded-xl shadow-inner shadow-black-alpha-300 bg-white-alpha-500 dark:bg-black-alpha-500;
         @apply border border-black-alpha-200;
-        @apply placeholder:font-thin;
+        @apply placeholder:font-thin placeholder:italic;
 
         min-height: 2rem;
     }

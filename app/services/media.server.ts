@@ -1,5 +1,5 @@
 import { nanoid } from "nanoid";
-import { supabaseAdmin } from "~/modules/supabase/supabase.server";
+import { supabaseAdmin } from "~/services/supabase/supabase.server";
 
 export async function uploadImagePublicly(file: File) {
     try {

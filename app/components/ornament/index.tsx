@@ -1,5 +1,5 @@
 import cx from 'classnames';
-import { HTMLAttributes, PropsWithChildren, useCallback, useState } from 'react';
+import { PropsWithChildren } from 'react';
 import { Link, LinkProps } from 'remix';
 import add from './add-min.png';
 import error from './error-min.png';
@@ -16,8 +16,9 @@ declare type OrnamentButtonProps = React.DetailedHTMLProps<React.ButtonHTMLAttri
 
 declare type OrnamentLinkProps = LinkProps;
 
-declare type OrnamentUnfoldingChildrenProps = PropsWithChildren<{
-    isUnfolded: boolean
+declare type OrnamentOutletProps = PropsWithChildren<{
+    to: string,
+    backTo: string,
 }>
 
 declare type OrnamentSharedProps = {
