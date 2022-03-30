@@ -33,7 +33,6 @@ export const loader: LoaderFunction = ({ params }): LoaderData => {
 }
 
 export default function () {
-    const { at } = useLoaderData<LoaderData>();
     const { error } = useActionData() || {}
     const transition = useTransition()
 

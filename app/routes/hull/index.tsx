@@ -1,20 +1,10 @@
+import { Hull } from "@prisma/client";
 import { Fragment, useEffect, useState } from "react";
-import { LoaderFunction, Link, useLoaderData, Outlet, ActionFunction, Form, useTransition } from "remix";
+import { LoaderFunction, Link, useLoaderData, Outlet, ActionFunction, Form, useTransition, useFetcher, useFetchers } from "remix";
 import invariant from "tiny-invariant";
 import { useLayoutContext } from "~/components/Layout";
 import { Ornament } from "~/components/ornament";
-import { deleteHullById, getHulls, Hull } from "~/models/hulls.server";
-
-export const action: ActionFunction = async ({ request }) => {
-    const form = await request.clone().formData();
-
-    const deletingId = form.get('delete-id')?.toString();
-
-    invariant(deletingId, 'did not send any deleting id');
-    const deleted = await deleteHullById(parseInt(deletingId))
-
-    return { deleted }
-}
+import { deleteHullById, getHulls } from "~/models/hulls.server";
 
 export const loader: LoaderFunction = async () => {
 
@@ -26,36 +16,31 @@ export default function Hulls() {
     const { toggleHeader } = useLayoutContext();
 
     useEffect(() => {
-        console.log('wpw')
         toggleHeader('expand');
-    }, [toggleHeader]);
+        localStorage.clear();
+    }, []);
 
-
+    const fetcher = useFetcher()
     return (
-        <section className="flex flex-col w-full items-center">
-            <h2 className="text-3xl font-display font-bold">Hulls</h2>
-            <Form method="post" className="hulls-container">
-                {
-                    data.map(({ title, id, description }, index) => (
-                        <Fragment key={`hull-${index}`}>
-                            <Ornament.Link
-                                decoration="add"
-                                to={`/hull/new/${index}`}
-                                size="md"
-                            />
-                            <div className="hull-card">
-                                <Link to={`${id}`} prefetch="intent">
-                                    <img src="/img/mock/centers.jpg" className="" alt="" />
-                                    <h4>{title}</h4>
-                                    <p className="px-4 pb-8 pointer-events-none">
-                                        {description}
-                                    </p>
-                                </Link>
-                                <div className="flex gap-4 flex-row items-center">
-                                    <Ornament.Button
-                                        decoration="loading"
-                                        size="sm"
-                                    />
+        <div className="hulls-container">
+            {
+                data.map(({ title, id, description }, index) => (
+                    <Fragment key={`hull-${index}`}>
+                        <Ornament.Link
+                            decoration="add"
+                            to={`new`}
+                            size="md"
+                        />
+                        <div className="hull-card">
+                            <Link to={`${id}`} prefetch="intent">
+                                <img src="/img/mock/centers.jpg" className="" alt="" />
+                                <h4>{title}</h4>
+                                <p className="px-4 pb-8 pointer-events-none">
+                                    {description}
+                                </p>
+                            </Link>
+                            <div className="flex gap-4 flex-row items-center">
+                                <fetcher.Form action="delete" method="post">
                                     <Ornament.Button
                                         decoration="error"
                                         size="sm"
@@ -63,19 +48,18 @@ export default function Hulls() {
                                         value={id}
                                         name="delete-id"
                                     />
-                                </div>
+                                </fetcher.Form>
                             </div>
-                        </Fragment>
-                    ))
-                }
-                <Ornament.Link
-                    decoration="add"
-                    to={`/hull/new/${data.length}`}
-                    size="md"
-                    key="last-ornament"
-                />
-            </Form>
-
-        </section>
+                        </div>
+                    </Fragment>
+                ))
+            }
+            <Ornament.Link
+                decoration="add"
+                to={`new`}
+                size="md"
+                key="last-ornament"
+            />
+        </div>
     )
 };

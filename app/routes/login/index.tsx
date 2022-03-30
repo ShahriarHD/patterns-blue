@@ -1,7 +1,7 @@
 import { ActionFunction, LoaderFunction, redirect, useActionData, useTransition } from 'remix'
 import { Form, json, useLoaderData, useSearchParams } from 'remix'
 import { Ornament } from '~/components/ornament'
-import { supabaseAdmin, ApiError } from '~/modules/supabase/supabase.server'
+import { supabaseAdmin, ApiError } from '~/services/supabase/supabase.server'
 import { authenticator, sessionStorage, magicLinkStrategy } from '~/services/auth.server'
 
 type LoaderData = {

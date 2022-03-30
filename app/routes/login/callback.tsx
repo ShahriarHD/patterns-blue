@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import type { ActionFunction } from 'remix'
 import { useSubmit } from 'remix'
-import { supabaseClient } from '~/modules/supabase/supabase.client'
+import { supabaseClient } from '~/services/supabase/supabase.client'
 import { authenticator } from '~/services/auth.server'
 
 export const action: ActionFunction = async ({ request }) => {
@@ -13,11 +13,8 @@ export const action: ActionFunction = async ({ request }) => {
 
 export default function LoginCallback() {
     const submit = useSubmit()
-    console.log('injaaa dg')
     useEffect(() => {
-        console.log('session');
         const { data: authListener } = supabaseClient.auth.onAuthStateChange((event, session) => {
-            console.log('event');
             if (event === 'SIGNED_IN') {
                 const formData = new FormData()
                 formData.append('session', JSON.stringify(session))
