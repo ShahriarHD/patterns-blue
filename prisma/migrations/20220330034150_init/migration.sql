@@ -1,6 +1,6 @@
 -- CreateTable
-CREATE TABLE "hull" (
-    "id" BIGSERIAL NOT NULL,
+CREATE TABLE "Hull" (
+    "id" SERIAL NOT NULL,
     "created_at" TIMESTAMPTZ(6) DEFAULT CURRENT_TIMESTAMP,
     "title" TEXT,
     "description" TEXT,
