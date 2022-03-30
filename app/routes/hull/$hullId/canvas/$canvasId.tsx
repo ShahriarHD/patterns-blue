@@ -7,6 +7,7 @@ import { useDrawingAppApi } from "~/components/Boom";
 import { DrawingAppData, DrawingAppDataSchema, INITIAL_PAGE_STATE } from "~/components/infinite-canvas/state/constants";
 import { makeHistory } from "~/components/infinite-canvas/state/history";
 import { mutables } from "~/components/infinite-canvas/state/mutables";
+import Palette from "~/components/Palette";
 import { Toolbar } from "~/components/Toolbar";
 import { getCanvasPageOfHull, updateCanvasPageOfHull } from "~/models/hulls.server";
 
@@ -116,7 +117,7 @@ export default function canvasId() {
     return (
         <>
             <button
-                className="button z-route40 absolute top-4 right-4"
+                className="button z-route40 absolute top-4 right-4 w-24"
                 onClick={saveCurrentDrawing}
                 type="button"
                 disabled={mutables.history.depth() === 0}
@@ -124,6 +125,7 @@ export default function canvasId() {
                 {transition.state === 'submitting' ? 'Saving ...' : 'Save'}
             </button>
             <Toolbar />
+            <Palette />
         </>
     )
 };

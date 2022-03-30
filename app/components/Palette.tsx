@@ -1,7 +1,9 @@
 import { ChangeEventHandler, FocusEventHandler, useCallback, useState } from "react";
 import { useDrawingAppApi } from "./Boom";
 import { mutables } from "./infinite-canvas/state/mutables";
-
+import PencilControls from "./PencilControls";
+import cx from 'classnames'
+import { Ornament } from "./ornament";
 
 export default function Palette() {
     const [selectedColors, setSelectedColors] = useState(new Array(10).fill('#aaaaaa'));
@@ -24,8 +26,21 @@ export default function Palette() {
         [selectedColors, setSelectedColors]
     )
 
+    const [isPaletteCollapsed, setIsPaletteCollapsed] = useState(false);
+    const togglePaletteCollapseState = () => {
+        setIsPaletteCollapsed(!isPaletteCollapsed)
+    };
+
+    const paletteClassName = cx('p-4 absolute right-4 bottom-4 box grid grid-cols-6 gap-1 z-tools place-items-center rounded-2xl transition-all', {
+        'translate-x-1/2 translate-y-1/2 h-32': isPaletteCollapsed
+    })
+
     return (
-        <div className="p-4 absolute right-4 top-1/2 -translate-y-1/2 box grid gap-2 grid-cols-2 z-tools place-items-center">
+        <div className={paletteClassName}>
+            <button
+                className="w-3 h-3 rounded-full bg-red-400 absolute top-2 left-2 border-b border-black-alpha-500 shadow-sm"
+                onClick={() => togglePaletteCollapseState()}
+            />
             <div className="col-span-2 rounded-full w-12 h-12 border relative overflow-hidden">
                 <input
                     type="color"
@@ -40,6 +55,9 @@ export default function Palette() {
                     <ColorDrop color={color} key={`color-${index}`} />
                 ))
             }
+            <div className="col-span-6">
+                <PencilControls />
+            </div>
         </div>
     )
 }

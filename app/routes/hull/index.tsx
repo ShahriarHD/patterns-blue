@@ -32,7 +32,7 @@ export default function Hulls() {
                             size="md"
                         />
                         <div className="hull-card">
-                            <Link to={`${id}`} prefetch="intent">
+                            <Link to={`${id}/`} prefetch="intent">
                                 <img src="/img/mock/centers.jpg" className="" alt="" />
                                 <h4>{title}</h4>
                                 <p className="px-4 pb-8 pointer-events-none">

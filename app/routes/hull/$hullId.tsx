@@ -1,10 +1,11 @@
-import { useEffect } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { json, LoaderFunction, NavLink, Outlet, useFetcher, useLoaderData } from "remix";
 import invariant from "tiny-invariant";
 import Boom from "~/components/Boom";
 import { useLayoutContext } from "~/components/Layout";
 import { Ornament } from "~/components/ornament";
 import { getHullById, ValidatedHullData } from "~/models/hulls.server";
+import cx from 'classnames'
 
 declare type LoaderData = {
     hull: ValidatedHullData
@@ -40,6 +41,15 @@ export default function Screen() {
     const { hull } = useLoaderData<LoaderData>();
     const newPageFetcher = useFetcher();
 
+    const [isNavCollapsed, setIsNavCollapsed] = useState(false);
+    const toggleNavCollapseState = () => {
+        setIsNavCollapsed(!isNavCollapsed)
+    };
+
+    const navClassName = cx('h-1/2 overflow-y-auto box rounded-lg p-4 relative transition-all', {
+        '-translate-x-3/4 h-32': isNavCollapsed
+    })
+
     return (
         <section className="flex flex-col gap-2 items-center">
             <h2 className="text-3xl font-bold font-display z-route10">{hull.title}</h2>
@@ -47,13 +57,19 @@ export default function Screen() {
             <Boom>
                 <Outlet />
             </Boom>
-            <aside className="absolute top-0 left-0 h-screen z-route10 grid place-items-center">
-                <nav className="">
+            <aside className="absolute top-0 left-0 h-screen z-route10 grid place-items-center -transx">
+                <nav className={navClassName}>
+                    <button
+                        className="w-3 h-3 rounded-full bg-red-400 absolute top-2 right-2 border-b border-black-alpha-500 shadow-sm"
+                        onClick={() => toggleNavCollapseState()}
+                    />
                     <ul className="flex flex-col gap-5 px-2">
-                        <li className="p-3 border-4 rounded-2xl text-sm text-center flex gap-2 justify-center items-center">
+                        <li className="border-4 rounded-2xl text-sm text-center flex gap-2 justify-center items-center">
                             <NavLink
                                 to={`/hull/${hull.id}/`}
-                                className={({ isActive }) => (isActive ? 'text-blue-500 font-bold' : "")}
+                                className={({ isActive }) => cx("w-full h-full p-3 rounded-2xl border border-gray-500 hover:border-accent-500", {
+                                    'underline underline-offset-4 decoration-dotted text-blue-500 font-bold decoration-4 border-blue-400 shadow-md': isActive
+                                })}
                             >
                                 Canvas Guide
                             </NavLink>
@@ -66,10 +82,13 @@ export default function Screen() {
                                 .map(([id, drawingAppData]) => {
                                     return (
                                         <li key={`canvas-${id}`}
-                                            className="p-3 border-4 rounded-2xl text-sm text-center flex gap-2 justify-center items-center">
+                                            className="border-4 rounded-2xl text-sm text-center flex gap-2 justify-center items-center"
+                                        >
                                             <NavLink
                                                 to={`canvas/${id}`}
-                                                className={({ isActive }) => (isActive ? 'text-blue-500 font-bold' : "")}
+                                                className={({ isActive }) => cx("w-full h-full p-3 rounded-2xl border border-gray-500 hover:border-accent-500", {
+                                                    'text-blue-500 font-bold underline underline-offset-4 decoration-dotted decoration-4 border-blue-400 shadow-md': isActive
+                                                })}
                                             >
                                                 {drawingAppData.title || `Canvas ${drawingAppData.pageIndex}`}
                                             </NavLink>
@@ -101,6 +120,7 @@ export default function Screen() {
                                     value={hull.id.toString()}
                                     name="hull-id"
                                     id="add-new-canvas"
+                                    behavior={newPageFetcher.state === 'idle' ? 'idle' : 'spinning'}
                                 />
                             </newPageFetcher.Form>
                         </li>

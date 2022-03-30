@@ -18,27 +18,30 @@ export default function PencilControls() {
         [],
     )
     return (
-        <div className='flex gap-4 p-4 justify-self-center
-                        z-tools absolute left-2 top-1/2 h-64 accent-gray-900'
+        <div className='flex gap-4 p-4 z-tools accent-gray-900'
         >
-            <input
-                className="-rotate-90 absolute left-1/2 top-0 origin-left"
-                name="size"
-                type="range"
-                min={2}
-                max={25}
-                value={mutables.pencilStrokeWidth}
-                onChange={handleChange}
-            />
-            <input
-                className="-rotate-90 absolute left-1/2 bottom-0 origin-left"
-                name="opacity"
-                type="range"
-                min={0}
-                max={1}
-                step={0.01} value={mutables.pencilOpacity}
-                onChange={handleChange}
-            />
+            <label className="flex flex-col text-xs">
+                Brush Size
+                <input
+                    name="size"
+                    type="range"
+                    min={1}
+                    max={42}
+                    value={mutables.pencilStrokeWidth}
+                    onChange={handleChange}
+                />
+            </label>
+            <label className="flex flex-col text-xs">
+                Brush Opacity
+                <input
+                    name="opacity"
+                    type="range"
+                    min={0}
+                    max={1}
+                    step={0.01} value={mutables.pencilOpacity}
+                    onChange={handleChange}
+                />
+            </label>
         </div>
     )
 }
