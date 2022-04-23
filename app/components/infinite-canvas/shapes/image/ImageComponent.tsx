@@ -1,20 +1,23 @@
-import { HTMLContainer, TLShapeUtil } from "@tldraw/core";
-import { useLayoutEffect, useRef } from "react";
-import { ImageAsset, ImageShape } from "./ImageShape";
+import { HTMLContainer, TLShapeUtil } from '@tldraw/core';
+import { useLayoutEffect, useRef } from 'react';
+import { ImageAsset, ImageShape } from './ImageShape';
 
-export const ImageComponent = TLShapeUtil.Component<ImageShape, HTMLDivElement>(
-    ({ shape, asset = { src: '' }, isGhost, events }, ref) => {
+export const ImageComponent =
+    // eslint-disable-next-line new-cap
+    TLShapeUtil.Component<ImageShape, HTMLDivElement>(({ shape, asset = { src: '' }, isGhost, events }, ref) => {
         const { size } = shape;
 
-        const ImageRef = useRef<HTMLImageElement>(null)
-        const WrapperRef = useRef<HTMLDivElement>(null)
+        const ImageRef = useRef<HTMLImageElement>(null);
+        const WrapperRef = useRef<HTMLDivElement>(null);
 
         useLayoutEffect(() => {
-            const wrapper = WrapperRef.current
-            if (!wrapper) return
-            const [width, height] = size
-            wrapper.style.width = `${width}px`
-            wrapper.style.height = `${height}px`
+            const wrapper = WrapperRef.current;
+            if (!wrapper) {
+                return;
+            }
+            const [width, height] = size;
+            wrapper.style.width = `${width}px`;
+            wrapper.style.height = `${height}px`;
         }, [size]);
 
         return (
@@ -38,6 +41,5 @@ export const ImageComponent = TLShapeUtil.Component<ImageShape, HTMLDivElement>(
                     />
                 </div>
             </HTMLContainer>
-        )
-    }
-)
+        );
+    });

@@ -1,24 +1,21 @@
-import { ChangeEventHandler, useCallback } from "react";
-import { useDrawingAppApi } from "./Boom";
-import { BoomApi } from "./infinite-canvas/state/api";
-import { mutables } from "./infinite-canvas/state/mutables";
-declare const window: Window & { boomApi: BoomApi }
-
+import { ChangeEventHandler, useCallback } from 'react';
+import { useDrawingAppApi } from './Boom';
+import { mutables } from './infinite-canvas/state/mutables';
 export default function PencilControls() {
     const { send } = useDrawingAppApi();
     const handleChange: ChangeEventHandler<HTMLInputElement> = useCallback(
-        (event) => {
+        event => {
             const value = event.target.value;
             if (event.target.name === 'size') {
-                send('SET_PENCIL_SIZE', { size: parseFloat(value) })
+                send('SET_PENCIL_SIZE', { size: parseFloat(value) });
             } else if (event.target.name === 'opacity') {
-                send('SET_PENCIL_OPACITY', { opacity: parseFloat(value) })
+                send('SET_PENCIL_OPACITY', { opacity: parseFloat(value) });
             }
         },
         [],
-    )
+    );
     return (
-        <div className='flex gap-4 p-4 z-tools accent-gray-900'
+        <div className="flex gap-4 p-4 z-tools accent-gray-900"
         >
             <label className="flex flex-col text-xs">
                 Brush Size
@@ -43,5 +40,5 @@ export default function PencilControls() {
                 />
             </label>
         </div>
-    )
+    );
 }

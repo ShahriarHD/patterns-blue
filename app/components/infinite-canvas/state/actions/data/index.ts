@@ -1,3 +1,3 @@
-export * from './loadDocument'
-export * from './restoreSavedDocument'
-export * from './loadNewDocument'
+export * from './loadDocument';
+export * from './restoreSavedDocument';
+export * from './loadNewDocument';

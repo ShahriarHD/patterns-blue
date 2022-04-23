@@ -1,17 +1,15 @@
-import { Utils } from '@tldraw/core'
-import { getShapeUtils } from '~/components/infinite-canvas/shapes'
-import type { Action } from '../../constants'
-import { mutables } from '../../mutables'
+import { Utils } from '@tldraw/core';
+import { getShapeUtils } from '~/components/infinite-canvas/shapes';
+import type { Action } from '../../constants';
+import { mutables } from '../../mutables';
 
-export const setInitialCommonBounds: Action = (data) => {
-  const { snapshot } = mutables
-  const { selectedIds } = data.pageState
+export const setInitialCommonBounds: Action = data => {
+    const { snapshot } = mutables;
+    const { selectedIds } = data.pageState;
 
-  const initialCommonBounds = Utils.getCommonBounds(
-    selectedIds
-      .map((id) => snapshot.page.shapes[id])
-      .map((shape) => getShapeUtils(shape).getBounds(shape))
-  )
+    const initialCommonBounds = Utils.getCommonBounds(selectedIds
+        .map(id => snapshot.page.shapes[id])
+        .map(shape => getShapeUtils(shape).getBounds(shape)));
 
-  mutables.initialCommonBounds = initialCommonBounds
-}
+    mutables.initialCommonBounds = initialCommonBounds;
+};

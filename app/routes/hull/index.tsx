@@ -1,15 +1,11 @@
-import { Hull } from "@prisma/client";
-import { Fragment, useEffect, useState } from "react";
-import { LoaderFunction, Link, useLoaderData, Outlet, ActionFunction, Form, useTransition, useFetcher, useFetchers } from "remix";
-import invariant from "tiny-invariant";
-import { useLayoutContext } from "~/components/Layout";
-import { Ornament } from "~/components/ornament";
-import { deleteHullById, getHulls } from "~/models/hulls.server";
+import { Hull } from '@prisma/client';
+import { Fragment, useEffect } from 'react';
+import { Link, LoaderFunction, useFetcher, useLoaderData } from 'remix';
+import { useLayoutContext } from '~/components/Layout';
+import { Ornament } from '~/components/ornament';
+import { getHulls } from '~/models/hulls.server';
 
-export const loader: LoaderFunction = async () => {
-
-    return await getHulls();
-}
+export const loader: LoaderFunction = async() => await getHulls();
 
 export default function Hulls() {
     const data = useLoaderData<Hull[]>();
@@ -20,7 +16,7 @@ export default function Hulls() {
         localStorage.clear();
     }, []);
 
-    const fetcher = useFetcher()
+    const fetcher = useFetcher();
     return (
         <div className="hulls-container">
             {
@@ -61,5 +57,5 @@ export default function Hulls() {
                 key="last-ornament"
             />
         </div>
-    )
-};
+    );
+}

@@ -1,73 +1,68 @@
-import { TLBounds, Utils } from '@tldraw/core'
-import { intersectLineSegmentBounds } from '@tldraw/intersect'
-import { nanoid } from 'nanoid'
-import { CustomShapeUtil } from '../CustomShapeUtil'
-import { SequenceBoxComponent } from './SequenceBoxComponent'
-import { SequenceBoxIndicator } from './SequenceBoxIndicator'
-import type { SequenceBoxShape } from './SequenceBoxShape'
+import { TLBounds, Utils } from '@tldraw/core';
+import { intersectLineSegmentBounds } from '@tldraw/intersect';
+import { nanoid } from 'nanoid';
+import { CustomShapeUtil } from '../CustomShapeUtil';
+import { SequenceBoxComponent } from './SequenceBoxComponent';
+import { SequenceBoxIndicator } from './SequenceBoxIndicator';
+import type { SequenceBoxShape } from './SequenceBoxShape';
 
 type T = SequenceBoxShape
 type E = HTMLDivElement
 
 export class SequenceBoxUtil extends CustomShapeUtil<T, E> {
-  Component = SequenceBoxComponent
 
-  Indicator = SequenceBoxIndicator
+    Component = SequenceBoxComponent;
 
-  hideResizeHandles = false
+    Indicator = SequenceBoxIndicator;
 
-  getBounds = (shape: T) => {
-    const bounds = Utils.getFromCache(this.boundsCache, shape, () => {
-      const [width, height] = [600, 400];
+    hideResizeHandles = false;
 
-      return {
-        minX: 0,
-        maxX: width,
-        minY: 0,
-        maxY: height,
-        width,
-        height,
-      } as TLBounds
-    })
+    getBounds = (shape: T) => {
+        const bounds = Utils.getFromCache(this.boundsCache, shape, () => {
+            const [width, height] = [600, 400];
 
-    return Utils.translateBounds(bounds, shape.point)
-  }
+            return {
+                minX: 0,
+                maxX: width,
+                minY: 0,
+                maxY: height,
+                width,
+                height,
+            } as TLBounds;
+        });
 
-  /* ----------------- Custom Methods ----------------- */
+        return Utils.translateBounds(bounds, shape.point);
+    };
 
-  canBind = true
+    /* ----------------- Custom Methods ----------------- */
 
-  getShape = (props: Partial<T>): T => {
-    return {
-      id: nanoid(),
-      type: 'sequence-box',
-      name: 'Sequence Box',
-      parentId: 'page1',
-      point: [0, 0],
-      childIndex: 1,
-      title: 'sample',
-      steps: ['a', 'b'],
-      ...props,
-    }
-  }
+    canBind = true;
 
-  shouldRender = (prev: T, next: T) => {
-    return next.title !== prev.title // BUG: look at this :))
-  }
+    getShape = (props: Partial<T>): T => ({
+        id: nanoid(),
+        type: 'sequence-box',
+        name: 'Sequence Box',
+        parentId: 'page1',
+        point: [0, 0],
+        childIndex: 1,
+        title: 'sample',
+        steps: ['a', 'b'],
+        ...props,
+    });
 
-  getCenter = (shape: T) => {
-    return Utils.getBoundsCenter(this.getBounds(shape))
-  }
+    shouldRender = (prev: T, next: T) =>
+        next.title !== prev.title; // BUG: look at this :))
 
-  hitTestPoint = (shape: T, point: number[]) => {
-    return Utils.pointInBounds(point, this.getBounds(shape))
-  }
 
-  hitTestLineSegment = (shape: T, A: number[], B: number[]) => {
-    return intersectLineSegmentBounds(A, B, this.getBounds(shape)).length > 0
-  }
+    getCenter = (shape: T) => Utils.getBoundsCenter(this.getBounds(shape));
 
-  transform = (shape: T, bounds: TLBounds, initialShape: T, scale: number[]) => {
-    shape.point = [bounds.minX, bounds.minY]
-  }
+    hitTestPoint = (shape: T, point: number[]) => Utils.pointInBounds(point, this.getBounds(shape));
+
+    hitTestLineSegment = (shape: T, A: number[], B: number[]) =>
+        intersectLineSegmentBounds(A, B, this.getBounds(shape)).length > 0;
+
+    transform = (shape: T, bounds: TLBounds) => {
+        shape.point = [bounds.minX, bounds.minY];
+    };
+
 }

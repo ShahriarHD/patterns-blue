@@ -1,3 +1,3 @@
-export * from './eraseShapes'
-export * from './eraseShapesAtPoint'
-export * from './eraseGhostShapes'
+export * from './eraseShapes';
+export * from './eraseShapesAtPoint';
+export * from './eraseGhostShapes';

@@ -1,41 +1,42 @@
-import { createCookieSessionStorage } from 'remix'
-import { Authenticator, AuthorizationError } from 'remix-auth'
-import { SupabaseStrategy } from 'remix-auth-supabase'
-import { supabaseAdmin, Session } from '~/services/supabase/supabase.server'
+import { createCookieSessionStorage } from 'remix';
+import { Authenticator, AuthorizationError } from 'remix-auth';
+import { SupabaseStrategy } from 'remix-auth-supabase';
+import { Session, supabaseAdmin } from '~/services/supabase/supabase.server';
 
 export const sessionStorage = createCookieSessionStorage({
-  cookie: {
-    name: 'sb',
-    httpOnly: true,
-    path: '/',
-    sameSite: 'lax',
-    secrets: ['s3cr3t'], // This should be an env variable
-    secure: process.env.NODE_ENV === 'production',
-  },
-})
+    cookie: {
+        name: 'sb',
+        httpOnly: true,
+        path: '/',
+        sameSite: 'lax',
+        secrets: ['s3cr3t'], // This should be an env variable
+        secure: process.env.NODE_ENV === 'production',
+    },
+});
 
 export const magicLinkStrategy = new SupabaseStrategy(
-  {
-    supabaseClient: supabaseAdmin,
-    sessionStorage,
-    sessionKey: 'sb:session',
-    sessionErrorKey: 'sb:error',
-  },
-  async({ req }) => {
-    const form = await req.formData()
-    const session = form?.get('session')
+    {
+        supabaseClient: supabaseAdmin,
+        sessionStorage,
+        sessionKey: 'sb:session',
+        sessionErrorKey: 'sb:error',
+    },
+    async({ req }) => {
+        const form = await req.formData();
+        const session = form?.get('session');
 
-    if (typeof session !== 'string')
-      throw new AuthorizationError('session not found')
+        if (typeof session !== 'string') {
+            throw new AuthorizationError('session not found');
+        }
 
-    return JSON.parse(session)
-  },
-)
+        return JSON.parse(session);
+    },
+);
 
 export const authenticator = new Authenticator<Session>(sessionStorage, {
-  sessionKey: magicLinkStrategy.sessionKey,
-  sessionErrorKey: magicLinkStrategy.sessionErrorKey,
-})
+    sessionKey: magicLinkStrategy.sessionKey,
+    sessionErrorKey: magicLinkStrategy.sessionErrorKey,
+});
 
 authenticator.use(magicLinkStrategy, 'sb-magic-link');
 

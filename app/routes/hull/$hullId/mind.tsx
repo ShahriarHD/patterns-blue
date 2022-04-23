@@ -30,7 +30,16 @@ export default function Mind() {
                     <figure>
                         <img src="/img/reef1.jpg" alt="a coral reef" />
                         <figcaption>
-                            Photo by <a href="https://unsplash.com/@biorock_indonesia?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Biorock Indonesia</a> on <a href="https://unsplash.com/s/photos/coral-reef?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">Unsplash</a>
+                            Photo by
+                            {/* eslint-disable-next-line max-len */}
+                            <a href="https://unsplash.com/@biorock_indonesia?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
+                                Biorock Indonesia
+                            </a>
+                            on
+                            {/* eslint-disable-next-line max-len */}
+                            <a href="https://unsplash.com/s/photos/coral-reef?utm_source=unsplash&utm_medium=referral&utm_content=creditCopyText">
+                                Unsplash
+                            </a>
                         </figcaption>
                     </figure>
 
@@ -46,5 +55,5 @@ export default function Mind() {
                 </div>
             </div>
         </section>
-    )
+    );
 }

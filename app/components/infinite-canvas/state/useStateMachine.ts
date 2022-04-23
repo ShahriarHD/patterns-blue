@@ -1,9 +1,8 @@
-import { TLPointerInfo } from "@tldraw/core"
-import Vec from "@tldraw/vec"
-import { DrawingAppData } from "./constants"
-import { mutables } from "./mutables"
+import { useStateDesigner } from '@state-designer/react';
+import Vec from '@tldraw/vec';
 import * as actions from '~/components/infinite-canvas/state/actions';
-import { useStateDesigner } from "@state-designer/react";
+import { DrawingAppData } from './constants';
+import { mutables } from './mutables';
 
 export function useStateMachine(data: DrawingAppData) {
     return useStateDesigner({
@@ -389,17 +388,17 @@ export function useStateMachine(data: DrawingAppData) {
             },
         },
         conditions: {
-            hasLeftDeadZone(data, payload: TLPointerInfo) {
-                return Vec.dist(mutables.currentPoint, mutables.initialPoint) > 2
+            hasLeftDeadZone() {
+                return Vec.dist(mutables.currentPoint, mutables.initialPoint) > 2;
             },
             shapeIsSelected(data, payload: { target: string }) {
-                return data.pageState.selectedIds.includes(payload.target)
+                return data.pageState.selectedIds.includes(payload.target);
             },
             shapeIsPointed(data, payload: { target: string }) {
-                return mutables.pointedShapeId === payload.target
+                return mutables.pointedShapeId === payload.target;
             },
             isPressingShiftKey(data, payload: { shiftKey: boolean }) {
-                return payload.shiftKey
+                return payload.shiftKey;
             },
         },
         actions,

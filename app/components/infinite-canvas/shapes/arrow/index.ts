@@ -1,2 +1,2 @@
-export * from './ArrowShape'
-export * from './ArrowUtil'
+export * from './ArrowShape';
+export * from './ArrowUtil';

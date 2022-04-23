@@ -1,3 +1,3 @@
-export * from './addToHistory'
-export * from './redo'
-export * from './undo'
+export * from './addToHistory';
+export * from './redo';
+export * from './undo';

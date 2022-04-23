@@ -1,2 +1,2 @@
-export * from './BoxShape'
-export * from './BoxUtil'
+export * from './BoxShape';
+export * from './BoxUtil';

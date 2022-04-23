@@ -1,14 +1,24 @@
 {
     "cSpell.words": [
+        "Biorock",
         "datasources",
         "mutables",
         "neomorph",
         "Pixi",
         "prefetch",
+        "semibold",
+        "snappable",
         "SUPABASE",
         "tailwindcss",
         "tldraw",
         "Unhover",
         "UNHOVERED"
-    ]
+    ],
+    "editor.formatOnSave": true,
+    "[typescript]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[typescriptreact]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
 }

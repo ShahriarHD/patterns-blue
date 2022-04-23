@@ -1,32 +1,31 @@
-import { useCallback, useEffect } from "react";
-import { Params } from "react-router";
-import { ActionFunction, Form, json, LoaderFunction, useActionData, useLoaderData, useSubmit, useTransition } from "remix";
-import invariant from "tiny-invariant";
-import { ZodError } from "zod";
-import { useDrawingAppApi } from "~/components/Boom";
-import { DrawingAppData, DrawingAppDataSchema, INITIAL_PAGE_STATE } from "~/components/infinite-canvas/state/constants";
-import { makeHistory } from "~/components/infinite-canvas/state/history";
-import { mutables } from "~/components/infinite-canvas/state/mutables";
-import Palette from "~/components/Palette";
-import { Toolbar } from "~/components/Toolbar";
-import { getCanvasPageOfHull, updateCanvasPageOfHull } from "~/models/hulls.server";
+import { useCallback, useEffect } from 'react';
+import { Params } from 'react-router';
+import { ActionFunction, LoaderFunction, json, useLoaderData, useSubmit, useTransition } from 'remix';
+import invariant from 'tiny-invariant';
+import { ZodError } from 'zod';
+import { useDrawingAppApi } from '~/components/Boom';
+import { DrawingAppData, DrawingAppDataSchema, INITIAL_PAGE_STATE } from '~/components/infinite-canvas/state/constants';
+import { mutables } from '~/components/infinite-canvas/state/mutables';
+import Palette from '~/components/Palette';
+import { Toolbar } from '~/components/Toolbar';
+import { getCanvasPageOfHull, updateCanvasPageOfHull } from '~/models/hulls.server';
 
 function getPageParams(params: Params<string>) {
     invariant(params.canvasId, 'expected canvas id');
     invariant(params.hullId, 'expected hull id');
 
     const { hullId, canvasId } = params;
-    const hullIdInt = parseInt(hullId)
+    const hullIdInt = parseInt(hullId);
 
     return {
         hullId: hullIdInt,
         canvasId
-    }
+    };
 }
 
-export const action: ActionFunction = async ({ request, params }) => {
+export const action: ActionFunction = async({ request, params }) => {
 
-    const formData = await request.formData()
+    const formData = await request.formData();
     const data = JSON.parse(formData.get('data')?.toString() || '');
 
     let validatedPage: DrawingAppData | undefined = undefined;
@@ -37,12 +36,12 @@ export const action: ActionFunction = async ({ request, params }) => {
         // reset data
         validatedPage.pageState = INITIAL_PAGE_STATE;
         validatedPage.performanceMode = undefined;
-        validatedPage.overlays = { snapLines: [] }
+        validatedPage.overlays = { snapLines: [] };
 
-        console.log(validatedPage);
+        console.info(validatedPage);
     } catch (error) {
         if (error instanceof ZodError) {
-            console.error(error)
+            console.error(error);
             throw json({ message: 'failed to parse submitted data' }, 400);
         }
     }
@@ -60,13 +59,13 @@ export const action: ActionFunction = async ({ request, params }) => {
     return {
         success: true
     };
-}
+};
 
 declare type CanvasLoaderData = {
     drawingAppData: DrawingAppData
 }
 
-export const loader: LoaderFunction = async ({ params }): Promise<CanvasLoaderData> => {
+export const loader: LoaderFunction = async({ params }): Promise<CanvasLoaderData> => {
     invariant(params.canvasId, 'expected canvas id');
     invariant(params.hullId, 'expected hull id');
 
@@ -76,16 +75,16 @@ export const loader: LoaderFunction = async ({ params }): Promise<CanvasLoaderDa
     if (drawingAppData) {
         return {
             drawingAppData
-        }
+        };
     } else {
         throw json({ message: 'page not found ' }, 404);
     }
-}
+};
 
 export default function canvasId() {
     const { drawingAppData } = useLoaderData<CanvasLoaderData>();
     const { loadDocument, state } = useDrawingAppApi();
-    const transition = useTransition()
+    const transition = useTransition();
 
 
     const submit = useSubmit();
@@ -95,7 +94,7 @@ export default function canvasId() {
         const maybeUnSavedData = localStorage.getItem(drawingAppData.id);
 
         if (maybeUnSavedData) { // see if we have unpublished changes locally
-            const parsedSavedData = DrawingAppDataSchema.safeParse(JSON.parse(maybeUnSavedData))
+            const parsedSavedData = DrawingAppDataSchema.safeParse(JSON.parse(maybeUnSavedData));
             if (parsedSavedData.success) {
                 data = parsedSavedData.data;
             }
@@ -112,7 +111,7 @@ export default function canvasId() {
     const saveCurrentDrawing = useCallback(() => {
         submit({ data: JSON.stringify(state) }, { method: 'put', replace: false });
         mutables.history.reset(state);
-    }, [submit, state])
+    }, [submit, state]);
 
     return (
         <>
@@ -127,5 +126,5 @@ export default function canvasId() {
             <Toolbar />
             <Palette />
         </>
-    )
-};
+    );
+}

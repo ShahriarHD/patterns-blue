@@ -1,5 +1,5 @@
-import type { Action } from '../../constants'
+import type { Action } from '../../constants';
 
-export const deselectAllShapes: Action = (data) => {
-  data.pageState.selectedIds = []
-}
+export const deselectAllShapes: Action = data => {
+    data.pageState.selectedIds = [];
+};
