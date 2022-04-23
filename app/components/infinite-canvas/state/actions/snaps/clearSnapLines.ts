@@ -1,5 +1,5 @@
-import type { Action } from '../../constants'
+import type { Action } from '../../constants';
 
-export const clearSnapLines: Action = (data) => {
-  data.overlays.snapLines = []
-}
+export const clearSnapLines: Action = data => {
+    data.overlays.snapLines = [];
+};

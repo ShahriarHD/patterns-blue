@@ -1,2 +1,2 @@
-export * from './PencilShape'
-export * from './PencilUtil'
+export * from './PencilShape';
+export * from './PencilUtil';

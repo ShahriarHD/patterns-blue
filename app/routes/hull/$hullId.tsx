@@ -1,34 +1,36 @@
-import { useCallback, useEffect, useState } from "react";
-import { json, LoaderFunction, NavLink, Outlet, useFetcher, useLoaderData } from "remix";
-import invariant from "tiny-invariant";
-import Boom from "~/components/Boom";
-import { useLayoutContext } from "~/components/Layout";
-import { Ornament } from "~/components/ornament";
-import { getHullById, ValidatedHullData } from "~/models/hulls.server";
-import cx from 'classnames'
+/* eslint-disable max-len */
+
+import cx from 'classnames';
+import { useEffect, useState } from 'react';
+import { LoaderFunction, NavLink, Outlet, json, useFetcher, useLoaderData } from 'remix';
+import invariant from 'tiny-invariant';
+import Boom from '~/components/Boom';
+import { useLayoutContext } from '~/components/Layout';
+import { Ornament } from '~/components/ornament';
+import { ValidatedHullData, getHullById } from '~/models/hulls.server';
 
 declare type LoaderData = {
     hull: ValidatedHullData
 }
 
-export const loader: LoaderFunction = async ({ params }): Promise<LoaderData> => {
+export const loader: LoaderFunction = async({ params }): Promise<LoaderData> => {
     const hullId = parseInt(params.hullId || 'NaN');
-    invariant(hullId !== NaN, 'did not recognize that param');
+    invariant(!isNaN(hullId), 'did not recognize that param');
 
     try {
         const hull = await getHullById(hullId);
         if (hull === null) {
-            throw json({ message: `${hullId} not found` }, 404)
+            throw json({ message: `${hullId} not found` }, 404);
         }
 
         return {
             hull
-        }
+        };
 
     } catch (error) {
         throw json({ message: `Could not load hull data ${hullId}` }, 500);
     }
-}
+};
 
 
 export default function Screen() {
@@ -43,12 +45,12 @@ export default function Screen() {
 
     const [isNavCollapsed, setIsNavCollapsed] = useState(false);
     const toggleNavCollapseState = () => {
-        setIsNavCollapsed(!isNavCollapsed)
+        setIsNavCollapsed(!isNavCollapsed);
     };
 
     const navClassName = cx('h-1/2 overflow-y-auto box rounded-lg p-4 relative transition-all', {
         '-translate-x-3/4 h-32': isNavCollapsed
-    })
+    });
 
     return (
         <section className="flex flex-col gap-2 items-center">
@@ -67,34 +69,34 @@ export default function Screen() {
                         <li className="border-4 rounded-2xl text-sm text-center flex gap-2 justify-center items-center">
                             <NavLink
                                 to={`/hull/${hull.id}/`}
-                                className={({ isActive }) => cx("w-full h-full p-3 rounded-2xl border border-gray-500 hover:border-accent-500", {
-                                    'underline underline-offset-4 decoration-dotted text-blue-500 font-bold decoration-4 border-blue-400 shadow-md': isActive
-                                })}
+                                className={({ isActive }) => cx(
+                                    'w-full h-full p-3 rounded-2xl border border-gray-500 hover:border-accent-500',
+                                    {
+                                        // eslint-disable-next-line max-len
+                                        'underline underline-offset-4 decoration-dotted text-blue-500 font-bold decoration-4 border-blue-400 shadow-md': isActive
+                                    },
+                                )}
                             >
                                 Canvas Guide
                             </NavLink>
                         </li>
                         {
                             Object.entries(hull.pages)
-                                .sort(([_, { pageIndex: firstPageIndex }], [__, { pageIndex: secondPageIndex }]) => {
-                                    return firstPageIndex < secondPageIndex ? -1 : 1
-                                })
-                                .map(([id, drawingAppData]) => {
-                                    return (
-                                        <li key={`canvas-${id}`}
-                                            className="border-4 rounded-2xl text-sm text-center flex gap-2 justify-center items-center"
+                                .sort(([, { pageIndex: firstPageIndex }], [, { pageIndex: secondPageIndex }]) => (firstPageIndex < secondPageIndex ? -1 : 1))
+                                .map(([id, drawingAppData]) => (
+                                    <li key={`canvas-${id}`}
+                                        className="border-4 rounded-2xl text-sm text-center flex gap-2 justify-center items-center"
+                                    >
+                                        <NavLink
+                                            to={`canvas/${id}`}
+                                            className={({ isActive }) => cx('w-full h-full p-3 rounded-2xl border border-gray-500 hover:border-accent-500', {
+                                                'text-blue-500 font-bold underline underline-offset-4 decoration-dotted decoration-4 border-blue-400 shadow-md': isActive
+                                            })}
                                         >
-                                            <NavLink
-                                                to={`canvas/${id}`}
-                                                className={({ isActive }) => cx("w-full h-full p-3 rounded-2xl border border-gray-500 hover:border-accent-500", {
-                                                    'text-blue-500 font-bold underline underline-offset-4 decoration-dotted decoration-4 border-blue-400 shadow-md': isActive
-                                                })}
-                                            >
-                                                {drawingAppData.title || `Canvas ${drawingAppData.pageIndex}`}
-                                            </NavLink>
-                                        </li>
-                                    )
-                                })
+                                            {drawingAppData.title || `Canvas ${drawingAppData.pageIndex}`}
+                                        </NavLink>
+                                    </li>
+                                ))
                         }
                         <li className="p-3 border-4 border-dotted rounded-2xl text-sm text-center">
                             <newPageFetcher.Form
@@ -109,9 +111,9 @@ export default function Screen() {
                                     name="new-canvas-name"
                                     required
                                     className="text-input"
-                                    onKeyDown={e => e.stopPropagation()}
-                                    onKeyUp={e => e.stopPropagation()}
-                                    onKeyPress={e => e.stopPropagation()}
+                                    onKeyDown={error => error.stopPropagation()}
+                                    onKeyUp={error => error.stopPropagation()}
+                                    onKeyPress={error => error.stopPropagation()}
                                 />
                                 <Ornament.Button
                                     decoration="add"
@@ -128,5 +130,5 @@ export default function Screen() {
                 </nav>
             </aside>
         </section>
-    )
-};
+    );
+}

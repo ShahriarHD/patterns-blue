@@ -1,2 +1,2 @@
-export * from './ImageUtil'
-export * from './ImageShape'
+export * from './ImageUtil';
+export * from './ImageShape';

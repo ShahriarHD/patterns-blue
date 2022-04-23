@@ -1,3 +1,3 @@
-export * from './setPointedHandle'
-export * from './clearPointedHandle'
-export * from './translateHandle'
+export * from './setPointedHandle';
+export * from './clearPointedHandle';
+export * from './translateHandle';

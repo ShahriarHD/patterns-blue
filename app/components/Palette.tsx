@@ -1,9 +1,8 @@
-import { ChangeEventHandler, FocusEventHandler, useCallback, useState } from "react";
-import { useDrawingAppApi } from "./Boom";
-import { mutables } from "./infinite-canvas/state/mutables";
-import PencilControls from "./PencilControls";
-import cx from 'classnames'
-import { Ornament } from "./ornament";
+import cx from 'classnames';
+import { ChangeEventHandler, FocusEventHandler, useCallback, useState } from 'react';
+import { useDrawingAppApi } from './Boom';
+import { mutables } from './infinite-canvas/state/mutables';
+import PencilControls from './PencilControls';
 
 export default function Palette() {
     const [selectedColors, setSelectedColors] = useState(new Array(10).fill('#aaaaaa'));
@@ -11,29 +10,32 @@ export default function Palette() {
     const boomApi = useDrawingAppApi();
 
     const handleColorChange: ChangeEventHandler<HTMLInputElement> = useCallback(
-        (event) => {
+        event => {
             const color = event.target.value;
-            boomApi?.send('SET_ACTIVE_COLOR', { color })
+            boomApi?.send('SET_ACTIVE_COLOR', { color });
         },
         [],
-    )
+    );
 
     const handleBlur: FocusEventHandler<HTMLInputElement> = useCallback(
-        (event) => {
+        event => {
             const color = event.target.value;
             setSelectedColors([color, ...selectedColors].slice(0, 10));
         },
         [selectedColors, setSelectedColors]
-    )
+    );
 
     const [isPaletteCollapsed, setIsPaletteCollapsed] = useState(false);
     const togglePaletteCollapseState = () => {
-        setIsPaletteCollapsed(!isPaletteCollapsed)
+        setIsPaletteCollapsed(!isPaletteCollapsed);
     };
 
-    const paletteClassName = cx('p-4 absolute right-4 bottom-4 box grid grid-cols-6 gap-1 z-tools place-items-center rounded-2xl transition-all', {
-        'translate-x-1/2 translate-y-1/2 h-32': isPaletteCollapsed
-    })
+    const paletteClassName = cx(
+        'p-4 absolute right-4 bottom-4 box grid grid-cols-6 gap-1 z-tools place-items-center rounded-2xl transition-all',
+        {
+            'translate-x-1/2 translate-y-1/2 h-32': isPaletteCollapsed
+        },
+    );
 
     return (
         <div className={paletteClassName}>
@@ -59,7 +61,7 @@ export default function Palette() {
                 <PencilControls />
             </div>
         </div>
-    )
+    );
 }
 
 interface ColorDropProps {
@@ -76,5 +78,5 @@ function ColorDrop({ color }: ColorDropProps) {
             style={{ backgroundColor: color }}
             onClick={() => boomApi?.send('SET_ACTIVE_COLOR', { color })}
         />
-    )
+    );
 }

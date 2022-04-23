@@ -1,5 +1,5 @@
-import type { Action } from '../../constants'
+import type { Action } from '../../constants';
 
-export const clearHoveredShape: Action = (data) => {
-  data.pageState.hoveredId = undefined
-}
+export const clearHoveredShape: Action = data => {
+    data.pageState.hoveredId = undefined;
+};

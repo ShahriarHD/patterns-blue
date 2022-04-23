@@ -1,8 +1,8 @@
-import { createContext, PropsWithChildren, useContext, useEffect, useState } from "react";
-import InfiniteCanvas from "~/components/infinite-canvas";
-import { BoomApi } from "~/components/infinite-canvas/state/api";
-import { DrawingAppData, INITIAL_DATA } from "~/components/infinite-canvas/state/constants";
-import { useStateMachine } from "~/components/infinite-canvas/state/useStateMachine";
+import { PropsWithChildren, createContext, useContext, useEffect, useState } from 'react';
+import InfiniteCanvas from '~/components/infinite-canvas';
+import { BoomApi } from '~/components/infinite-canvas/state/api';
+import { INITIAL_DATA } from '~/components/infinite-canvas/state/constants';
+import { useStateMachine } from '~/components/infinite-canvas/state/useStateMachine';
 interface DrawingAppContextShape {
     boomApi?: BoomApi
 }
@@ -40,7 +40,7 @@ function Boom({ children }: BoomProps) {
             </main>
             {children}
         </DrawingAppContext.Provider>
-    )
+    );
 }
 
-export default Boom
+export default Boom;

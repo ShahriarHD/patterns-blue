@@ -1,32 +1,21 @@
-import { LinksFunction, LoaderFunction, useLoaderData } from "remix";
 import {
-    Links,
-    LiveReload,
-    Meta,
-    Outlet,
-    Scripts,
+    Links, LinksFunction, LiveReload, LoaderFunction, Meta, Scripts,
     ScrollRestoration,
-    useCatch
-} from "remix";
-import globalStylesUrl from "~/styles/dist/global.css";
-import Layout from "./components/Layout";
+    useCatch, useLoaderData
+} from 'remix';
+import globalStylesUrl from '~/styles/dist/global.css';
+import Layout from './components/Layout';
 
 
 // https://remix.run/api/app#links
-export let links: LinksFunction = () => {
-    return [
-        { rel: "stylesheet", href: globalStylesUrl },
-    ];
-};
+export const links: LinksFunction = () => [{ rel: 'stylesheet', href: globalStylesUrl }, ];
 
-export const loader: LoaderFunction = () => {
-    return {
-        env: {
-            SUPABASE_URL: process.env.SUPABASE_URL,
-            PUBLIC_SUPABASE_ANON_KEY: process.env.PUBLIC_SUPABASE_ANON_KEY,
-        },
-    }
-}
+export const loader: LoaderFunction = () => ({
+    env: {
+        SUPABASE_URL: process.env.SUPABASE_URL,
+        PUBLIC_SUPABASE_ANON_KEY: process.env.PUBLIC_SUPABASE_ANON_KEY,
+    },
+});
 
 // https://remix.run/api/conventions#default-export
 // https://remix.run/api/conventions#route-filenames
@@ -58,7 +47,7 @@ export function ErrorBoundary({ error }: { error: Error }) {
 
 // https://remix.run/docs/en/v1/api/conventions#catchboundary
 export function CatchBoundary() {
-    let caught = useCatch();
+    const caught = useCatch();
 
     let message;
     switch (caught.status) {
@@ -98,7 +87,7 @@ function Document({
     title?: string;
 }) {
 
-    const { env } = useLoaderData<Window>()
+    const { env } = useLoaderData<Window>();
 
     return (
         <html lang="en">
@@ -109,6 +98,7 @@ function Document({
                 <Meta />
                 <link rel="preconnect" href="https://fonts.googleapis.com" />
                 <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+                {/* eslint-disable-next-line max-len */}
                 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+Display:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet" />
                 <link rel="icon" type="image/png" sizes="96x96" href="/favicon.png" />
                 <Links />
@@ -118,13 +108,11 @@ function Document({
                 <ScrollRestoration />
                 <script
                     dangerouslySetInnerHTML={{
-                        __html: `window.env = ${JSON.stringify(
-                            env,
-                        )}`,
+                        __html: `window.env = ${JSON.stringify(env,)}`,
                     }}
                 />
                 <Scripts />
-                {process.env.NODE_ENV === "development" && <LiveReload />}
+                {process.env.NODE_ENV === 'development' && <LiveReload />}
             </body>
         </html>
     );

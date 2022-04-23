@@ -1,7 +1,7 @@
-import { nanoid } from 'nanoid'
-import { Shape } from '../shapes'
-import type { CustomBinding, DrawingAppData } from './constants'
-import { MachineType } from './useStateMachine'
+import { nanoid } from 'nanoid';
+import { Shape } from '../shapes';
+import type { CustomBinding, DrawingAppData } from './constants';
+import { MachineType } from './useStateMachine';
 
 /*
 Example API
@@ -26,157 +26,153 @@ api.getShape('myBox')
 */
 
 export class BoomApi {
-  constructor (private _machine: MachineType) { }
 
-  loadDocument = (doc: DrawingAppData) => {
-    this.machine.send('LOAD_DOCUMENT', { doc });
-  }
+    constructor(private _machine: MachineType) { }
 
-  reset = () => {
-    this.machine.send('RESET')
-    return this
-  }
+    loadDocument = (doc: DrawingAppData) => {
+        this.machine.send('LOAD_DOCUMENT', { doc });
+    };
 
-  cancel = () => {
-    this.machine.send('CANCELLED')
-    return this
-  }
+    reset = () => {
+        this.machine.send('RESET');
+        return this;
+    };
 
-  delete = () => {
-    this.machine.send('DELETED')
-    return this
-  }
+    cancel = () => {
+        this.machine.send('CANCELLED');
+        return this;
+    };
 
-  selectAll = () => {
-    this.machine.send('SELECTED_ALL')
-    return this
-  }
+    delete = () => {
+        this.machine.send('DELETED');
+        return this;
+    };
 
-  deselectAll = () => {
-    this.machine.send('DESELECTED_ALL')
-    return this
-  }
+    selectAll = () => {
+        this.machine.send('SELECTED_ALL');
+        return this;
+    };
 
-  zoomToFit = () => {
-    this.machine.send('ZOOMED_TO_FIT')
-    return this
-  }
+    deselectAll = () => {
+        this.machine.send('DESELECTED_ALL');
+        return this;
+    };
 
-  zoomToSelection = () => {
-    this.machine.send('ZOOMED_TO_SELECTION')
-    return this
-  }
+    zoomToFit = () => {
+        this.machine.send('ZOOMED_TO_FIT');
+        return this;
+    };
 
-  zoomIn = () => {
-    this.machine.send('ZOOMED_IN')
-    return this
-  }
+    zoomToSelection = () => {
+        this.machine.send('ZOOMED_TO_SELECTION');
+        return this;
+    };
 
-  zoomOut = () => {
-    this.machine.send('ZOOMED_OUT')
-    return this
-  }
+    zoomIn = () => {
+        this.machine.send('ZOOMED_IN');
+        return this;
+    };
 
-  undo = () => {
-    this.machine.send('UNDO')
-    return this
-  }
+    zoomOut = () => {
+        this.machine.send('ZOOMED_OUT');
+        return this;
+    };
 
-  redo = () => {
-    this.machine.send('REDO')
-    return this
-  }
+    undo = () => {
+        this.machine.send('UNDO');
+        return this;
+    };
 
-  selectTool = (name: string) => {
-    this.machine.send('SELECTED_TOOL', { name })
-    return this
-  }
+    redo = () => {
+        this.machine.send('REDO');
+        return this;
+    };
 
-  createShapes = (...shapes: (Partial<Shape> & Pick<Shape, 'type'>)[]) => {
-    this.machine.send('CREATED_SHAPES', { shapes })
-    return this
-  }
+    selectTool = (name: string) => {
+        this.machine.send('SELECTED_TOOL', { name });
+        return this;
+    };
 
-  updateShapes = (...shapes: (Partial<Shape> & Pick<Shape, 'id'>)[]) => {
-    this.machine.send('UPDATED_SHAPES', { shapes })
-    return this
-  }
+    createShapes = (...shapes: (Partial<Shape> & Pick<Shape, 'type'>)[]) => {
+        this.machine.send('CREATED_SHAPES', { shapes });
+        return this;
+    };
 
-  deleteShapes = (...ids: string[]) => {
-    this.machine.send('DELETED_SHAPES', { ids })
-    return this
-  }
+    updateShapes = (...shapes: (Partial<Shape> & Pick<Shape, 'id'>)[]) => {
+        this.machine.send('UPDATED_SHAPES', { shapes });
+        return this;
+    };
 
-  createBindings = (
-    ...bindings: (Partial<CustomBinding> & Pick<CustomBinding, 'toId' | 'fromId'>)[]
-  ) => {
-    this.machine.send('CREATED_BINDINGS', { bindings })
-    return this
-  }
+    deleteShapes = (...ids: string[]) => {
+        this.machine.send('DELETED_SHAPES', { ids });
+        return this;
+    };
 
-  updateBindings = (...bindings: (Partial<CustomBinding> & Pick<CustomBinding, 'id'>)[]) => {
-    this.machine.send('UPDATED_BINDINGS', { bindings })
-    return this
-  }
+    createBindings = (...bindings: (Partial<CustomBinding> & Pick<CustomBinding, 'toId' | 'fromId'>)[]) => {
+        this.machine.send('CREATED_BINDINGS', { bindings });
+        return this;
+    };
 
-  deleteBindings = (...ids: string[]) => {
-    this.machine.send('DELETED_BINDINGS', { ids })
-    return this
-  }
+    updateBindings = (...bindings: (Partial<CustomBinding> & Pick<CustomBinding, 'id'>)[]) => {
+        this.machine.send('UPDATED_BINDINGS', { bindings });
+        return this;
+    };
 
-  getShape = <T extends Shape>(id: string) => {
-    return this.machine.data.page.shapes[id] as T
-  }
+    deleteBindings = (...ids: string[]) => {
+        this.machine.send('DELETED_BINDINGS', { ids });
+        return this;
+    };
 
-  getBinding = (id: string) => {
-    return this.machine.data.page.bindings[id]
-  }
+    getShape = <T extends Shape>(id: string) => this.machine.data.page.shapes[id] as T;
 
-  createArrowBetweenShapes = (startId: string, endId: string) => {
-    const arrowId = nanoid()
-    const startBindingId = nanoid()
-    const endBindingId = nanoid()
-    this.createShapes({ id: arrowId, type: 'arrow' })
-    this.createBindings(
-      { id: startBindingId, fromId: arrowId, toId: startId, handleId: 'start' },
-      { id: endBindingId, fromId: arrowId, toId: endId, handleId: 'end' }
-    )
-    return this
-  }
+    getBinding = (id: string) => this.machine.data.page.bindings[id];
 
-  send = this._machine.send
+    createArrowBetweenShapes = (startId: string, endId: string) => {
+        const arrowId = nanoid();
+        const startBindingId = nanoid();
+        const endBindingId = nanoid();
+        this.createShapes({ id: arrowId, type: 'arrow' });
+        this.createBindings(
+            { id: startBindingId, fromId: arrowId, toId: startId, handleId: 'start' },
+            { id: endBindingId, fromId: arrowId, toId: endId, handleId: 'end' }
+        );
+        return this;
+    };
 
-  isIn = this._machine.isIn
+    send = this._machine.send;
 
-  isInAny = this._machine.isInAny
+    isIn = this._machine.isIn;
 
-  log = this._machine.log
+    isInAny = this._machine.isInAny;
 
-  get machine() {
-    return this._machine
-  }
+    log = this._machine.log;
 
-  get state() {
-    return this.machine.data
-  }
+    get machine() {
+        return this._machine;
+    }
 
-  get page() {
-    return this.machine.data.page
-  }
+    get state() {
+        return this.machine.data;
+    }
 
-  get pageState() {
-    return this.machine.data.pageState
-  }
+    get page() {
+        return this.machine.data.page;
+    }
 
-  get assets() {
-    return this.machine.data.assets
-  }
+    get pageState() {
+        return this.machine.data.pageState;
+    }
 
-  get selectedIds() {
-    return this.machine.data.pageState.selectedIds
-  }
+    get assets() {
+        return this.machine.data.assets;
+    }
 
-  get lastEvent() {
-    return this.log[0]
-  }
+    get selectedIds() {
+        return this.machine.data.pageState.selectedIds;
+    }
+
+    get lastEvent() {
+        return this.log[0];
+    }
+
 }

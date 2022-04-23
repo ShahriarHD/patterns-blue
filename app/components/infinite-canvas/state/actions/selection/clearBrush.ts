@@ -1,5 +1,5 @@
-import type { Action } from '../../constants'
+import type { Action } from '../../constants';
 
-export const clearBrush: Action = (data) => {
-  data.pageState.brush = undefined
-}
+export const clearBrush: Action = data => {
+    data.pageState.brush = undefined;
+};

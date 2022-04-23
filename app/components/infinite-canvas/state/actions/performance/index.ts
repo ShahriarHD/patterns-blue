@@ -1,3 +1,3 @@
-export * from './clearPerformanceMode'
-export * from './setTranslatePerformanceMode'
-export * from './setTransformPerformanceMode'
+export * from './clearPerformanceMode';
+export * from './setTranslatePerformanceMode';
+export * from './setTransformPerformanceMode';

@@ -1,4 +1,4 @@
-import { TLAsset, TLShape } from "@tldraw/core";
+import { TLAsset, TLShape } from '@tldraw/core';
 
 export interface ImageShape extends TLShape {
     type: 'image'

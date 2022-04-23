@@ -1,12 +1,12 @@
-import { prisma } from '~/services/db.server';
-import type { Hull, Prisma } from '@prisma/client';
-import { DrawingAppData, DrawingAppDataSchema, INITIAL_DATA } from '~/components/infinite-canvas/state/constants';
+import type { Hull } from '@prisma/client';
 import { nanoid } from 'nanoid';
-import { z, ZodError } from 'zod';
+import { ZodError, z } from 'zod';
+import { DrawingAppData, DrawingAppDataSchema, INITIAL_DATA } from '~/components/infinite-canvas/state/constants';
+import { prisma } from '~/services/db.server';
 
 export async function getHulls() {
     try {
-        const allHulls = await prisma.hull.findMany()
+        const allHulls = await prisma.hull.findMany();
         return allHulls;
     } catch (error) {
         console.error(error);
@@ -14,19 +14,19 @@ export async function getHulls() {
     }
 }
 
-const ValidatedHullPagesSchema: z.ZodType<Record<string, DrawingAppData>> = z.record(DrawingAppDataSchema)
+const ValidatedHullPagesSchema: z.ZodType<Record<string, DrawingAppData>> = z.record(DrawingAppDataSchema);
 
-export type ValidatedHullData = Omit<Hull, 'pages'> & {pages: Record<string,DrawingAppData>};
+export type ValidatedHullData = Omit<Hull, 'pages'> & {pages: Record<string, DrawingAppData>};
 
 export async function getHullById(id: number): Promise<ValidatedHullData | null> {
     try {
         const hull = await prisma.hull.findFirst({ where: { id } });
         if (hull) {
-            const parsedPages = await ValidatedHullPagesSchema.parseAsync(hull.pages)
+            const parsedPages = await ValidatedHullPagesSchema.parseAsync(hull.pages);
             return {
                 ...hull,
                 pages: parsedPages
-            }
+            };
         } else {
             return null;
         }
@@ -51,7 +51,7 @@ export async function deleteHullById(id: number) {
 export async function createHull(params: Pick<Hull, 'title' | 'description'>) {
     const { title, description } = params;
     try {
-        const insertedHullResponse = await prisma.hull.create({ data: { title, description, pages: {} } })
+        const insertedHullResponse = await prisma.hull.create({ data: { title, description, pages: {} } });
         return insertedHullResponse;
     } catch (error) {
         console.error(error);
@@ -82,39 +82,44 @@ export async function getCanvasPageOfHull(id: number, canvasId: string): Promise
 export async function updateCanvasPageOfHull(id: number, canvasId: string, doc: DrawingAppData) {
     const hull = await getHullById(id);
 
-    if (hull) {
-        hull.pages[canvasId] = doc;
-        return await updateCanvasPagesForHull(id, hull.pages);
+    if (!hull) {
+        throw new Error(`hull with id ${id} not found`);
     }
+
+    hull.pages[canvasId] = doc;
+    return await updateCanvasPagesForHull(id, hull.pages);
 }
 
 export async function addCanvasPageToHull(id: number, title: string) {
     try {
         const currentHull = await getHullById(id);
-        if (currentHull !== null) {
-            const currentPages = currentHull.pages|| {} as Record<string, DrawingAppData>;
 
-            const newPageId = nanoid();
-            const newPage: DrawingAppData = {
-                ...INITIAL_DATA,
-                id: newPageId,
-                pageIndex: Object.keys(currentPages).length,
-                title
-            }
-
-            await prisma.hull.update({
-                select: { pages: true },
-                where: { id },
-                data: {
-                    pages: {
-                        ...currentPages,
-                        [newPageId]: newPage
-                    } as any
-                }
-            });
-
-            return newPageId;
+        if (!currentHull) {
+            throw new Error(`hull with id ${id} not found`);
         }
+
+        const currentPages = currentHull.pages || {} as Record<string, DrawingAppData>;
+
+        const newPageId = nanoid();
+        const newPage: DrawingAppData = {
+            ...INITIAL_DATA,
+            id: newPageId,
+            pageIndex: Object.keys(currentPages).length,
+            title
+        };
+
+        await prisma.hull.update({
+            select: { pages: true },
+            where: { id },
+            data: {
+                pages: {
+                    ...currentPages,
+                    [newPageId]: newPage
+                } as any
+            }
+        });
+
+        return newPageId;
     } catch (error) {
         console.error(error);
         throw error;

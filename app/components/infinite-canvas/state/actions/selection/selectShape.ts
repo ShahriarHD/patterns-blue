@@ -1,18 +1,18 @@
-import type { TLPointerInfo } from '@tldraw/core'
-import type { Action } from '../../constants'
-import { mutables } from '../../mutables'
+import type { TLPointerInfo } from '@tldraw/core';
+import type { Action } from '../../constants';
+import { mutables } from '../../mutables';
 
 export const selectShape: Action = (data, payload: TLPointerInfo) => {
-  const { selectedIds } = data.pageState
+    const { selectedIds } = data.pageState;
 
-  if (payload.shiftKey) {
-    if (selectedIds.includes(payload.target) && mutables.pointedShapeId !== payload.target) {
-      selectedIds.splice(selectedIds.indexOf(payload.target), 1)
+    if (payload.shiftKey) {
+        if (selectedIds.includes(payload.target) && mutables.pointedShapeId !== payload.target) {
+            selectedIds.splice(selectedIds.indexOf(payload.target), 1);
+        } else {
+            mutables.pointedShapeId = payload.target;
+            selectedIds.push(payload.target);
+        }
     } else {
-      mutables.pointedShapeId = payload.target
-      selectedIds.push(payload.target)
+        data.pageState.selectedIds = [payload.target];
     }
-  } else {
-    data.pageState.selectedIds = [payload.target]
-  }
-}
+};

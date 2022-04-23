@@ -1,5 +1,5 @@
-import type { Action } from '../../constants'
+import type { Action } from '../../constants';
 
-export const clearPerformanceMode: Action = (data) => {
-  data.performanceMode = undefined
-}
+export const clearPerformanceMode: Action = data => {
+    data.performanceMode = undefined;
+};

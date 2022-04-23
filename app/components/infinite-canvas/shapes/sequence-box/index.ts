@@ -1,2 +1,2 @@
-export * from './SequenceBoxShape'
-export * from './SequenceBoxUtil'
+export * from './SequenceBoxShape';
+export * from './SequenceBoxUtil';

@@ -1,3 +1,3 @@
-export * from './clearSnapLines'
-export * from './setSnapInfo'
-export * from './clearSnapInfo'
+export * from './clearSnapLines';
+export * from './setSnapInfo';
+export * from './clearSnapInfo';
