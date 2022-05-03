@@ -13,7 +13,6 @@ export default function Hulls() {
 
     useEffect(() => {
         toggleHeader('expand');
-        localStorage.clear();
     }, []);
 
     const fetcher = useFetcher();
