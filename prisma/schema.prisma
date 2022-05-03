@@ -1,16 +1,106 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+    provider = "postgresql"
+    url      = env("DATABASE_URL")
 }
 
 model Hull {
-  id          Int    @id @default(autoincrement())
-  created_at  DateTime? @default(now()) @db.Timestamptz(6)
-  title       String?
-  description String?
-  pages       Json?     @db.Json
+    id          Int       @id @default(autoincrement())
+    created_at  DateTime? @default(now()) @db.Timestamptz(6)
+    title       String?
+    description String?
+    pages       Json?     @db.Json
+    // author      Profile?   @relation(fields: [authorId], references: [uuid])
+    // authorId    String?
+}
+
+model Image {
+    uuid    String  @id @default(uuid())
+    url     String?
+    caption String?
+    block   Block   @relation(fields: [blockId], references: [uuid])
+    blockId String  @unique
+}
+
+model Sequence {
+    uuid    String   @id @default(uuid())
+    title   String
+    steps   String[]
+    block   Block    @relation(fields: [blockId], references: [uuid])
+    blockId String   @unique
+}
+
+model Text {
+    uuid    String @id @default(uuid())
+    content String
+    block   Block  @relation(fields: [blockId], references: [uuid])
+    blockId String @unique
+}
+
+enum ColorMetaStates {
+    PROJECT_BACKGROUND_LIGHT
+    PROJECT_BACKGROUND_DARK
+    PROJECT_ACCENT_COLOR
+    JUST_A_BEAUTIFUL_COLOR
+}
+
+model Color {
+    uuid    String          @id @default(uuid())
+    hex     String
+    name    String
+    block   Block           @relation(fields: [blockId], references: [uuid])
+    blockId String          @unique
+    meta    ColorMetaStates @default(JUST_A_BEAUTIFUL_COLOR)
+}
+
+enum BlockSize {
+    SM
+    MD
+    LG
+    COVER
+}
+
+enum BlockAlignment {
+    START
+    CENTER
+    END
+}
+
+model Block {
+    uuid      String         @id @default(uuid())
+    index     Int
+    width     BlockSize
+    height    BlockSize
+    alignment BlockAlignment
+    project   Project        @relation(fields: [projectId], references: [uuid])
+    projectId String
+
+    color    Color?
+    image    Image?
+    sequence Sequence?
+    text     Text?
+}
+
+model Project {
+    uuid        String   @id @default(uuid())
+    createdAt   DateTime @default(now())
+    name        String?
+    description String?
+    slug        String?  @unique
+    index       Int
+    owner       Profile  @relation(fields: [ownerId], references: [uuid])
+    ownerId     String
+    isPublic    Boolean
+
+    blocks Block[]
+}
+
+model Profile {
+    uuid     String    @id
+    email    String?
+    name     String?
+    projects Project[]
 }
