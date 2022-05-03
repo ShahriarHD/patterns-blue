@@ -5,7 +5,7 @@ import { supabaseClient } from '~/services/supabase/supabase.client';
 
 export const action: ActionFunction = async({ request }) => {
     await authenticator.authenticate('sb-magic-link', request, {
-        successRedirect: '/',
+        successRedirect: '/profile',
         failureRedirect: '/login',
     });
 };

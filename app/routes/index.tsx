@@ -1,5 +1,6 @@
-import { LoaderFunction, MetaFunction, redirect } from 'remix';
-import { magicLinkStrategy } from '~/services/auth.server';
+import { useEffect } from 'react';
+import { json, LoaderFunction, MetaFunction } from 'remix';
+import { useLayoutContext } from '~/components/Layout';
 
 // https://remix.run/api/conventions#meta
 export const meta: MetaFunction = () => ({
@@ -7,22 +8,17 @@ export const meta: MetaFunction = () => ({
     description: 'color related experiments',
 });
 
-export const loader: LoaderFunction = async({ request }) => {
-    const session = await magicLinkStrategy.checkSession(request);
-
-    if (!session) {
-        return redirect('/login');
-    } else {
-        return redirect('/hull');
-    }
-};
+export const loader: LoaderFunction = async() => json({
+    communityProjects: []
+});
 
 // https://remix.run/guides/routing#index-routes
 export default function Index() {
-
+    const { toggleHeader } = useLayoutContext();
+    useEffect(() => toggleHeader('expand'), []);
 
     return (
-        <div className="overflow-scroll p-8 flex flex-col items-stretch w-full h-full m-auto gap-8">
+        <div className="">
             Index page
 
         </div>
