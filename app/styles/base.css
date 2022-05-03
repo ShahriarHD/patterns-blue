@@ -1,11 +1,10 @@
 @tailwind base;
 
 @layer base {
-
     body {
         @apply text-gray-900 dark:text-gray-100;
         @apply bg-gray-100 dark:bg-gray-900 bg-blend-multiply;
-        @apply transition;
+        @apply transition duration-100;
         @apply py-4;
         @apply flex flex-col items-stretch gap-2;
         @apply w-screen;
@@ -18,7 +17,8 @@
         @apply flex flex-row items-center justify-center gap-4;
         @apply z-route40;
 
-        &, & *  {
+        &,
+        & * {
             @apply transition-all;
         }
 
