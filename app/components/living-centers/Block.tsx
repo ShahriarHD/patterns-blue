@@ -1,7 +1,7 @@
 import { Block } from '@prisma/client';
 import cx from 'classnames';
 import { PropsWithChildren } from 'react';
-import { Link } from 'react-router-dom';
+import { Link } from 'remix';
 
 export declare type BlockPropsWithoutChildren = Omit<Block, 'projectId' | 'uuid'> & {
     as?: 'article' | 'figure' | 'div',

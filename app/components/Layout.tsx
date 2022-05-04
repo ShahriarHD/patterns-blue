@@ -1,7 +1,6 @@
 import cx from 'classnames';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import { Outlet } from 'remix';
+import { Link, Outlet } from 'remix';
 import { Ornament, OrnamentSize } from './ornament';
 
 declare interface LayoutContextShape {
