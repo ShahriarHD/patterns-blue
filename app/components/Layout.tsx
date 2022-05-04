@@ -1,6 +1,6 @@
 import cx from 'classnames';
 import { createContext, useContext, useEffect, useState } from 'react';
-import { Outlet } from 'remix';
+import { Link, Outlet } from 'remix';
 import { Ornament, OrnamentSize } from './ornament';
 
 declare interface LayoutContextShape {
@@ -35,11 +35,13 @@ export default function Layout() {
                     decoration="rainbow-flower"
                     size={isHeaderMinimized ? 'sm' : 'lg'}
                     aria-label="go to home page"
-                    to="/"
+                    to="/projects"
                 />
-                <h1>
-                    Patterns.Blue
-                </h1>
+                <Link to="/">
+                    <h1>
+                        Patterns.Blue
+                    </h1>
+                </Link>
                 <DarkModeSwitch
                     size={isHeaderMinimized ? 'sm' : 'lg'}
                 />
@@ -47,7 +49,10 @@ export default function Layout() {
             <main className="w-full">
                 <Outlet />
             </main>
-            {/* <div className="orb-canvas" /> */}
+            {/* <footer className="flex items-center gap-4 box justify-center self-center p-8">
+                <h6>Your Profile</h6>
+                <Ornament.Link to="/profile" decoration="home" />
+            </footer> */}
         </LayoutContext.Provider>
     );
 }

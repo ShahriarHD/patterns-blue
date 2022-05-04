@@ -13,7 +13,7 @@ type ActionData = {
 
 export const loader: LoaderFunction = async({ request }) => {
     await magicLinkStrategy.checkSession(request, {
-        successRedirect: '/hull',
+        successRedirect: '/login/profile',
     });
 
     const session = await sessionStorage.getSession(request.headers.get('Cookie'),);

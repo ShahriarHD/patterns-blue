@@ -1,10 +1,9 @@
 @tailwind components;
 
 @layer components {
-
-
+    /* elements */
     .box {
-        @apply bg-white-alpha-500 dark:bg-white-alpha-200 filter backdrop-blur-2xl;
+        @apply bg-white-alpha-500 dark:bg-white-alpha-100 filter backdrop-blur-2xl;
         @apply shadow-2xl;
         @apply transition;
 
@@ -12,13 +11,17 @@
     }
 
     .ornament {
-        @apply relative grid place-items-center shrink-0;
-        @apply rounded-full overflow-hidden p-px bg-transparent;
+        @apply relative grid place-items-center shrink-0 grow-0;
+        @apply rounded-full overflow-hidden bg-transparent;
         @apply transition duration-200;
         @apply bg-white focus:bg-blue-200 hover:bg-blue-300  active:bg-blue-400;
-        @apply dark:bg-white-alpha-300 dark:focus:bg-blue-800 dark:hover:bg-blue-700  dark:active:bg-blue-600;
+        @apply dark:bg-gray-700 dark:focus:bg-blue-800 dark:hover:bg-blue-700  dark:active:bg-blue-600;
         @apply shadow-md hover:shadow-lg active:shadow;
         @apply hover:scale-110 active:scale-95;
+
+        &.render-outlet {
+            @apply w-auto h-auto rounded-none !important;
+        }
 
         &.sm {
             @apply w-8 h-8;
@@ -32,7 +35,6 @@
             @apply w-16 h-16;
         }
 
-
         &.spinning {
             @apply animate-spin;
         }
@@ -41,13 +43,12 @@
             @apply w-full h-full object-cover rounded-full overflow-hidden;
             @apply select-none pointer-events-none border-none;
         }
-
-
-
     }
 
+    /* form */
+
     .button {
-        @apply p-2 text-base font-black rounded-lg;
+        @apply py-2 px-5 text-base font-black rounded-lg;
         @apply bg-accent-600 dark:bg-blue-600 disabled:bg-gray-500;
         @apply border-b-4 border-black-alpha-600 dark:border-white-alpha-500;
         @apply text-white;
@@ -60,35 +61,8 @@
         background-image: url('/img/button-bg/checkerboard-cross.png');
     }
 
-    .hulls-container {
-
-        @apply w-full py-8 px-8 tablet:px-0 desktop:py-3;
-        @apply flex flex-col desktop:flex-row gap-6 items-center justify-center;
-        @apply overflow-x-scroll shrink-0 snap-mandatory snap-y desktop:snap-x scroll-p-16;
-
-        & > .hull-card {
-            @apply w-full tablet:w-1/2 desktop:w-1/3 shrink-0;
-            @apply flex flex-col items-center gap-2;
-            @apply snap-center;
-
-            & > a {
-                @apply box p-4 w-full flex flex-col items-center gap-4;
-                @apply rounded-lg;
-                @apply shadow-md hover:shadow-lg;
-                @apply ring-2 ring-transparent hover:ring-black-alpha-100;
-            }
-
-            & img {
-                @apply w-full max-h-96 object-cover border-b shadow select-none pointer-events-none;
-            }
-
-            & h4 {
-                @apply text-2xl px-4 font-bold font-display;
-            }
-        }
-    }
-
-    input.text-input, textarea.text-input {
+    input.text-input,
+    textarea.text-input {
         @apply p-2 shrink-0;
         @apply rounded-xl shadow-inner shadow-black-alpha-300 bg-white-alpha-500 dark:bg-black-alpha-500;
         @apply border border-black-alpha-200;
@@ -97,7 +71,82 @@
         min-height: 2rem;
     }
 
-    label {
+    select.dropdown {
+        @apply p-2 shrink-0;
+        @apply rounded-xl shadow-inner shadow-black-alpha-300 bg-white-alpha-500 dark:bg-black-alpha-500;
+        @apply border border-black-alpha-200;
+        @apply placeholder:font-thin placeholder:italic;
+
+        min-height: 2rem;
+    }
+
+    label,
+    legend {
         @apply font-semibold;
+    }
+
+    /* pages */
+
+    /* all projects page */
+    .projects-container {
+        @apply w-full pt-8 pb-20;
+        @apply flex flex-row gap-6 desktop:gap-16 items-center;
+        @apply overflow-x-scroll shrink-0 snap-mandatory snap-x;
+
+        &::before,
+        &::after {
+            content: ' ';
+
+            @apply w-32 tablet:w-64 desktop:w-1/4 h-px shrink-0 grow;
+        }
+
+        & > .project-card {
+            @apply relative shrink-0;
+            @apply flex flex-col items-center gap-2;
+            @apply snap-center;
+
+            & > a {
+                @apply box p-4 tablet:p-8 w-full flex flex-col items-center gap-4;
+                @apply rounded-b-lg rounded-t-3xl;
+                @apply shadow-md hover:shadow-lg;
+                @apply ring-2 ring-transparent hover:ring-black-alpha-100;
+            }
+
+            & img.poster {
+                @apply w-48 h-48 tablet:w-64 tablet:h-64 object-cover border-b shadow select-none pointer-events-none;
+            }
+
+            & h4 {
+                @apply text-2xl px-4 font-bold font-display;
+            }
+        }
+    }
+
+    /* a project page */
+
+    .block {
+        @apply shadow-md rounded-xl overflow-hidden relative;
+
+        &.width-sm {
+            @apply w-20 tablet:w-48;
+        }
+        &.width-md {
+            @apply w-32 tablet:w-96;
+        }
+        &.width-lg {
+            @apply w-48 tablet:w-128;
+        }
+        &.width-cover {
+            @apply w-full;
+        }
+        &.height-sm {
+            @apply h-20 tablet:h-48;
+        }
+        &.height-md {
+            @apply h-32 tablet:h-96;
+        }
+        &.height-lg {
+            @apply h-48 tablet:h-128;
+        }
     }
 }
