@@ -4,7 +4,6 @@ import { PropsWithChildren } from 'react';
 import { Link } from 'remix';
 
 export declare type BlockPropsWithoutChildren = Omit<Block, 'projectId' | 'uuid'> & {
-    as?: 'article' | 'figure' | 'div',
     className?: string,
     isEditable?: boolean,
 }
@@ -14,26 +13,27 @@ declare type BlockProps = PropsWithChildren<BlockPropsWithoutChildren>
 export default function Block(props: BlockProps) {
     const { index, width, height, alignment,
         isEditable = false,
-        children, as = 'div', className: givenClassName } = props;
+        children, className: givenClassName } = props;
 
     const className = cx(
         givenClassName,
         'block',
         `width-${width.toLowerCase()}`,
         `height-${height.toLowerCase()}`,
+        // this will be one of these: self-start self-center self-end
+        // and this is a very important comment, NOTE: please do not remove this
         `self-${alignment.toLowerCase()}`
     );
-    const As = as;
-
-    const child = (<As className={className}>{children}</As>);
 
     if (!isEditable) {
-        return child;
+        return (
+            <div className={className}>{children}</div>
+        );
     }
 
     return (
-        <Link to={`edit/${index}`}>
-            {child}
+        <Link to={`edit/${index}`} prefetch="intent" className={className}>
+            {children}
         </Link>
     );
 }

@@ -1,5 +1,5 @@
 import { createContext, useContext } from 'react';
-import { json, LoaderFunction, Outlet, useLoaderData } from 'remix';
+import { json, Link, LinksFunction, LoaderFunction, Outlet, useLoaderData } from 'remix';
 import invariant from 'tiny-invariant';
 import Block from '~/components/living-centers/Block';
 import ColorBlock from '~/components/living-centers/ColorBlock';
@@ -7,6 +7,13 @@ import CreateBlock from '~/components/living-centers/CreateBlock';
 import ImageBlock from '~/components/living-centers/ImageBlock';
 import TextBlock from '~/components/living-centers/TextBlock';
 import { getProjectBySlug } from '~/models/project.server';
+
+export const links:LinksFunction = () => [
+    {
+        href: 'https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css',
+        rel: 'stylesheet'
+    }
+];
 
 declare type ProjectWithBlocks = Exclude<Awaited<ReturnType<typeof getProjectBySlug>>, null>;
 
@@ -16,6 +23,7 @@ interface ProjectLoaderData {
 export const loader:LoaderFunction = async({ params }) => {
     const projectSlug = params['slug'];
     invariant(projectSlug, 'this page needs a valid slug');
+
     const project = await getProjectBySlug(projectSlug);
 
     if (project) {
@@ -28,7 +36,9 @@ export const loader:LoaderFunction = async({ params }) => {
 };
 
 interface ProjectPageContextStructure {
-    project?: ProjectWithBlocks
+    project?: ProjectWithBlocks,
+    // isOwner: boolean,
+    // hideEveryoneExceptId(id: string): void;
 }
 
 const ProjectPageContext = createContext<ProjectPageContextStructure>({});
@@ -78,9 +88,11 @@ export default function ProjectPageLayout() {
     return (
         <ProjectPageContext.Provider value={{ project }}>
             <article className="flex flex-col gap-4 items-center">
-                <h1 className="text-3xl font-display font-bold">{project.name}</h1>
+                <Link to={`/${project.slug}`}>
+                    <h1 className="text-3xl font-display font-bold">{project.name}</h1>
+                </Link>
                 <div className="flex gap-3 tablet:gap-8 flex-row flex-wrap items-end justify-center">
-                    <Block width="MD" height="MD" alignment="END" index={-1}>
+                    <Block width="SM" height="SM" alignment="END" index={-1} >
                         <CreateBlock />
                     </Block>
                     {children}

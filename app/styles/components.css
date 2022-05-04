@@ -48,7 +48,7 @@
     /* form */
 
     .button {
-        @apply p-2 text-base font-black rounded-lg;
+        @apply py-2 px-5 text-base font-black rounded-lg;
         @apply bg-accent-600 dark:bg-blue-600 disabled:bg-gray-500;
         @apply border-b-4 border-black-alpha-600 dark:border-white-alpha-500;
         @apply text-white;
@@ -71,7 +71,17 @@
         min-height: 2rem;
     }
 
-    label {
+    select.dropdown {
+        @apply p-2 shrink-0;
+        @apply rounded-xl shadow-inner shadow-black-alpha-300 bg-white-alpha-500 dark:bg-black-alpha-500;
+        @apply border border-black-alpha-200;
+        @apply placeholder:font-thin placeholder:italic;
+
+        min-height: 2rem;
+    }
+
+    label,
+    legend {
         @apply font-semibold;
     }
 
