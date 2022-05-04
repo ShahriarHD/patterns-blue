@@ -11,6 +11,7 @@ export async function createBlock(block: CreateBlockArgs) {
             }
         },
         where: {
+            projectId: block.projectId,
             index: {
                 gte: block.index
             }
