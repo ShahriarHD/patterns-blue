@@ -4,6 +4,7 @@ import invariant from 'tiny-invariant';
 import Block from '~/components/living-centers/Block';
 import ColorBlock from '~/components/living-centers/ColorBlock';
 import CreateBlock from '~/components/living-centers/CreateBlock';
+import ImageBlock from '~/components/living-centers/ImageBlock';
 import { getProjectBySlug } from '~/models/project.server';
 
 declare type ProjectWithBlocks = Exclude<Awaited<ReturnType<typeof getProjectBySlug>>, null>;
@@ -13,7 +14,6 @@ interface ProjectLoaderData {
 }
 export const loader:LoaderFunction = async({ params }) => {
     const projectSlug = params['slug'];
-    console.log(projectSlug);
     invariant(projectSlug, 'this page needs a valid slug');
     const project = await getProjectBySlug(projectSlug);
 
@@ -43,15 +43,29 @@ export default function ProjectPageLayout() {
     const children = project.blocks.map(blockInfo => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
         const { color, text, image, sequence, ...block } = blockInfo;
+        let child;
+
         if (color) {
-            return (
-                <Block key={block.uuid} {...block} isEditable>
-                    <ColorBlock {...color} />
-                </Block>
+            child = (
+                <ColorBlock {...color} />
             );
         }
 
-        return null;
+        if (image) {
+            child = (
+                <ImageBlock {...image} isFullWidth={block.width === 'COVER'} />
+            );
+        }
+
+        if (!child) {
+            return null;
+        }
+
+        return (
+            <Block key={block.uuid} {...block} isEditable>
+                {child}
+            </Block>
+        );
     });
 
     return (

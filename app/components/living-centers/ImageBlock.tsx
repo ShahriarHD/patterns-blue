@@ -1,28 +1,17 @@
-import Block, { BlockPropsWithoutChildren } from './Block';
+import { Image } from '@prisma/client';
 
-type ImageBlockProps = BlockPropsWithoutChildren
+type ImageBlockProps = Pick<Image, 'url'> & {
+    isFullWidth?: boolean
+};
 
 export default function ImageBlock(props: ImageBlockProps) {
-    const { ...block } = props;
+    const { url, isFullWidth } = props;
 
-    const randomCategories = ['nature', 'people', 'city', 'life', 'work', 'patterns'];
-    randomCategories.sort(() => (Math.random() > 0.5 ? 1 : -1));
     return(
-        <Block
-            {...block}
-            as="figure"
-            className="pb-8"
-        >
-            <img
-                src={`https://source.unsplash.com/random/?${randomCategories.join(',')}`}
-                alt="a random photo"
-                className={`w-full h-full ${block.width === 'COVER' ? 'object-cover' : 'object-contain'}`}
-            />
-            <figcaption className="text-center text-xs p-2">
-                <p>
-                    random photo from the whole world
-                </p>
-            </figcaption>
-        </Block>
+        <img
+            src={url}
+            alt="a random photo"
+            className={`w-full h-full ${isFullWidth ? 'object-cover' : 'object-contain'}`}
+        />
     );
 }
