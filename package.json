@@ -13,7 +13,7 @@
     "build:css": "postcss app/styles/global.css --base app/styles --dir app/styles/dist --env production",
     "postinstall": "remix setup node",
     "start": "remix-serve build",
-    "db:generate": "prisma generate",
+    "db:generate": "prisma generate && eslint --fix app/models/schema/*.ts",
     "db:migrate": "prisma migrate dev"
   },
   "dependencies": {
@@ -22,6 +22,7 @@
     "@remix-run/netlify": "^1.1.3",
     "@remix-run/react": "^1.1.3",
     "@remix-run/serve": "^1.1.3",
+    "@remix-validated-form/with-zod": "^2.0.1",
     "@supabase/supabase-js": "^1.30.2",
     "@tailwindcss/forms": "^0.4.0",
     "classnames": "^2.3.1",
@@ -36,6 +37,7 @@
     "remix": "^1.1.3",
     "remix-auth": "^3.2.1",
     "remix-auth-supabase": "^3.1.0",
+    "remix-validated-form": "^4.4.1",
     "tiny-invariant": "^1.2.0",
     "uuid": "^8.3.2",
     "zod": "^3.14.3"
@@ -60,7 +62,8 @@
     "pre-commit": "^1.2.2",
     "prisma": "^3.13.0",
     "tailwindcss": "^3.0.22",
-    "typescript": "^4.5.5"
+    "typescript": "^4.5.5",
+    "zod-prisma": "^0.5.4"
   },
   "engines": {
     "node": ">=14"
