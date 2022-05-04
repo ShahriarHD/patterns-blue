@@ -18,11 +18,10 @@ model Hull {
 }
 
 model Image {
-    uuid    String  @id @default(uuid())
-    url     String?
-    caption String?
-    block   Block   @relation(fields: [blockId], references: [uuid])
-    blockId String  @unique
+    uuid    String @id @default(uuid())
+    url     String
+    block   Block  @relation(fields: [blockId], references: [uuid])
+    blockId String @unique
 }
 
 model Sequence {
