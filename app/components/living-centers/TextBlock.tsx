@@ -1,26 +1,17 @@
-import Block, { BlockPropsWithoutChildren } from './Block';
+import { Text } from '@prisma/client';
+import MarkdownRenderer from 'markdown-it/';
+import { useMemo } from 'react';
 
-type TextBlockProps = BlockPropsWithoutChildren
+const markdownRenderer = new MarkdownRenderer('commonmark');
+
+type TextBlockProps = Pick<Text, 'content'>;
 
 export default function TextBlock(props: TextBlockProps) {
-    const { ...block } = props;
+    const { content } = props;
+
+    const rendered = useMemo(() => markdownRenderer.render(content), [content]);
 
     return(
-        <Block
-            {...block}
-        >
-            <article className="prose-lg m-auto p-6">
-                <h1>Text Block</h1>
-                <h2>Text Block</h2>
-                <h3>Text Block</h3>
-                <h4>Text Block</h4>
-                <p>
-                    ...the character of the computer environment of the future needs to become more childish,
-                    and more human, if it is to help human beings to genuinely extract the best of themselves...
-                    this change may well affect activities which are apparently technical, not only those that one
-                    broadly classifies as creative.
-                </p>
-            </article>
-        </Block>
+        <article className="prose-lg m-auto p-6" dangerouslySetInnerHTML={{ __html: rendered }} />
     );
 }

@@ -5,6 +5,7 @@ import Block from '~/components/living-centers/Block';
 import ColorBlock from '~/components/living-centers/ColorBlock';
 import CreateBlock from '~/components/living-centers/CreateBlock';
 import ImageBlock from '~/components/living-centers/ImageBlock';
+import TextBlock from '~/components/living-centers/TextBlock';
 import { getProjectBySlug } from '~/models/project.server';
 
 declare type ProjectWithBlocks = Exclude<Awaited<ReturnType<typeof getProjectBySlug>>, null>;
@@ -48,6 +49,12 @@ export default function ProjectPageLayout() {
         if (color) {
             child = (
                 <ColorBlock {...color} />
+            );
+        }
+
+        if (text) {
+            child = (
+                <TextBlock {...text} />
             );
         }
 
