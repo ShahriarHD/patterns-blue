@@ -148,5 +148,11 @@
         &.height-lg {
             @apply h-48 tablet:h-128;
         }
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
 }
