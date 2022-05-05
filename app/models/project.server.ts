@@ -2,6 +2,26 @@ import { Project } from '@prisma/client';
 import { nanoid } from 'nanoid';
 import { prisma } from '~/services/db.server';
 
+export async function getPublicProjects(pageIndex: number) {
+    const PAGE_SIZE = 15;
+    const skip = (pageIndex - 1) * PAGE_SIZE;
+    const take = PAGE_SIZE;
+
+    const projects = await prisma.project.findMany({
+        where: {
+            isPublic: true,
+            isArchived: false
+        },
+        orderBy: {
+            createdAt: 'desc'
+        },
+        skip,
+        take
+    });
+
+    return projects;
+}
+
 declare type GetUserProjectsArgs = {
     userId: string,
     isArchived: boolean,

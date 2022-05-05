@@ -45,6 +45,10 @@
         }
     }
 
+    a.link {
+        @apply underline underline-offset-4 text-blue-500;
+    }
+
     /* form */
 
     .button {
@@ -91,7 +95,7 @@
     .projects-container {
         @apply w-full pt-8 pb-20;
         @apply flex flex-row gap-6 desktop:gap-16 items-center;
-        @apply overflow-x-scroll shrink-0 snap-mandatory snap-x;
+        @apply overflow-x-auto shrink-0 snap-mandatory snap-x;
 
         &::before,
         &::after {
@@ -99,26 +103,26 @@
 
             @apply w-32 tablet:w-64 desktop:w-1/4 h-px shrink-0 grow;
         }
+    }
 
-        & > .project-card {
-            @apply relative shrink-0;
-            @apply flex flex-col items-center gap-2;
-            @apply snap-center;
+    .project-card {
+        @apply relative shrink-0;
+        @apply flex flex-col items-center gap-2;
+        @apply snap-center;
 
-            & > a {
-                @apply box p-4 tablet:p-8 w-full flex flex-col items-center gap-4;
-                @apply rounded-b-lg rounded-t-3xl;
-                @apply shadow-md hover:shadow-lg;
-                @apply ring-2 ring-transparent hover:ring-black-alpha-100;
-            }
+        & > a {
+            @apply box p-4 tablet:p-8 w-full flex flex-col items-center gap-4;
+            @apply rounded-b-lg rounded-t-3xl;
+            @apply shadow-md hover:shadow-lg;
+            @apply ring-2 ring-transparent hover:ring-black-alpha-100;
+        }
 
-            & img.poster {
-                @apply w-48 h-48 tablet:w-64 tablet:h-64 object-cover border-b shadow select-none pointer-events-none;
-            }
+        & img.poster {
+            @apply w-48 h-48 tablet:w-64 tablet:h-64 object-cover border-b shadow select-none pointer-events-none;
+        }
 
-            & h4 {
-                @apply text-2xl px-4 font-bold font-display;
-            }
+        & h4 {
+            @apply text-2xl px-4 font-bold font-display;
         }
     }
 
