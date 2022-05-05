@@ -4,6 +4,8 @@ import { validationError } from 'remix-validated-form';
 import invariant from 'tiny-invariant';
 import GoodOldForm, { useField, useIsSubmitting } from '~/components/GoodOldForm';
 import ColorBlockEditor from '~/components/living-centers/ColorBlockEditor';
+import ImageBlockEditor from '~/components/living-centers/ImageBlockEditor';
+import TextBlockEditor from '~/components/living-centers/TextBlockEditor';
 import { Ornament } from '~/components/ornament';
 import { updateBlockById, UpdateBlockByIdArgs, updateBlockFormValidator } from '~/models/block.server';
 import { useProjectContext } from '../$slug';
@@ -69,6 +71,18 @@ export default function EditBlockPage() {
     if (block.color) {
         contentEditor = (
             <ColorBlockEditor key={block.uuid} {...block.color} />
+        );
+    }
+
+    if (block.text) {
+        contentEditor = (
+            <TextBlockEditor key={block.uuid} {...block.text} />
+        );
+    }
+
+    if (block.image) {
+        contentEditor = (
+            <ImageBlockEditor key={block.uuid} {...block.image} />
         );
     }
 
