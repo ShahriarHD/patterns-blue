@@ -14,9 +14,10 @@ export default function LoginCallback() {
     const submit = useSubmit();
     useEffect(() => {
         const { data: authListener } = supabaseClient.auth.onAuthStateChange((event, session) => {
-            if (event === 'SIGNED_IN') {
+            if (event === 'SIGNED_IN' && session) {
                 const formData = new FormData();
                 formData.append('session', JSON.stringify(session));
+                supabaseClient.auth.setAuth(session.access_token);
 
                 submit(formData, { method: 'post' });
             }
