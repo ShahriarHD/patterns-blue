@@ -105,10 +105,10 @@ export default function ProjectPageLayout() {
                     <h1 className="text-3xl font-display font-bold">{project.name}</h1>
                 </Link>
                 <div className="flex gap-3 tablet:gap-8 flex-row flex-wrap items-end justify-center">
+                    {children}
                     <Block width="SM" height="SM" alignment="END" index={-1} >
                         <CreateBlock />
                     </Block>
-                    {children}
                 </div>
             </article>
             <Outlet />

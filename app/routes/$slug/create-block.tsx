@@ -21,6 +21,7 @@ export default function CreateBlockPage() {
                 method="post"
             >
                 <input type="hidden" name="projectId" value={project.uuid} />
+                <input type="hidden" name="blockIndex" value={project.blocks.length} />
                 <h4 className="font-display text-2xl font-bold">Create a block </h4>
                 <p className="w-64">Here is a list of available blocks you can add to your page now</p>
                 <ol className="list-disc flex flex-col gap-4 mt-5">
