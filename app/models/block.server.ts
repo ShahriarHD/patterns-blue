@@ -1,10 +1,15 @@
-import { Block } from '@prisma/client';
 import { withZod } from '@remix-validated-form/with-zod';
 import { z } from 'zod';
 import { prisma } from '~/services/db.server';
 import { BlockModel } from './schema';
 
-export declare type CreateBlockArgs = Omit<Block, 'uuid'>
+export const createBlockArgsValidator = BlockModel.omit({
+    uuid: true,
+});
+
+export declare type CreateBlockArgs = z.infer<typeof createBlockArgsValidator>;
+
+export const createBlockFormValidator = withZod(createBlockArgsValidator);
 
 export async function createBlock(block: CreateBlockArgs) {
     await prisma.block.updateMany({
