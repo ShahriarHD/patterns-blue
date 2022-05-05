@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint app/",
     "fix-lint": "npm run lint -- --fix",
-    "build": "npm run build:css && remix build",
+    "clean": "rm -rf **/build/",
+    "build": "npm run clean && npm run build:css && remix build",
     "dev": "run-p dev:*",
     "dev:remix": "cross-env NODE_ENV=development netlify dev",
     "dev:css": "postcss app/styles/global.css --base app/styles --dir app/styles/dist -w",
