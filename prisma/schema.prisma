@@ -115,6 +115,7 @@ model Project {
     owner       Profile  @relation(fields: [ownerId], references: [uuid])
     ownerId     String
     isPublic    Boolean
+    isArchived  Boolean  @default(false)
 
     blocks Block[]
 }

@@ -1,6 +1,6 @@
+import { BlockAlignment, BlockSize } from '@prisma/client';
 import * as z from 'zod';
-import { BlockSize, BlockSize, BlockAlignment } from '@prisma/client';
-import { CompleteProject, RelatedProjectModel, CompleteColor, RelatedColorModel, CompleteImage, RelatedImageModel, CompleteSequence, RelatedSequenceModel, CompleteText, RelatedTextModel } from './index';
+import { CompleteColor, CompleteImage, CompleteProject, CompleteSequence, CompleteText, RelatedColorModel, RelatedImageModel, RelatedProjectModel, RelatedSequenceModel, RelatedTextModel } from './index';
 
 export const BlockModel = z.object({
     /**

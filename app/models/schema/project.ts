@@ -10,6 +10,7 @@ export const ProjectModel = z.object({
     index: z.number().int(),
     ownerId: z.string(),
     isPublic: z.boolean(),
+    isArchived: z.boolean(),
 });
 
 export interface CompleteProject extends z.infer<typeof ProjectModel> {

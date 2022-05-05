@@ -3,15 +3,17 @@ import { nanoid } from 'nanoid';
 import { prisma } from '~/services/db.server';
 
 declare type GetUserProjectsArgs = {
-    userId: string
+    userId: string,
+    isArchived: boolean,
 }
 
-export async function getUserProjects({ userId }: GetUserProjectsArgs) {
+export async function getUserProjects({ userId, isArchived }: GetUserProjectsArgs) {
     const projects = await prisma.project.findMany({
         where: {
             owner: {
-                uuid: userId
-            }
+                uuid: userId,
+            },
+            isArchived
         },
         orderBy: {
             index: 'asc'
@@ -89,4 +91,17 @@ export async function getProjectBySlug(slug: string) {
     });
 
     return project;
+}
+
+export async function archiveProjectById(uuid: string) {
+    const updatedProject = await prisma.project.update({
+        data: {
+            isArchived: true
+        },
+        where: {
+            uuid
+        }
+    });
+
+    return updatedProject;
 }
