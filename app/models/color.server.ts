@@ -1,18 +1,23 @@
-import { Color } from '@prisma/client';
 import { withZod } from '@remix-validated-form/with-zod';
 import { z } from 'zod';
 import { prisma } from '~/services/db.server';
-import { createBlock, CreateBlockArgs } from './block.server';
+import { createBlock, createBlockArgsValidator } from './block.server';
 import { ColorModel } from './schema';
 
-export declare type NewColorArgs = Required<Pick<Color, 'hex' | 'meta' | 'name'>>;
+const createColorArgsValidator = z.object({
+    color: ColorModel.pick({
+        hex: true,
+        meta: true,
+        name: true
+    }),
+    block: createBlockArgsValidator
+});
 
-declare type CreateColorBlockArgs = {
-    color: NewColorArgs,
-    block: CreateBlockArgs
-}
+export declare type CreateColorArgs = z.infer<typeof createColorArgsValidator>;
 
-export async function createColorBlock({ color, block }: CreateColorBlockArgs) {
+export const createColorFormValidator = withZod(createColorArgsValidator);
+
+export async function createColorBlock({ color, block }: CreateColorArgs) {
     const parentBlock = await createBlock(block);
 
     const {

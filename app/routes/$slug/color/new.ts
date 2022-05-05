@@ -1,38 +1,18 @@
-import { ColorMetaStates } from '@prisma/client';
 import { ActionFunction, redirect } from 'remix';
-import invariant from 'tiny-invariant';
 import { createColorBlock } from '~/models/color.server';
+import { getBlockDataFromRequest } from '~/utils/newBlockRequestHelpers';
 
-export const action: ActionFunction = async({ request }) => {
-    const formData = await request.formData();
-    console.log('injaaa');
-
-    const hex = formData.get('hex')?.toString();
-    const meta = formData.get('meta')?.toString();
-    const name = formData.get('name')?.toString();
-    const projectId = formData.get('projectId')?.toString();
-    const projectSlug = formData.get('projectSlug')?.toString();
-
-    invariant(hex, 'fuck you');
-    invariant(meta, 'fuck you');
-    invariant(name, 'fuck you');
-    invariant(projectId, 'fuck you');
-    invariant(projectSlug, 'fuck you');
+export const action: ActionFunction = async({ params, request }) => {
+    const block = await getBlockDataFromRequest({ request });
 
     await createColorBlock({
+        block,
         color: {
-            hex,
-            meta: meta as ColorMetaStates,
-            name
-        },
-        block: {
-            alignment: 'END',
-            width: 'SM',
-            height: 'SM',
-            index: 0,
-            projectId
+            hex: '#00000010',
+            name: '',
+            meta: 'JUST_A_BEAUTIFUL_COLOR'
         }
     });
 
-    return redirect(`/${projectSlug}/edit/0`);
+    return redirect(`/${params.slug}/edit/${block.index}`);
 };
