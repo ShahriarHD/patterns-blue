@@ -7,9 +7,6 @@
   command = "remix watch"
   port = 3000
 
-[functions]
-  included_files = ["content/**"]
-
 [[redirects]]
   from = "/*"
   to = "/.netlify/functions/server"
