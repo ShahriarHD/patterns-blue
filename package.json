@@ -6,7 +6,7 @@
   "scripts": {
     "lint": "eslint app/",
     "fix-lint": "npm run lint -- --fix",
-    "clean": "rm -rf **/build/",
+    "clean": "rm -rf public/build/ && rm -rf netlify/functions/server/build/",
     "size-report": "du -sh public && du -sh netlify",
     "build": "npm run clean && npm run build:css && remix build && npm run size-report",
     "dev": "run-p dev:*",
