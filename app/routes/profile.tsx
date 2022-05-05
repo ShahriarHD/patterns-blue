@@ -1,5 +1,6 @@
 import { Profile } from '@prisma/client';
 import { ActionFunction, Form, json, LoaderFunction, redirect, useLoaderData } from 'remix';
+import invariant from 'tiny-invariant';
 import { Ornament } from '~/components/ornament';
 import { createUserProfile, getUserProfile, updateUserProfile } from '~/models/profile.server';
 import { magicLinkStrategy } from '~/services/auth.server';
@@ -14,15 +15,15 @@ export const action: ActionFunction = async({ request }) => {
         failureRedirect: '/login',
     });
 
-    if (session.user) {
-        const name = formData.get('name');
+    invariant(session.user, 'user does not exist in session');
 
-        if (name && typeof name === 'string') {
-            const userProfile = await updateUserProfile({ uuid: session.user.id, name });
-            return json({ userProfile });
-        } else {
-            return json({ message: 'invalid parameter name' }, 400);
-        }
+    const name = formData.get('name');
+
+    if (name && typeof name === 'string') {
+        const userProfile = await updateUserProfile({ uuid: session.user.id, name });
+        return json({ userProfile });
+    } else {
+        return json({ message: 'invalid parameter name' }, 400);
     }
 };
 
