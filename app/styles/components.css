@@ -54,7 +54,7 @@
 
     .button {
         @apply py-2 px-5 text-base font-black rounded-lg;
-        @apply bg-accent-600 dark:bg-blue-600 disabled:bg-gray-500;
+        @apply bg-accent-600 dark:bg-blue-600 disabled:bg-gray-500 dark:disabled:bg-gray-600;
         @apply border-b-4 border-black-alpha-500;
         @apply text-white font-display text-xl;
         @apply transition duration-200;
@@ -113,8 +113,8 @@
 
         & > a {
             @apply box p-4 tablet:p-8 w-full flex flex-col items-center gap-4;
-            @apply shadow-md hover:shadow-lg;
-            @apply ring-2 ring-transparent hover:ring-black-alpha-100;
+            @apply shadow-md hover:shadow-lg transition-shadow;
+            @apply ring-2 ring-transparent hover:ring-blue-500;
         }
 
         & img.poster {
@@ -122,18 +122,18 @@
         }
 
         & h4 {
-            @apply text-2xl px-4 font-bold font-display;
+            @apply text-2xl font-bold font-display w-52 tablet:w-64;
         }
 
         & p.description {
-            @apply text-center text-lg font-display w-52 tablet:w-64;
+            @apply text-left text-lg font-display w-52 tablet:w-64;
         }
     }
 
     /* a project page */
 
     .block {
-        @apply shadow-md rounded-xl overflow-hidden relative;
+        @apply rounded-xl overflow-hidden relative self-end;
 
         &.width-sm {
             @apply w-20 tablet:w-48;
