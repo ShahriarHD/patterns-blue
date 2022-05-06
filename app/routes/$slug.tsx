@@ -1,12 +1,13 @@
-import { createContext, useContext } from 'react';
-import { json, Link, LinksFunction, LoaderFunction, Outlet, useLoaderData } from 'remix';
+import { useState } from 'react';
+import { json, Link, LinksFunction, LoaderFunction, Outlet, useLoaderData, useOutletContext } from 'remix';
 import invariant from 'tiny-invariant';
-import Block from '~/components/living-centers/Block';
+import Block, { BlockActiveMode } from '~/components/living-centers/Block';
 import ColorBlock from '~/components/living-centers/ColorBlock';
 import CreateBlock from '~/components/living-centers/CreateBlock';
 import ImageBlock from '~/components/living-centers/ImageBlock';
 import TextBlock from '~/components/living-centers/TextBlock';
 import { getProjectBySlug } from '~/models/project.server';
+import { magicLinkStrategy } from '~/services/auth.server';
 import { supabaseAdmin } from '~/services/supabase/supabase.server';
 
 export const links:LinksFunction = () => [
@@ -19,13 +20,15 @@ export const links:LinksFunction = () => [
 declare type ProjectWithBlocks = Exclude<Awaited<ReturnType<typeof getProjectBySlug>>, null>;
 
 interface ProjectLoaderData {
-    project: ProjectWithBlocks
+    project: ProjectWithBlocks,
+    isOwner: boolean
 }
-export const loader:LoaderFunction = async({ params }) => {
+export const loader:LoaderFunction = async({ request, params }) => {
     const projectSlug = params['slug'];
     invariant(projectSlug, 'this page needs a valid slug');
 
     const project = await getProjectBySlug(projectSlug);
+    const session = await magicLinkStrategy.checkSession(request);
 
     if (project) {
         const bucketName = `project-${project.uuid}`;
@@ -40,7 +43,9 @@ export const loader:LoaderFunction = async({ params }) => {
             }
         }
 
-        return json<ProjectLoaderData>({ project });
+        const isOwner = session?.user?.id === project.ownerId;
+
+        return json<ProjectLoaderData>({ project, isOwner });
     } else {
         return json({
             message: 'Project not found'
@@ -48,21 +53,38 @@ export const loader:LoaderFunction = async({ params }) => {
     }
 };
 
-interface ProjectPageContextStructure {
-    project?: ProjectWithBlocks,
-    // isOwner: boolean,
+declare type ActiveBlockState = {
+    mode: BlockActiveMode,
+    uuid: string,
+}
+export interface ProjectPageContextStructure {
+    project: ProjectWithBlocks,
+    isOwner: boolean,
+    layoutContext: {
+        activeBlock?: ActiveBlockState,
+        activateBlock(state: ActiveBlockState): void,
+        restore(): void
+    }
     // hideEveryoneExceptId(id: string): void;
 }
 
-const ProjectPageContext = createContext<ProjectPageContextStructure>({});
-
 export function useProjectContext() {
-    return useContext(ProjectPageContext);
+    return useOutletContext<ProjectPageContextStructure>();
 }
 
-
 export default function ProjectPageLayout() {
-    const { project } = useLoaderData<ProjectLoaderData>();
+    const { project, isOwner } = useLoaderData<ProjectLoaderData>();
+    const [activeBlock, setActiveBlock ] = useState<ActiveBlockState | undefined>();
+
+    const context: ProjectPageContextStructure = {
+        project,
+        isOwner,
+        layoutContext: {
+            activeBlock,
+            activateBlock: info => setActiveBlock(info),
+            restore: () => setActiveBlock(undefined)
+        }
+    };
 
     const children = project.blocks.map(blockInfo => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -92,26 +114,28 @@ export default function ProjectPageLayout() {
         }
 
         return (
-            <Block key={block.uuid} {...block} isEditable>
+            <Block
+                key={block.uuid}
+                {...block}
+                blockActiveState={activeBlock?.uuid === block.uuid ? activeBlock.mode : undefined}
+            >
                 {child}
             </Block>
         );
     });
 
     return (
-        <ProjectPageContext.Provider value={{ project }}>
-            <article className="flex flex-col gap-4 items-center">
-                <Link to={`/${project.slug}`}>
-                    <h1 className="text-3xl font-display font-bold">{project.name}</h1>
-                </Link>
-                <div className="flex gap-3 tablet:gap-8 flex-row flex-wrap items-end justify-center">
-                    {children}
-                    <Block width="SM" height="SM" alignment="END" index={-1} >
-                        <CreateBlock />
-                    </Block>
-                </div>
-            </article>
-            <Outlet />
-        </ProjectPageContext.Provider>
+        <article className="flex flex-col gap-4 items-center">
+            <Link to={`/${project.slug}`}>
+                <h1 className="text-3xl font-display font-bold">{project.name}</h1>
+            </Link>
+            <div className="flex gap-3 tablet:gap-8 flex-row flex-wrap items-end justify-center">
+                {children}
+                <Block width="SM" height="SM" index={-1} >
+                    <CreateBlock />
+                </Block>
+            </div>
+            <Outlet context={context}/>
+        </article>
     );
 }

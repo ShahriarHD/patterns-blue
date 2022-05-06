@@ -1513,6 +1513,11 @@ a.link {
   background-color: rgb(2 132 199 / var(--tw-bg-opacity));
 }
 
+.dark .button:disabled {
+  --tw-bg-opacity: 1;
+  background-color: rgb(128 128 128 / var(--tw-bg-opacity));
+}
+
 .button {
   border-bottom-width: 4px;
   border-color: rgba(0,0,0,0.5);
@@ -1774,6 +1779,9 @@ label, legend {
   --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+  transition-property: box-shadow;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 150ms;
 }
 
 .project-card > a:hover {
@@ -1790,7 +1798,8 @@ label, legend {
 }
 
 .project-card > a:hover {
-  --tw-ring-color: rgba(0,0,0,0.1);
+  --tw-ring-opacity: 1;
+  --tw-ring-color: rgb(14 165 233 / var(--tw-ring-opacity));
 }
 
 .project-card img.poster {
@@ -1818,17 +1827,23 @@ label, legend {
 }
 
 .project-card h4 {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  width: 13rem;
   font-family: Forum, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1.5rem;
   line-height: 2rem;
   font-weight: 700;
 }
 
+@media (min-width: 600px) {
+
+  .project-card h4 {
+    width: 16rem;
+  }
+}
+
 .project-card p.description {
   width: 13rem;
-  text-align: center;
+  text-align: left;
   font-family: Forum, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
   font-size: 1.125rem;
   line-height: 1.75rem;
@@ -1845,20 +1860,16 @@ label, legend {
 
 .block {
   position: relative;
+  align-self: flex-end;
   overflow: hidden;
   border-radius: 0.75rem;
-  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .\!block {
   position: relative;
+  align-self: flex-end;
   overflow: hidden;
   border-radius: 0.75rem;
-  --tw-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --tw-shadow-colored: 0 4px 6px -1px var(--tw-shadow-color), 0 2px 4px -2px var(--tw-shadow-color);
-  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
 .block.width-sm {
@@ -2015,10 +2026,6 @@ label, legend {
                object-fit: cover !important;
         }
 
-.pointer-events-none {
-  pointer-events: none;
-}
-
 .fixed {
   position: fixed;
 }
@@ -2073,10 +2080,6 @@ label, legend {
 
 .z-menu {
   z-index: 202;
-}
-
-.col-span-3 {
-  grid-column: span 3 / span 3;
 }
 
 .m-auto {
@@ -2136,10 +2139,6 @@ label, legend {
   height: 36rem;
 }
 
-.h-32 {
-  height: 8rem;
-}
-
 .w-full {
   width: 100%;
 }
@@ -2154,10 +2153,6 @@ label, legend {
 
 .w-64 {
   width: 16rem;
-}
-
-.w-32 {
-  width: 8rem;
 }
 
 .w-48 {
@@ -2208,10 +2203,6 @@ label, legend {
   grid-template-columns: repeat(1, minmax(0, 1fr));
 }
 
-.grid-cols-3 {
-  grid-template-columns: repeat(3, minmax(0, 1fr));
-}
-
 .flex-row {
   flex-direction: row;
 }
@@ -2256,10 +2247,6 @@ label, legend {
   gap: 0.75rem;
 }
 
-.gap-6 {
-  gap: 1.5rem;
-}
-
 .gap-12 {
   gap: 3rem;
 }
@@ -2270,14 +2257,6 @@ label, legend {
 
 .gap-16 {
   gap: 4rem;
-}
-
-.self-start {
-  align-self: flex-start;
-}
-
-.self-end {
-  align-self: flex-end;
 }
 
 .self-center {
@@ -2322,25 +2301,12 @@ label, legend {
   border-top-right-radius: 1.5rem;
 }
 
-.border-2 {
-  border-width: 2px;
-}
-
 .border-b {
   border-bottom-width: 1px;
 }
 
-.border-dotted {
-  border-style: dotted;
-}
-
 .border-black-alpha-500 {
   border-color: rgba(0,0,0,0.5);
-}
-
-.border-gray-500 {
-  --tw-border-opacity: 1;
-  border-color: rgb(159 159 159 / var(--tw-border-opacity));
 }
 
 .bg-white-alpha-100 {
@@ -2383,10 +2349,6 @@ label, legend {
 
 .p-16 {
   padding: 4rem;
-}
-
-.p-2 {
-  padding: 0.5rem;
 }
 
 .pb-8 {
@@ -2543,11 +2505,6 @@ label, legend {
 
 .drop-shadow-md {
   --tw-drop-shadow: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
-  filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
-}
-
-.hue-rotate-180 {
-  --tw-hue-rotate: hue-rotate(180deg);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
 }
 
