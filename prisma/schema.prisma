@@ -21,7 +21,7 @@ datasource db {
 
 model Image {
     uuid    String @id @default(uuid())
-    url     String
+    url     String @default("")
     block   Block  @relation(fields: [blockId], references: [uuid])
     blockId String @unique
 }
@@ -36,7 +36,7 @@ model Sequence {
 
 model Text {
     uuid    String @id @default(uuid())
-    content String
+    content String @default("")
     block   Block  @relation(fields: [blockId], references: [uuid])
     blockId String @unique
 }
@@ -50,8 +50,8 @@ enum ColorMetaStates {
 
 model Color {
     uuid    String          @id @default(uuid())
-    hex     String
-    name    String
+    hex     String          @default("")
+    name    String          @default("")
     block   Block           @relation(fields: [blockId], references: [uuid])
     blockId String          @unique
     meta    ColorMetaStates @default(JUST_A_BEAUTIFUL_COLOR)
@@ -106,7 +106,7 @@ model Project {
 
 model Profile {
     uuid     String    @id
-    email    String
-    name     String
+    email    String    @default("")
+    name     String    @default("")
     projects Project[]
 }

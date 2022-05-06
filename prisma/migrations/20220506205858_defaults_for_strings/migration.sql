@@ -1,0 +1,13 @@
+-- AlterTable
+ALTER TABLE "Color" ALTER COLUMN "hex" SET DEFAULT E'',
+ALTER COLUMN "name" SET DEFAULT E'';
+
+-- AlterTable
+ALTER TABLE "Image" ALTER COLUMN "url" SET DEFAULT E'';
+
+-- AlterTable
+ALTER TABLE "Profile" ALTER COLUMN "email" SET DEFAULT E'',
+ALTER COLUMN "name" SET DEFAULT E'';
+
+-- AlterTable
+ALTER TABLE "Text" ALTER COLUMN "content" SET DEFAULT E'';
