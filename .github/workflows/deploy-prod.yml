@@ -42,6 +42,7 @@ jobs:
         uses: SpicyPizza/create-envfile@v1.3
         with:
           envkey_NODE_ENV: production
+          envkey_COOKIE_SECRET: ${{ secrets.COOKIE_SECRET }}
           envkey_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
           envkey_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
           envkey_SUPABASE_URL: https://xwjlbwqfnwrigtkidycm.supabase.co
@@ -60,4 +61,4 @@ jobs:
       - name: Add deployment files to server
         run: rsync -avz ${{ github.workspace }}/docker-compose.yml docker-compose.env docker-compose-postgres.env ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/patterns-blue/
       - name: Run the code
-        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd patterns-blue/ && docker compose up -d'
+        run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd patterns-blue/ && docker compose pull && docker compose up -d'
