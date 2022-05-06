@@ -1,0 +1,24 @@
+version: '3'
+services:
+  postgres:
+    image: postgres:alpine
+    env_file: docker-compose-postgres.env
+    volumes:
+      - data:/var/lib/postgresql/data
+    networks:
+      - patterns
+  server:
+    image: khashayarmirms/patterns-blue:latest
+    depends_on:
+      - postgrs
+    env_file: docker-compose.env
+    networks:
+      - patterns
+    ports:
+      - 3000:3000
+networks:
+  patterns:
+
+
+volumes:
+  data:
