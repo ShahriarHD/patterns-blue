@@ -35,7 +35,6 @@ export async function createBlock(block: CreateBlockArgs) {
 
 
 const updateBlockByIdArgsValidator = BlockModel.pick({
-    alignment: true,
     height: true,
     width:true,
     uuid: true,
@@ -46,13 +45,12 @@ export declare type UpdateBlockByIdArgs = z.infer<typeof updateBlockByIdArgsVali
 export const updateBlockFormValidator = withZod(updateBlockByIdArgsValidator);
 
 export async function updateBlockById(args: UpdateBlockByIdArgs) {
-    const { alignment, height, uuid, width } = args;
+    const { height, uuid, width } = args;
 
     const updatedBlock = await prisma.block.update({
         data: {
             width,
             height,
-            alignment
         },
         where: {
             uuid,

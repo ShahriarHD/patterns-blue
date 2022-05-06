@@ -8,11 +8,11 @@ declare type ProjectCardProps = Project & {
 
 export default function ProjectCard(props: ProjectCardProps){
     const fetcher = useFetcher();
-    const { name, slug, uuid, description, isEditable = false } = props;
+    const { name, slug, uuid, description, coverImage, isEditable = false } = props;
     return (
         <div className="project-card">
             <Link to={`/${slug}/`} prefetch="intent">
-                <img src="/img/mock/centers.jpg" className="poster" alt="" />
+                <img src={coverImage} className="poster" alt="" />
                 <h4>{name}</h4>
                 <p className="description">
                     {description}

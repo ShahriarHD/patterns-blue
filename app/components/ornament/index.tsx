@@ -12,6 +12,7 @@ import rainbowFlower from './rainbow-flower-min.png';
 import sun from './sun-min.png';
 import cactus from './cactus-min.png';
 import mandala from './mandala-min.png';
+import upload from './upload-min.png';
 import template from './template-min.png';
 
 export declare type OrnamentSize = 'sm' | 'md' | 'lg';
@@ -29,7 +30,7 @@ const OrnamentIcons = {
     'align-center': RiAlignVertically,
     'align-end': RiAlignBottom
 };
-type OrnamentImage = 'rainbow-flower' | 'moon' | 'sun' | 'loading' | 'error' | 'add' | 'cactus' | 'mandala';
+type OrnamentImage = 'rainbow-flower' | 'moon' | 'sun' | 'loading' | 'error' | 'add' | 'cactus' | 'mandala' | 'upload';
 
 export declare type OrnamentDecor = OrnamentImage | keyof typeof OrnamentIcons;
 
@@ -79,6 +80,10 @@ function getOrnamentAsset(type: OrnamentDecor) {
         }
         case 'mandala': {
             asset = mandala;
+            break;
+        }
+        case 'upload': {
+            asset = upload;
             break;
         }
     }

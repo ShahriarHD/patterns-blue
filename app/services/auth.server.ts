@@ -3,13 +3,17 @@ import { Authenticator, AuthorizationError } from 'remix-auth';
 import { SupabaseStrategy } from 'remix-auth-supabase';
 import { Session, supabaseAdmin } from '~/services/supabase/supabase.server';
 
+if (!process.env.COOKIE_SECRET) {
+    throw new Error('ENV: COOKIE_SECRET is required');
+}
+
 export const sessionStorage = createCookieSessionStorage({
     cookie: {
         name: 'sb',
         httpOnly: true,
         path: '/',
         sameSite: 'lax',
-        secrets: ['s3cr3t'], // This should be an env variable
+        secrets: [process.env.COOKIE_SECRET], // This should be an env variable
         secure: process.env.NODE_ENV === 'production',
     },
 });

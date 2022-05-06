@@ -1,4 +1,4 @@
-import { BlockAlignment, BlockSize } from '@prisma/client';
+import { BlockSize } from '@prisma/client';
 import { ActionFunction, json, LoaderFunction, useLoaderData } from 'remix';
 import { validationError } from 'remix-validated-form';
 import invariant from 'tiny-invariant';
@@ -6,7 +6,6 @@ import GoodOldForm, { useField, useIsSubmitting } from '~/components/GoodOldForm
 import ColorBlockEditor from '~/components/living-centers/ColorBlockEditor';
 import ImageBlockEditor from '~/components/living-centers/ImageBlockEditor';
 import TextBlockEditor from '~/components/living-centers/TextBlockEditor';
-import { Ornament } from '~/components/ornament';
 import { updateBlockById, UpdateBlockByIdArgs, updateBlockFormValidator } from '~/models/block.server';
 import { useProjectContext } from '../$slug';
 
@@ -111,13 +110,11 @@ export default function EditBlockPage() {
                         uuid: block.uuid,
                         width: block.width,
                         height: block.height,
-                        alignment: block.alignment,
                     }}
 
                     className="w-full flex flex-col gap-4"
                 >
                     <UUIDField />
-                    <AlignmentFiled />
                     <WidthField />
                     <HeightField />
                     <SubmitButton />
@@ -158,6 +155,7 @@ function HeightField() {
             <option value={BlockSize.SM}>Small</option>
             <option value={BlockSize.MD}>Medium</option>
             <option value={BlockSize.LG}>Large</option>
+            <option value={BlockSize.AUTO}>Auto</option>
         </select>
     );
 }
@@ -165,40 +163,4 @@ function HeightField() {
 function UUIDField() {
     const inputProps = useField<UpdateBlockByIdArgs>('uuid');
     return <input {...inputProps} type="hidden" aria-hidden readOnly/>;
-}
-
-function AlignmentFiled() {
-    const alignStartInputProps = useField<UpdateBlockByIdArgs>('alignment', BlockAlignment.START);
-    const alignCenterInputProps = useField<UpdateBlockByIdArgs>('alignment', BlockAlignment.CENTER);
-    const alignEndInputProps = useField<UpdateBlockByIdArgs>('alignment', BlockAlignment.END);
-
-    return(
-        <fieldset className="grid grid-cols-3 place-items-center gap-2">
-            <legend className="col-span-3 p-2 text-center font-semibold text-lg">Alignment</legend>
-            <label htmlFor="align-start">
-                <Ornament.Button
-                    size="sm"
-                    decoration="align-start"
-                    className="pointer-events-none"
-                />
-            </label>
-            <label htmlFor="align-center">
-                <Ornament.Button
-                    size="sm"
-                    decoration="align-center"
-                    className="pointer-events-none"
-                />
-            </label>
-            <label htmlFor="align-end">
-                <Ornament.Button
-                    size="sm"
-                    decoration="align-end"
-                    className="pointer-events-none"
-                />
-            </label>
-            <input {...alignStartInputProps} type="radio" id="align-start" />
-            <input {...alignCenterInputProps} type="radio" id="align-center" />
-            <input {...alignEndInputProps} type="radio" id="align-end" />
-        </fieldset>
-    );
 }
