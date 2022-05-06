@@ -3,7 +3,6 @@ on:
   push:
     branches:
       - "main"
-      - "7-remove-netlify"
 jobs:
   build-docker-image:
     name: Build docker image
