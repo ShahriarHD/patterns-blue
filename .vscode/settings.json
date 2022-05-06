@@ -1,13 +1,18 @@
 {
     "cSpell.words": [
         "Biorock",
+        "Buildx",
         "commonmark",
         "datasources",
+        "envkey",
+        "keyscan",
+        "khashayarmirms",
         "mutables",
         "neomorph",
         "Pixi",
         "prefetch",
         "semibold",
+        "shimataro",
         "snappable",
         "SUPABASE",
         "tailwindcss",
@@ -20,6 +25,9 @@
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
     "[typescriptreact]": {
+        "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+    },
+    "[javascript]": {
         "editor.defaultFormatter": "dbaeumer.vscode-eslint"
     },
 }
