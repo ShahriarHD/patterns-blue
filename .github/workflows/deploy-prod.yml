@@ -25,14 +25,15 @@ jobs:
           tags: khashayarmirms/patterns-blue:latest
   deploy:
     name: Deploy on production server
+    needs: build-docker-image
     runs-on: ubuntu-20.04
     steps:
       - name: Create docker-compose-postgres.env
         uses: SpicyPizza/create-envfile@v1.3
         with:
-          envkey_POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
-          envkey_POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
-          envkey_POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          envkey_POSTGRES_DB: ${{ env.POSTGRES_DB }}
+          envkey_POSTGRES_USER: ${{ env.POSTGRES_USER }}
+          envkey_POSTGRES_PASSWORD: ${{ env.POSTGRES_PASSWORD }}
           directory: .
           file_name: docker-compose-postgres.env
           fail_on_empty: false
@@ -40,11 +41,11 @@ jobs:
         uses: SpicyPizza/create-envfile@v1.3
         with:
           envkey_NODE_ENV: production
-          envkey_SUPABASE_SERVICE_KEY: ${{ secrets.SUPABASE_SERVICE_KEY }}
-          envkey_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.PUBLIC_SUPABASE_ANON_KEY }}
+          envkey_SUPABASE_SERVICE_KEY: ${{ env.SUPABASE_SERVICE_KEY }}
+          envkey_PUBLIC_SUPABASE_ANON_KEY: ${{ env.PUBLIC_SUPABASE_ANON_KEY }}
           envkey_SUPABASE_URL: https://xwjlbwqfnwrigtkidycm.supabase.co
           envkey_SERVER_URL: https://patterns.blue
-          envkey_DATABASE_URL: "postgresql://${{ secrets.POSTGRES_USER }}:${{ secrets.POSTGRES_PASSWORD }}@${{ secrets.POSTGRES_HOST }}:${{ secrets.POSTGRES_PORT }}/${{ secrets.POSTGRES_DB }}"
+          envkey_DATABASE_URL: "postgresql://${{ env.POSTGRES_USER }}:${{ env.POSTGRES_PASSWORD }}@${{ env.POSTGRES_HOST }}:${{ env.POSTGRES_PORT }}/${{ env.POSTGRES_DB }}"
           directory: .
           file_name: docker-compose.env
           fail_on_empty: false
@@ -56,6 +57,6 @@ jobs:
       - name: Add known hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Add deployment files to server
-        run: rsync -avz docker-compose.yml docker-compose.env docker-compose-postgres.env ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/ubuntu/patterns-blue/
+        run: rsync -avz docker-compose.yml docker-compose.env docker-compose-postgres.env ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/patterns-blue/
       - name: Run the code
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd patterns-blue/ && docker compose up -d'
