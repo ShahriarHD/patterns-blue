@@ -56,7 +56,7 @@ export default function Screen() {
         <Form method="post" className="">
             <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2">
                 <Ornament.Button
-                    decoration={error ? 'error' : 'loading'}
+                    decoration={error ? 'error' : 'mandala'}
                     size="md"
                     behavior={transition.state === 'idle' ? 'idle' : 'spinning'}
                 />
@@ -78,7 +78,7 @@ export default function Screen() {
 
                 <button className="button">{transition.submission ? 'Sending you a magic link' : 'Send Magic Link'}</button>
 
-                <p className="text-center leading-6">
+                <p className="text-center italic text-sm text-gray-700 dark:text-gray-300 leading-6">
                     Write your email in the field above and click on the &quot;send magic link&quot; button.
                     You will receive a login link to enter.
                 </p>

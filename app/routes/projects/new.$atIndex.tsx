@@ -64,9 +64,9 @@ export default function Screen() {
         });
     }, [sectionRef]);
     return (
-        <section className="box w-64 tablet:w-80 shrink-0 relative p-6 rounded-t-3xl rounded-b-lg snap-center" ref={sectionRef}>
+        <section className="box w-64 tablet:w-80 shrink-0 relative p-6 snap-center" ref={sectionRef}>
             <Ornament.Button
-                decoration={error ? 'error' : 'loading'}
+                decoration={error ? 'error' : 'mandala'}
                 size="md"
                 behavior={transition.state === 'idle' ? 'idle' : 'spinning'}
                 className="m-auto"

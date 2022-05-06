@@ -14,7 +14,7 @@ export default function ProjectCard(props: ProjectCardProps){
             <Link to={`/${slug}/`} prefetch="intent">
                 <img src="/img/mock/centers.jpg" className="poster" alt="" />
                 <h4>{name}</h4>
-                <p className="px-4 pb-8 pointer-events-none">
+                <p className="description">
                     {description}
                 </p>
             </Link>

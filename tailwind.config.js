@@ -12,8 +12,8 @@ module.exports = {
             desktop: '900px',
         },
         fontFamily: {
-            display: ['Noto Serif', ...defaultTheme.fontFamily.serif],
-            body: [...defaultTheme.fontFamily.sans],
+            display: ['Forum', ...defaultTheme.fontFamily.sans],
+            body: ['Noto Serif', ...defaultTheme.fontFamily.serif],
         },
         zIndex: {
             behind: -1,

@@ -50,8 +50,8 @@ export default function ProjectIndexPage() {
     }
 
     return (
-        <div className="flex flex-col gap-16 items-stretch">
-            <section className="flex flex-col items-center gap-4">
+        <div className="flex flex-col items-stretch">
+            <section className="flex flex-col items-center">
                 <Link to="/projects">
                     <h2 className="text-3xl font-extrabold font-display">Your Projects</h2>
                 </Link>
