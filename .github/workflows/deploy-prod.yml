@@ -57,6 +57,6 @@ jobs:
       - name: Add known hosts
         run: ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
       - name: Add deployment files to server
-        run: rsync -avz docker-compose.yml docker-compose.env docker-compose-postgres.env ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/patterns-blue/
+        run: rsync -avz ${{ github.workspace }}/docker-compose.yml docker-compose.env docker-compose-postgres.env ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:/home/${{ secrets.SSH_USER }}/patterns-blue/
       - name: Run the code
         run: ssh ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }} 'cd patterns-blue/ && docker compose up -d'
