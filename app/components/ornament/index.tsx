@@ -10,6 +10,9 @@ import loading from './loading-min.png';
 import moon from './moon-min.png';
 import rainbowFlower from './rainbow-flower-min.png';
 import sun from './sun-min.png';
+import cactus from './cactus-min.png';
+import mandala from './mandala-min.png';
+import template from './template-min.png';
 
 export declare type OrnamentSize = 'sm' | 'md' | 'lg';
 
@@ -26,7 +29,7 @@ const OrnamentIcons = {
     'align-center': RiAlignVertically,
     'align-end': RiAlignBottom
 };
-type OrnamentImage = 'rainbow-flower' | 'moon' | 'sun' | 'loading' | 'error' | 'add';
+type OrnamentImage = 'rainbow-flower' | 'moon' | 'sun' | 'loading' | 'error' | 'add' | 'cactus' | 'mandala';
 
 export declare type OrnamentDecor = OrnamentImage | keyof typeof OrnamentIcons;
 
@@ -70,7 +73,14 @@ function getOrnamentAsset(type: OrnamentDecor) {
             asset = add;
             break;
         }
-
+        case 'cactus': {
+            asset = cactus;
+            break;
+        }
+        case 'mandala': {
+            asset = mandala;
+            break;
+        }
     }
 
     return asset;
@@ -82,11 +92,13 @@ export const Ornament = {
             const Component = OrnamentIcons[type as (keyof typeof OrnamentIcons)];
 
             return (
-                <div className="w-4/5 h-4/5 flex items-center rounded-full justify-center bg-gray-100 dark:bg-blue-900
-                    ring-2 ring-offset-2 ring-blue-500 ring-offset-black-alpha-400"
+                <div className="w-full h-full flex items-center rounded-full justify-center bg-contain"
+                    style={{
+                        backgroundImage: `url(${template})`
+                    }}
                 >
                     <Component
-                        className="drop-shadow text-gray-900 dark:text-white w-full scale-125"
+                        className="drop-shadow-md text-white w-full scale-125"
                     />
                 </div>
             );

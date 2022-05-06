@@ -38,8 +38,8 @@ export default function Layout() {
                     to="/projects"
                 />
                 <Link to="/">
-                    <h1>
-                        Patterns.Blue
+                    <h1 className="text-blue-900 dark:text-blue-200">
+                        PATTERNS.BLUE
                     </h1>
                 </Link>
                 <DarkModeSwitch
