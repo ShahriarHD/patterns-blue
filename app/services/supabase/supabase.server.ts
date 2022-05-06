@@ -44,4 +44,4 @@ export const supabaseAdmin = createClient(
     process.env.SUPABASE_SERVICE_KEY,
 );
 
-export { Session, ApiError };
+export type { Session, ApiError };

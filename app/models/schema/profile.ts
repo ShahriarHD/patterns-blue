@@ -3,8 +3,8 @@ import { CompleteProject, RelatedProjectModel } from './index';
 
 export const ProfileModel = z.object({
     uuid: z.string(),
-    email: z.string().nullish(),
-    name: z.string().nullish(),
+    email: z.string(),
+    name: z.string(),
 });
 
 export interface CompleteProfile extends z.infer<typeof ProfileModel> {

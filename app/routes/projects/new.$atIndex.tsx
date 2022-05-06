@@ -1,9 +1,15 @@
+import { NodeOnDiskFile } from '@remix-run/node';
 import { useEffect, useRef } from 'react';
-import { ActionFunction, Form, json, LoaderFunction, redirect, useActionData, useLoaderData, useTransition } from 'remix';
+import {
+    ActionFunction, Form, json, LoaderFunction, redirect, unstable_parseMultipartFormData,
+    useActionData, useLoaderData, useTransition
+} from 'remix';
 import invariant from 'tiny-invariant';
 import { Ornament } from '~/components/ornament';
+import UploadBox from '~/components/UploadBox';
 import { createProject } from '~/models/project.server';
 import { magicLinkStrategy } from '~/services/auth.server';
+import { uploadHandler } from '~/utils/uploadHandler';
 
 export const action: ActionFunction = async({ request }) => {
     const session = await magicLinkStrategy.checkSession(request, {
@@ -11,10 +17,13 @@ export const action: ActionFunction = async({ request }) => {
     });
 
     if (session.user) {
-        const form = await request.clone().formData();
-        const name = form.get('name')?.toString();
-        const description = form.get('description')?.toString();
-        const index = parseInt(form.get('index')?.toString() || '');
+        const formData = await unstable_parseMultipartFormData(request, uploadHandler);
+
+
+        const name = formData.get('name')?.toString();
+        const description = formData.get('description')?.toString();
+        const index = parseInt(formData.get('index')?.toString() || '');
+        const file = formData.get('coverImage') as NodeOnDiskFile | undefined;
 
         console.log(index);
         invariant(name, 'name is required');
@@ -27,7 +36,8 @@ export const action: ActionFunction = async({ request }) => {
                 project: {
                     index,
                     name,
-                    description
+                    description,
+                    coverImage: (file && file.name) ? `/media/${file?.name}` : '/img/mock/centers.jpg'
                 }
             });
             return redirect('/projects');
@@ -72,11 +82,8 @@ export default function Screen() {
                 className="m-auto"
             />
             <h2 className="font-display text-center text-xl font-semibold pb-8">Create a new Project</h2>
-            <Form className="flex flex-col items-center gap-4" method="post">
-                <label className="w-32 h-32 p-4 border-2 border-gray-500 border-dotted">
-                    Cover Image
-                    {/* <input type="file" accept="img/*" /> */}
-                </label>
+            <Form encType="multipart/form-data" className="flex flex-col items-center gap-4" method="post">
+                <UploadBox name="coverImage" />
                 <input type="hidden" value={atIndex} name="index" />
                 <fieldset className="flex flex-col gap-1">
                     {/* <label htmlFor="name">

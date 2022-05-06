@@ -4,9 +4,10 @@ import { CompleteProfile, RelatedProfileModel, CompleteBlock, RelatedBlockModel 
 export const ProjectModel = z.object({
     uuid: z.string(),
     createdAt: z.date(),
-    name: z.string().nullish(),
-    description: z.string().nullish(),
-    slug: z.string().nullish(),
+    name: z.string(),
+    description: z.string(),
+    coverImage: z.string(),
+    slug: z.string(),
     index: z.number().int(),
     ownerId: z.string(),
     isPublic: z.boolean(),

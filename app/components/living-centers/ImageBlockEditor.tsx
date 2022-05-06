@@ -1,5 +1,4 @@
 import { Image } from '@prisma/client';
-import { useCallback, useState } from 'react';
 import { UpdateImageByIdArgs } from '~/models/image.server';
 import { useProjectContext } from '~/routes/$slug';
 import GoodOldForm, { useField } from '../GoodOldForm';
@@ -21,13 +20,14 @@ export default function ImageBlockEditor(props: ImageBlockEditorProps) {
             className="flex flex-col gap-4"
             action={`/${project.slug}/image/update`}
             method="post"
+            encType="multipart/form-data"
             initialValues={{
                 uuid,
                 url
             }}
         >
             <UUIDField />
-            <URLField bucketName={`project-${project.uuid}`} />
+            <URLField />
             <button type="submit" className="button">Save</button>
         </GoodOldForm>
     );
@@ -39,27 +39,10 @@ function UUIDField() {
     return <input {...inputProps} type="hidden" aria-hidden readOnly/>;
 }
 
-declare type URLFieldProps = {
-    bucketName: string
-}
-
-function URLField({ bucketName }: URLFieldProps) {
+function URLField() {
     const inputProps = useField<UpdateImageByIdArgs>('url');
 
-    const [newURL, setNewURL] = useState('');
-
-    const uploadCallback = useCallback(
-        (url: string | null) => {
-            setNewURL(url || '');
-        },
-        []
-    );
-
-
     return (
-        <div>
-            <UploadBox onUploadComplete={uploadCallback} bucketName={bucketName} />
-            <input name={inputProps.name} value={newURL} readOnly type="hidden" />
-        </div>
+        <UploadBox name={inputProps.name} />
     );
 }

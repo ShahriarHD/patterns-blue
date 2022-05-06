@@ -6,6 +6,7 @@ const morgan = require('morgan');
 const { createRequestHandler } = require('@remix-run/express');
 
 const BUILD_DIR = path.join(process.cwd(), 'build');
+const MEDIA_DIR = path.join(process.cwd(), 'media');
 
 const app = express();
 
@@ -13,6 +14,11 @@ app.use(compression());
 
 // http://expressjs.com/en/advanced/best-practice-security.html#at-a-minimum-disable-x-powered-by-header
 app.disable('x-powered-by');
+
+app.use(
+    '/media',
+    express.static(MEDIA_DIR, { immutable: true, maxAge: '1y' })
+);
 
 // Remix fingerprints its assets so we can cache forever.
 app.use(

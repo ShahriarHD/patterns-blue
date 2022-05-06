@@ -2,6 +2,7 @@ node_modules
 
 /.cache
 /build
+/media
 /public/build
 .DS_Store
 
