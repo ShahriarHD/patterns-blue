@@ -3,7 +3,8 @@
 @layer components {
     /* elements */
     .box {
-        @apply bg-white-alpha-500 dark:bg-white-alpha-100 filter backdrop-blur-2xl;
+        @apply bg-accent-100 dark:bg-blue-900 bg-opacity-50 dark:bg-opacity-50;
+        @apply filter backdrop-blur-2xl;
         @apply shadow-2xl;
         @apply transition;
 
@@ -46,18 +47,18 @@
     }
 
     a.link {
-        @apply underline underline-offset-4 text-blue-500;
+        @apply underline underline-offset-4 text-blue-600 dark:text-blue-400;
     }
 
     /* form */
 
     .button {
         @apply py-2 px-5 text-base font-black rounded-lg;
-        @apply bg-accent-600 dark:bg-blue-600 disabled:bg-gray-500;
-        @apply border-b-4 border-black-alpha-600 dark:border-white-alpha-500;
-        @apply text-white;
+        @apply bg-accent-600 dark:bg-blue-600 disabled:bg-gray-500 dark:disabled:bg-gray-600;
+        @apply border-b-4 border-black-alpha-500;
+        @apply text-white font-display text-xl;
         @apply transition duration-200;
-        @apply shadow-lg hover:shadow-xl active:shadow-blue-500 active:shadow-lg;
+        @apply drop-shadow-xl shadow-lg hover:shadow-xl active:shadow-blue-500 active:shadow-lg;
         @apply hover:scale-105 active:scale-95;
         @apply bg-repeat bg-blend-multiply;
         @apply disabled:pointer-events-none disabled:cursor-not-allowed;
@@ -101,20 +102,19 @@
         &::after {
             content: ' ';
 
-            @apply w-32 tablet:w-64 desktop:w-1/4 h-px shrink-0 grow;
+            @apply w-32 tablet:w-64 desktop:w-1/2 h-px shrink-0 grow;
         }
     }
 
     .project-card {
-        @apply relative shrink-0;
+        @apply relative shrink-0 self-start;
         @apply flex flex-col items-center gap-2;
         @apply snap-center;
 
         & > a {
             @apply box p-4 tablet:p-8 w-full flex flex-col items-center gap-4;
-            @apply rounded-b-lg rounded-t-3xl;
-            @apply shadow-md hover:shadow-lg;
-            @apply ring-2 ring-transparent hover:ring-black-alpha-100;
+            @apply shadow-md hover:shadow-lg transition-shadow;
+            @apply ring-2 ring-transparent hover:ring-blue-500;
         }
 
         & img.poster {
@@ -122,14 +122,18 @@
         }
 
         & h4 {
-            @apply text-2xl px-4 font-bold font-display;
+            @apply text-2xl font-bold font-display w-52 tablet:w-64;
+        }
+
+        & p.description {
+            @apply text-left text-lg font-display w-52 tablet:w-64;
         }
     }
 
     /* a project page */
 
     .block {
-        @apply shadow-md rounded-xl overflow-hidden relative;
+        @apply rounded-xl overflow-hidden relative self-end;
 
         &.width-sm {
             @apply w-20 tablet:w-48;

@@ -34,5 +34,12 @@ if (!window.env.PUBLIC_SUPABASE_ANON_KEY) {
 export const supabaseClient = createClient(
     window.env.SUPABASE_URL,
     window.env.PUBLIC_SUPABASE_ANON_KEY,
-    { persistSession: true, autoRefreshToken: true }
+    {
+        persistSession: true,
+        cookieOptions: {
+            name: 'sb'
+        },
+        autoRefreshToken: false,
+        fetch: fetch.bind(globalThis)
+    }
 );

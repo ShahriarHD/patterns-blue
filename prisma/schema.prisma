@@ -19,16 +19,6 @@ datasource db {
     url      = env("DATABASE_URL")
 }
 
-model Hull {
-    id          Int       @id @default(autoincrement())
-    created_at  DateTime? @default(now()) @db.Timestamptz(6)
-    title       String?
-    description String?
-    pages       Json?     @db.Json
-    // author      Profile?   @relation(fields: [authorId], references: [uuid])
-    // authorId    String?
-}
-
 model Image {
     uuid    String @id @default(uuid())
     url     String
@@ -72,12 +62,7 @@ enum BlockSize {
     MD
     LG
     COVER
-}
-
-enum BlockAlignment {
-    START
-    CENTER
-    END
+    AUTO
 }
 
 model Block {
@@ -90,11 +75,9 @@ model Block {
     index Int
 
     /// width of the block
-    width     BlockSize
+    width  BlockSize
     /// height of the block
-    height    BlockSize
-    /// alignment of the blocke
-    alignment BlockAlignment
+    height BlockSize
 
     project   Project @relation(fields: [projectId], references: [uuid])
     projectId String
@@ -108,9 +91,10 @@ model Block {
 model Project {
     uuid        String   @id @default(uuid())
     createdAt   DateTime @default(now())
-    name        String?
-    description String?
-    slug        String?  @unique
+    name        String
+    description String
+    coverImage  String   @default("")
+    slug        String   @unique
     index       Int
     owner       Profile  @relation(fields: [ownerId], references: [uuid])
     ownerId     String
@@ -122,7 +106,7 @@ model Project {
 
 model Profile {
     uuid     String    @id
-    email    String?
-    name     String?
+    email    String
+    name     String
     projects Project[]
 }

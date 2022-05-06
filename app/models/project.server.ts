@@ -45,14 +45,15 @@ export async function getUserProjects({ userId, isArchived }: GetUserProjectsArg
 
 declare type CreateNewProjectArgs = {
     userId: string,
-    project: Required<Pick<Project, 'index' | 'name' | 'description'>>
+    project: Required<Pick<Project, 'index' | 'name' | 'description' | 'coverImage'>>
 }
 
 export async function createProject({ project, userId }: CreateNewProjectArgs ) {
     const {
         index,
         name,
-        description
+        description,
+        coverImage
     } = project;
 
 
@@ -61,6 +62,7 @@ export async function createProject({ project, userId }: CreateNewProjectArgs ) 
             index,
             name,
             description,
+            coverImage,
             isPublic: false,
             owner: {
                 connect: {

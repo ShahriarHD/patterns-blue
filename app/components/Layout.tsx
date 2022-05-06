@@ -38,8 +38,8 @@ export default function Layout() {
                     to="/projects"
                 />
                 <Link to="/">
-                    <h1>
-                        Patterns.Blue
+                    <h1 className="text-blue-900 dark:text-blue-200">
+                        PATTERNS.BLUE
                     </h1>
                 </Link>
                 <DarkModeSwitch
@@ -61,16 +61,31 @@ interface DarkModeSwitchProps {
     size: OrnamentSize
 }
 
+const DARK_MODE_STORAGE_KEY = 'dark-mode';
 function DarkModeSwitch({ size }: DarkModeSwitchProps) {
     const [isInDarkMode, setIsInDarkMode] = useState(false);
+    useEffect(() => {
+        try {
+            const persistedDarkMode = localStorage.getItem(DARK_MODE_STORAGE_KEY);
+            if (persistedDarkMode === 'on') {
+                setIsInDarkMode(true);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+    }, []);
+
     useEffect(() => {
         const htmlElem = document?.getElementsByTagName('html')[0];
         if (isInDarkMode) {
             htmlElem.classList.add('dark');
+            localStorage.setItem(DARK_MODE_STORAGE_KEY, 'on');
         } else {
             htmlElem.classList.remove('dark');
+            localStorage.setItem(DARK_MODE_STORAGE_KEY, 'off');
         }
     }, [isInDarkMode]);
+
 
     return (
 

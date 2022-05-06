@@ -34,7 +34,8 @@ export default function ProjectList(props: ProjectListProps) {
                 <Ornament.Link
                     decoration="add"
                     to={`new/${projects.length}`}
-                    size="md"
+                    size={projects.length === 0 ? 'lg' : 'md'}
+                    className="snap-center"
                     key="last-ornament"
                     shouldRenderOutlet
                 />

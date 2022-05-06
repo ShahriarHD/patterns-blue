@@ -1,6 +1,6 @@
-import { BlockAlignment, BlockSize } from '@prisma/client';
 import * as z from 'zod';
-import { CompleteColor, CompleteImage, CompleteProject, CompleteSequence, CompleteText, RelatedColorModel, RelatedImageModel, RelatedProjectModel, RelatedSequenceModel, RelatedTextModel } from './index';
+import { BlockSize, BlockSize } from '@prisma/client';
+import { CompleteProject, RelatedProjectModel, CompleteColor, RelatedColorModel, CompleteImage, RelatedImageModel, CompleteSequence, RelatedSequenceModel, CompleteText, RelatedTextModel } from './index';
 
 export const BlockModel = z.object({
     /**
@@ -20,10 +20,6 @@ export const BlockModel = z.object({
    * height of the block
    */
     height: z.nativeEnum(BlockSize),
-    /**
-   * alignment of the blocke
-   */
-    alignment: z.nativeEnum(BlockAlignment),
     projectId: z.string(),
 });
 

@@ -16,9 +16,11 @@ services:
       - patterns
     ports:
       - 3000:3000
+    volumes:
+      - media:/app/media
 networks:
   patterns:
 
-
 volumes:
   data:
+  media:

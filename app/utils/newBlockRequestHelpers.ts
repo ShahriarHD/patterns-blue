@@ -20,6 +20,5 @@ export async function getBlockDataFromRequest({ request }: GetBlockDataFromReque
         index: blockIndex,
         width: 'MD',
         height: 'MD',
-        alignment: 'END',
     };
 }
