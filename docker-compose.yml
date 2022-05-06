@@ -10,7 +10,7 @@ services:
   server:
     image: khashayarmirms/patterns-blue:latest
     depends_on:
-      - postgrs
+      - postgres
     env_file: docker-compose.env
     networks:
       - patterns
