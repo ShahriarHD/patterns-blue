@@ -1,11 +1,31 @@
-import { Form, useTransition } from 'remix';
+import { LoaderFunction } from '@remix-run/node';
+import { Form, json, useLoaderData, useTransition } from 'remix';
 import { Ornament } from '~/components/ornament';
 import { useProjectContext } from '../$slug';
 
+interface LoaderData {
+    index: number
+}
+export const loader: LoaderFunction = ({ request }) => {
+    const url = new URL(request.url);
 
+    const indexSearch = url.searchParams.get('index');
+    const indexNumber = parseInt(indexSearch || '');
+
+    if (indexSearch && !isNaN(indexNumber)) {
+        return json<LoaderData>({
+            index: indexNumber
+        });
+    } else {
+        return json<LoaderData>({
+            index: 0
+        });
+    }
+};
 export default function CreateBlockPage() {
     const transition = useTransition();
     const { project } = useProjectContext();
+    const { index } = useLoaderData<LoaderData>();
 
     if (!project) {
         return null;
@@ -21,7 +41,7 @@ export default function CreateBlockPage() {
                 method="post"
             >
                 <input type="hidden" name="projectId" value={project.uuid} />
-                <input type="hidden" name="blockIndex" value={project.blocks.length} />
+                <input type="hidden" name="blockIndex" value={index} />
                 <h4 className="font-display text-2xl font-bold">Create a block </h4>
                 <p className="w-64">Here is a list of available blocks you can add to your page now</p>
                 <ol className="list-disc flex flex-col gap-4 mt-5">

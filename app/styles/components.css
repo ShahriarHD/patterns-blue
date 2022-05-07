@@ -19,6 +19,7 @@
         @apply dark:bg-gray-700 dark:focus:bg-blue-800 dark:hover:bg-blue-700  dark:active:bg-blue-600;
         @apply shadow-md hover:shadow-lg active:shadow;
         @apply hover:scale-110 active:scale-95;
+        @apply disabled:pointer-events-none disabled:grayscale;
 
         &.render-outlet {
             @apply w-auto h-auto rounded-none !important;

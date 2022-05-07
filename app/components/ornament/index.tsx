@@ -1,7 +1,7 @@
 import cx from 'classnames';
 import {
     RiAlignBottom, RiAlignTop, RiAlignVertically, RiAncientPavilionFill, RiCheckFill, RiCursorFill, RiEraserFill,
-    RiImageAddFill, RiLogoutCircleLine, RiMenu5Fill, RiPencilFill
+    RiImageAddFill, RiLogoutCircleLine, RiMenu5Fill, RiPencilFill, RiArrowLeftFill, RiArrowRightFill
 } from 'react-icons/ri';
 import { Link, LinkProps, Outlet, useLocation, useResolvedPath } from 'remix';
 import add from './add-min.png';
@@ -28,7 +28,9 @@ const OrnamentIcons = {
     check: RiCheckFill,
     'align-start': RiAlignTop,
     'align-center': RiAlignVertically,
-    'align-end': RiAlignBottom
+    'align-end': RiAlignBottom,
+    left: RiArrowLeftFill,
+    right: RiArrowRightFill
 };
 type OrnamentImage = 'rainbow-flower' | 'moon' | 'sun' | 'loading' | 'error' | 'add' | 'cactus' | 'mandala' | 'upload';
 

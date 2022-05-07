@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { Fragment, useMemo, useState } from 'react';
 import { json, Link, LinksFunction, LoaderFunction, Outlet, useLoaderData, useOutletContext } from 'remix';
 import invariant from 'tiny-invariant';
 import Block, { BlockActiveMode } from '~/components/living-centers/Block';
@@ -60,9 +60,36 @@ export function useProjectContext() {
     return useOutletContext<ProjectPageContextStructure>();
 }
 
+function useCreateBlockPositioning(project: ProjectWithBlocks) {
+    const [createBlockIndex, setCreateBlockIndex] = useState(project.blocks.length);
+    const increaseCreateBlockIndex = useMemo(() => {
+        if (createBlockIndex < project.blocks.length) {
+            return () => setCreateBlockIndex(createBlockIndex + 1);
+        }
+        return undefined;
+    }, [createBlockIndex, project.blocks.length]);
+
+    const decreaseCreateBlockIndex = useMemo(() => {
+        if (createBlockIndex > 0) {
+            return () => setCreateBlockIndex(createBlockIndex - 1);
+        }
+        return undefined;
+    }, [createBlockIndex, project.blocks.length]);
+
+    return {
+        createBlockIndex,
+        increaseCreateBlockIndex,
+        decreaseCreateBlockIndex,
+    };
+}
+
 export default function ProjectPageLayout() {
     const { project, isOwner } = useLoaderData<ProjectLoaderData>();
     const [activeBlock, setActiveBlock ] = useState<ActiveBlockState | undefined>();
+    const {
+        createBlockIndex,
+        decreaseCreateBlockIndex, increaseCreateBlockIndex
+    } = useCreateBlockPositioning(project);
 
     const context: ProjectPageContextStructure = {
         project,
@@ -73,6 +100,16 @@ export default function ProjectPageLayout() {
             restore: () => setActiveBlock(undefined)
         }
     };
+
+    const createBlock = (
+        <Block width="SM" height="SM" index={-1}>
+            <CreateBlock
+                index={createBlockIndex}
+                decreaseIndex={decreaseCreateBlockIndex}
+                increaseIndex={increaseCreateBlockIndex}
+            />
+        </Block>
+    );
 
     const children = project.blocks.map(blockInfo => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -102,14 +139,20 @@ export default function ProjectPageLayout() {
         }
 
         return (
-            <Block
+            <Fragment
                 key={block.uuid}
-                {...block}
-                blockActiveState={activeBlock?.uuid === block.uuid ? activeBlock.mode : undefined}
-                isEditable={isOwner}
             >
-                {child}
-            </Block>
+                {
+                    block.index === createBlockIndex && isOwner && createBlock
+                }
+                <Block
+                    {...block}
+                    blockActiveState={activeBlock?.uuid === block.uuid ? activeBlock.mode : undefined}
+                    isEditable={isOwner}
+                >
+                    {child}
+                </Block>
+            </Fragment>
         );
     });
 
@@ -121,10 +164,7 @@ export default function ProjectPageLayout() {
             <div className="flex gap-3 tablet:gap-8 flex-row flex-wrap items-end justify-center">
                 {children}
                 {
-                    isOwner &&
-                    <Block width="SM" height="SM" index={-1}>
-                        <CreateBlock />
-                    </Block>
+                    isOwner && createBlockIndex === project.blocks.length && createBlock
                 }
             </div>
             <Outlet context={context}/>
