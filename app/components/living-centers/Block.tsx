@@ -5,7 +5,8 @@ import { Link } from 'remix';
 
 export declare type BlockActiveMode = 'expanded' | 'editing'
 export declare type BlockPropsWithoutChildren = Omit<Block, 'projectId' | 'uuid'> & {
-    className?: string,
+    isEditable?: boolean
+    className?: string
     blockActiveState?: BlockActiveMode
 }
 
@@ -13,7 +14,7 @@ declare type BlockProps = PropsWithChildren<BlockPropsWithoutChildren>
 
 export default function Block(props: BlockProps) {
     const { index, width, height,
-        children, className: givenClassName } = props;
+        children, className: givenClassName, isEditable = false } = props;
 
     const className = cx(
         givenClassName,
@@ -21,6 +22,14 @@ export default function Block(props: BlockProps) {
         `width-${width.toLowerCase()}`,
         `height-${height.toLowerCase()}`,
     );
+
+    if (!isEditable) {
+        return (
+            <div className={className}>
+                {children}
+            </div>
+        );
+    }
 
     return (
         <Link to={`edit/${index}`} prefetch="intent" className={className}>

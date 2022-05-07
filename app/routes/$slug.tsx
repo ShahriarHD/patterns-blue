@@ -118,6 +118,7 @@ export default function ProjectPageLayout() {
                 key={block.uuid}
                 {...block}
                 blockActiveState={activeBlock?.uuid === block.uuid ? activeBlock.mode : undefined}
+                isEditable={isOwner}
             >
                 {child}
             </Block>
@@ -131,9 +132,12 @@ export default function ProjectPageLayout() {
             </Link>
             <div className="flex gap-3 tablet:gap-8 flex-row flex-wrap items-end justify-center">
                 {children}
-                <Block width="SM" height="SM" index={-1} >
-                    <CreateBlock />
-                </Block>
+                {
+                    isOwner &&
+                    <Block width="SM" height="SM" index={-1}>
+                        <CreateBlock />
+                    </Block>
+                }
             </div>
             <Outlet context={context}/>
         </article>
