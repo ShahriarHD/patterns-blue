@@ -1,4 +1,3 @@
-import { BlockSize } from '@prisma/client';
 import { ActionFunction, json, LoaderFunction, useLoaderData } from 'remix';
 import { validationError } from 'remix-validated-form';
 import invariant from 'tiny-invariant';
@@ -139,10 +138,10 @@ function WidthField() {
 
     return (
         <select {...inputProps} className="dropdown">
-            <option value={BlockSize.SM}>Small</option>
-            <option value={BlockSize.MD}>Medium</option>
-            <option value={BlockSize.LG}>Large</option>
-            <option value={BlockSize.COVER}>Cover</option>
+            <option value="SM">Small</option>
+            <option value="MD">Medium</option>
+            <option value="LG">Large</option>
+            <option value="COVER">Cover</option>
         </select>
     );
 }
@@ -152,10 +151,10 @@ function HeightField() {
 
     return (
         <select {...inputProps} className="dropdown">
-            <option value={BlockSize.SM}>Small</option>
-            <option value={BlockSize.MD}>Medium</option>
-            <option value={BlockSize.LG}>Large</option>
-            <option value={BlockSize.AUTO}>Auto</option>
+            <option value="SM">Small</option>
+            <option value="MD">Medium</option>
+            <option value="LG">Large</option>
+            <option value="AUTO">Auto</option>
         </select>
     );
 }
