@@ -8,7 +8,6 @@ import ImageBlock from '~/components/living-centers/ImageBlock';
 import TextBlock from '~/components/living-centers/TextBlock';
 import { getProjectBySlug } from '~/models/project.server';
 import { magicLinkStrategy } from '~/services/auth.server';
-import { supabaseAdmin } from '~/services/supabase/supabase.server';
 
 export const links:LinksFunction = () => [
     {
@@ -31,17 +30,6 @@ export const loader:LoaderFunction = async({ request, params }) => {
     const session = await magicLinkStrategy.checkSession(request);
 
     if (project) {
-        const bucketName = `project-${project.uuid}`;
-        const buckets = await supabaseAdmin.storage.listBuckets();
-        const bucketExists = buckets.data?.find(bucket => bucket.id === bucketName);
-
-        if (!bucketExists) {
-            const { error: creationError } = await supabaseAdmin.storage.createBucket(bucketName, { public: true });
-
-            if (creationError) {
-                return json({ message: 'failed to create bucket for project' }, 500);
-            }
-        }
 
         const isOwner = session?.user?.id === project.ownerId;
 
