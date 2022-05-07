@@ -13,7 +13,7 @@ export const sessionStorage = createCookieSessionStorage({
         httpOnly: true,
         path: '/',
         sameSite: 'lax',
-        secrets: [process.env.COOKIE_SECRET], // This should be an env variable
+        secrets: [process.env.COOKIE_SECRET],
         secure: process.env.NODE_ENV === 'production',
     },
 });
@@ -33,7 +33,8 @@ export const magicLinkStrategy = new SupabaseStrategy(
             throw new AuthorizationError('session not found');
         }
 
-        return JSON.parse(session);
+        const parsedSession = JSON.parse(session);
+        return parsedSession;
     },
 );
 

@@ -41,7 +41,7 @@ export const loader: LoaderFunction = async({ request }) => {
                 userProfile = profile;
             } else {
                 const newProfile = await createUserProfile({
-                    email: email || null,
+                    email: email || '',
                     uuid: id
                 });
 
@@ -82,7 +82,7 @@ export default function ProfilePage() {
                 />
                 <Ornament.Button type="submit" decoration="check" size="md" />
             </Form>
-            <p>your email is {email}</p>
+            { email && <p>your email is {email}</p> }
             <Form method="post" action="logout">
                 <button className="button">Log Out</button>
             </Form>

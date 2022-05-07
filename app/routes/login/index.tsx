@@ -83,7 +83,6 @@ export default function Screen() {
                     You will receive a login link to enter.
                 </p>
                 {error && <div>{error.message}</div>}
-                {error && <div>{error.message}</div>}
             </section>
         </Form>
     );
