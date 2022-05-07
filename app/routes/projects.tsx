@@ -13,15 +13,16 @@ interface ProjectsLoaderData {
     projects: Project[]
 }
 export const loader: LoaderFunction = async({ request }) => {
+    const session = await magicLinkStrategy.checkSession(request, {
+        failureRedirect: '/login'
+    });
+
     const isArchivesPage = request.url.includes('archive');
 
     if (isArchivesPage) {
         return { isArchivesPage };
     }
 
-    const session = await magicLinkStrategy.checkSession(request, {
-        failureRedirect: '/login'
-    });
 
     invariant(session.user, 'user not found in session');
 
