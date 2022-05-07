@@ -65,20 +65,14 @@ function NameField() {
 function MetaField() {
     const inputProps = useField<UpdateColorByIdArgs>('meta');
 
+    const options: Array<ColorMetaStates> = ['JUST_A_BEAUTIFUL_COLOR', 'GLOWING'];
     return (
-        <select className="dropdown" {...inputProps}>
-            <option value={ColorMetaStates.JUST_A_BEAUTIFUL_COLOR}>
-                {ColorMetaStates.JUST_A_BEAUTIFUL_COLOR.split('_').map(item => item.toLowerCase()).join(' ')}
-            </option>
-            <option value={ColorMetaStates.PROJECT_ACCENT_COLOR}>
-                {ColorMetaStates.PROJECT_ACCENT_COLOR.split('_').map(item => item.toLowerCase()).join(' ')}
-            </option>
-            <option value={ColorMetaStates.PROJECT_BACKGROUND_DARK}>
-                {ColorMetaStates.PROJECT_BACKGROUND_DARK.split('_').map(item => item.toLowerCase()).join(' ')}
-            </option>
-            <option value={ColorMetaStates.PROJECT_BACKGROUND_LIGHT}>
-                {ColorMetaStates.PROJECT_BACKGROUND_LIGHT.split('_').map(item => item.toLowerCase()).join(' ')}
-            </option>
+        <select {...inputProps} className="dropdown">
+            {options.map((value, index) =>
+                <option key={`width-option-${index}`} value={value}>
+                    {value.split('_').map(s => s.toLowerCase()).join(' ')}
+                </option>)
+            }
         </select>
     );
 }

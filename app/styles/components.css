@@ -133,7 +133,7 @@
     /* a project page */
 
     .block {
-        @apply rounded-xl overflow-hidden relative self-end;
+        @apply relative self-end;
 
         &.width-sm {
             @apply w-20 tablet:w-48;

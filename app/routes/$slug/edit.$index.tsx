@@ -1,3 +1,4 @@
+import { BlockSize } from '@prisma/client';
 import { ActionFunction, json, LoaderFunction, useLoaderData } from 'remix';
 import { validationError } from 'remix-validated-form';
 import invariant from 'tiny-invariant';
@@ -133,15 +134,19 @@ function SubmitButton() {
     );
 }
 
+
 function WidthField() {
     const inputProps = useField<UpdateBlockByIdArgs>('width');
 
+
+    const options: Array<BlockSize> = ['SM', 'MD', 'LG', 'COVER'];
     return (
         <select {...inputProps} className="dropdown">
-            <option value="SM">Small</option>
-            <option value="MD">Medium</option>
-            <option value="LG">Large</option>
-            <option value="COVER">Cover</option>
+            {options.map((value, index) =>
+                <option key={`width-option-${index}`} value={value}>
+                    {value.toLowerCase()}
+                </option>)
+            }
         </select>
     );
 }
@@ -149,12 +154,14 @@ function WidthField() {
 function HeightField() {
     const inputProps = useField<UpdateBlockByIdArgs>('height');
 
+    const options: Array<BlockSize> = ['SM', 'MD', 'LG', 'AUTO'];
     return (
         <select {...inputProps} className="dropdown">
-            <option value="SM">Small</option>
-            <option value="MD">Medium</option>
-            <option value="LG">Large</option>
-            <option value="AUTO">Auto</option>
+            {options.map((value, index) =>
+                <option key={`width-option-${index}`} value={value}>
+                    {value.toLowerCase()}
+                </option>)
+            }
         </select>
     );
 }
