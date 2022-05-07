@@ -1,119 +1,68 @@
-import { LoaderFunction } from '@remix-run/node';
-import { Form, json, useLoaderData, useTransition } from 'remix';
-import { Ornament } from '~/components/ornament';
+import { useCallback, useEffect, useState } from 'react';
+import { createPortal } from 'react-dom';
+import { Form } from 'remix';
 import { useProjectContext } from '../$slug';
 
-interface LoaderData {
-    index: number
-}
-export const loader: LoaderFunction = ({ request }) => {
-    const url = new URL(request.url);
-
-    const indexSearch = url.searchParams.get('index');
-    const indexNumber = parseInt(indexSearch || '');
-
-    if (indexSearch && !isNaN(indexNumber)) {
-        return json<LoaderData>({
-            index: indexNumber
-        });
-    } else {
-        return json<LoaderData>({
-            index: 0
-        });
-    }
-};
 export default function CreateBlockPage() {
-    const transition = useTransition();
-    const { project } = useProjectContext();
-    const { index } = useLoaderData<LoaderData>();
+    const { project, createBlockIndex: index, createBlockRef } = useProjectContext();
 
-    if (!project) {
-        return null;
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [_, setForceRerender] = useState({});
+    const forceRerender = useCallback(() => setForceRerender({}), []);
+    useEffect(() => {
+        forceRerender();
+    }, [createBlockRef.current, index]);
+
+
+    if (!createBlockRef.current) {
+        return <div>loading...</div>;
     }
 
-    return(
-        <section className="fixed top-0 left-0 w-full h-full bg-black-alpha-100
-                            flex flex-col gap-4 items-center justify-center">
-            <Form
-                className="box p-16 relative rounded-t-4xl rounded-b-xl shadow-2xl shadow-black-alpha-500
-                             flex flex-col gap-1
-                             animate__animated animate__backInUp animate__faster"
-                method="post"
-            >
-                <input type="hidden" name="projectId" value={project.uuid} />
-                <input type="hidden" name="blockIndex" value={index} />
-                <h4 className="font-display text-2xl font-bold">Create a block </h4>
-                <p className="w-64">Here is a list of available blocks you can add to your page now</p>
-                <ol className="list-disc flex flex-col gap-4 mt-5">
-                    <li>
-                        <button
-                            name="intent"
-                            type="submit"
-                            formAction={`/${project.slug}/color/new`}
-                            className="button"
-                            value="color"
-                        >
-                            Create a new color
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            name="intent"
-                            type="submit"
-                            formAction={`/${project.slug}/text/new`}
-                            className="button"
-                            value="text"
-                        >
-                            Write some text
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            name="intent"
-                            type="submit"
-                            formAction={`/${project.slug}/image/new`}
-                            className="button"
-                            value="image"
-                        >
-                            Upload a photo
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            name="intent"
-                            type="button"
-                            className="button"
-                            disabled
-                        >
-                            Document your sequence
-                        </button>
-                    </li>
-                    <li>
-                        <button
-                            name="intent"
-                            type="button"
-                            className="button"
-                            disabled
-                        >
-                            Create a pattern
-                        </button>
-                    </li>
-                </ol>
-                <div className="absolute top-4 left-4">
-                    <Ornament.Button
-                        decoration="loading"
-                        size="sm"
-                        behavior={transition.state === 'idle' ? 'idle' : 'spinning'}
-                    />
-                </div>
-                <div className="absolute top-4 right-4">
-                    <Ornament.Button
-                        decoration="loading"
-                        size="sm"
-                        behavior={transition.state === 'idle' ? 'idle' : 'spinning'}
-                    />
-                </div>
-            </Form>
-        </section>
-    );
+    const child =
+        <Form
+            className="flex flex-col items-center gap-1"
+            method="post"
+        >
+            <input type="hidden" name="projectId" value={project.uuid} />
+            <input type="hidden" name="blockIndex" value={index} />
+            <h4 className="font-display text-2xl font-bold">Create a block </h4>
+            <p className="w-64">Here is a list of available blocks you can add to your page now</p>
+            <ol className="flex flex-col gap-4 mt-5">
+                <li>
+                    <button
+                        name="intent"
+                        type="submit"
+                        formAction={`/${project.slug}/color/new`}
+                        className="button"
+                        value="color"
+                    >
+                        Create a new color
+                    </button>
+                </li>
+                <li>
+                    <button
+                        name="intent"
+                        type="submit"
+                        formAction={`/${project.slug}/text/new`}
+                        className="button"
+                        value="text"
+                    >
+                        Write some text
+                    </button>
+                </li>
+                <li>
+                    <button
+                        name="intent"
+                        type="submit"
+                        formAction={`/${project.slug}/image/new`}
+                        className="button"
+                        value="image"
+                    >
+                        Upload a photo
+                    </button>
+                </li>
+            </ol>
+        </Form>;
+
+    return createPortal(child, createBlockRef.current);
 }

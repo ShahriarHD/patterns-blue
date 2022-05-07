@@ -1,4 +1,4 @@
-import { Fragment, useMemo, useState } from 'react';
+import { Fragment, RefObject, useMemo, useRef, useState } from 'react';
 import { json, Link, LinksFunction, LoaderFunction, Outlet, useLoaderData, useOutletContext } from 'remix';
 import invariant from 'tiny-invariant';
 import Block, { BlockActiveMode } from '~/components/living-centers/Block';
@@ -52,7 +52,9 @@ export interface ProjectPageContextStructure {
         activeBlock?: ActiveBlockState,
         activateBlock(state: ActiveBlockState): void,
         restore(): void
-    }
+    },
+    createBlockIndex: number,
+    createBlockRef: RefObject<HTMLDivElement>
     // hideEveryoneExceptId(id: string): void;
 }
 
@@ -91,6 +93,8 @@ export default function ProjectPageLayout() {
         decreaseCreateBlockIndex, increaseCreateBlockIndex
     } = useCreateBlockPositioning(project);
 
+    const createBlockRef = useRef<HTMLDivElement>(null);
+
     const context: ProjectPageContextStructure = {
         project,
         isOwner,
@@ -98,11 +102,14 @@ export default function ProjectPageLayout() {
             activeBlock,
             activateBlock: info => setActiveBlock(info),
             restore: () => setActiveBlock(undefined)
-        }
+        },
+        createBlockIndex,
+        createBlockRef,
     };
 
+
     const createBlock = (
-        <Block width="SM" height="SM" index={-1}>
+        <Block width="MD" height="MD" index={-1} ref={createBlockRef}>
             <CreateBlock
                 index={createBlockIndex}
                 decreaseIndex={decreaseCreateBlockIndex}

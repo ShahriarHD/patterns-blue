@@ -1,10 +1,9 @@
 import {
-    Links, LinksFunction, LiveReload, LoaderFunction, Meta, Scripts,
-    ScrollRestoration,
-    useCatch, useLoaderData
+    Links, LinksFunction, LiveReload, LoaderFunction, Meta, Scripts, useCatch, useLoaderData
 } from 'remix';
 import globalStylesUrl from '~/styles/dist/global.css';
 import Layout from './components/Layout';
+import { CustomScrollRestoration } from './utils/scrollRestoration';
 
 
 // https://remix.run/api/app#links
@@ -108,12 +107,12 @@ function Document({
             </head>
             <body>
                 {children}
-                <ScrollRestoration />
                 <script
                     dangerouslySetInnerHTML={{
                         __html: `window.env = ${JSON.stringify(env,)}`,
                     }}
                 />
+                <CustomScrollRestoration />
                 <Scripts />
                 {process.env.NODE_ENV === 'development' && <LiveReload />}
             </body>
