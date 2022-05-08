@@ -45,7 +45,7 @@ declare type OrnamentLinkProps = LinkProps & {
 declare type OrnamentSharedProps = {
     decoration: OrnamentDecor,
     size?: OrnamentSize,
-    behavior?: 'idle' | 'spinning',
+    behavior?: 'idle' | 'spinning' | 'heart-beat',
     className?: string,
 };
 

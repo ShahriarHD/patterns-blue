@@ -41,6 +41,10 @@
             @apply animate-spin;
         }
 
+        &.heart-beat {
+            @apply animate-pulse;
+        }
+
         & img {
             @apply w-full h-full object-cover rounded-full overflow-hidden;
             @apply select-none pointer-events-none border-none;
