@@ -1,6 +1,7 @@
 import { Block } from '@prisma/client';
 import cx from 'classnames';
 import { forwardRef, PropsWithChildren } from 'react';
+import { Link } from 'remix';
 
 export declare type BlockActiveMode = 'expanded' | 'editing'
 export declare type BlockPropsWithoutChildren = Omit<Block, 'projectId' | 'uuid'> & {
@@ -13,7 +14,7 @@ declare type BlockProps = PropsWithChildren<BlockPropsWithoutChildren>
 
 const Block = forwardRef<HTMLDivElement, BlockProps>((props, ref) => {
     const { width, height,
-        children, className: givenClassName } = props;
+        children, className: givenClassName, isEditable, index } = props;
 
     const className = cx(
         givenClassName,
@@ -22,9 +23,18 @@ const Block = forwardRef<HTMLDivElement, BlockProps>((props, ref) => {
         `height-${height.toLowerCase()}`,
     );
 
+    let child;
+    if (isEditable) {
+        child = <Link to={`edit/${index}`}>
+            {children}
+        </Link>;
+    } else {
+        child = children;
+    }
+
     return (
         <div className={className} ref={ref}>
-            {children}
+            {child}
         </div>
     );
 

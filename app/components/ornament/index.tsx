@@ -1,19 +1,19 @@
 import cx from 'classnames';
 import {
-    RiAlignBottom, RiAlignTop, RiAlignVertically, RiAncientPavilionFill, RiCheckFill, RiCursorFill, RiEraserFill,
-    RiImageAddFill, RiLogoutCircleLine, RiMenu5Fill, RiPencilFill, RiArrowLeftFill, RiArrowRightFill
+    RiAlignBottom, RiAlignTop, RiAlignVertically, RiAncientPavilionFill, RiArrowLeftLine, RiArrowRightLine, RiCheckFill, RiCursorFill, RiEraserFill,
+    RiImageAddFill, RiLogoutCircleLine, RiMenu5Fill, RiPencilFill
 } from 'react-icons/ri';
 import { Link, LinkProps, Outlet, useLocation, useResolvedPath } from 'remix';
 import add from './add-min.png';
+import cactus from './cactus-min.png';
 import error from './error-min.png';
 import loading from './loading-min.png';
+import mandala from './mandala-min.png';
 import moon from './moon-min.png';
 import rainbowFlower from './rainbow-flower-min.png';
 import sun from './sun-min.png';
-import cactus from './cactus-min.png';
-import mandala from './mandala-min.png';
-import upload from './upload-min.png';
 import template from './template-min.png';
+import upload from './upload-min.png';
 
 export declare type OrnamentSize = 'sm' | 'md' | 'lg';
 
@@ -29,8 +29,8 @@ const OrnamentIcons = {
     'align-start': RiAlignTop,
     'align-center': RiAlignVertically,
     'align-end': RiAlignBottom,
-    left: RiArrowLeftFill,
-    right: RiArrowRightFill
+    left: RiArrowLeftLine,
+    right: RiArrowRightLine
 };
 type OrnamentImage = 'rainbow-flower' | 'moon' | 'sun' | 'loading' | 'error' | 'add' | 'cactus' | 'mandala' | 'upload';
 

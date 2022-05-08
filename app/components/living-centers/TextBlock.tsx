@@ -12,6 +12,6 @@ export default function TextBlock(props: TextBlockProps) {
     const rendered = useMemo(() => markdownRenderer.render(content), [content]);
 
     return(
-        <article className="prose-lg m-auto p-6" dangerouslySetInnerHTML={{ __html: rendered }} />
+        <article className="prose-lg m-auto p-6 box w-full h-full" dangerouslySetInnerHTML={{ __html: rendered }} />
     );
 }

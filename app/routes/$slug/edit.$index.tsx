@@ -6,6 +6,7 @@ import GoodOldForm, { useField, useIsSubmitting } from '~/components/GoodOldForm
 import ColorBlockEditor from '~/components/living-centers/ColorBlockEditor';
 import ImageBlockEditor from '~/components/living-centers/ImageBlockEditor';
 import TextBlockEditor from '~/components/living-centers/TextBlockEditor';
+import { Ornament } from '~/components/ornament';
 import { updateBlockById, UpdateBlockByIdArgs, updateBlockFormValidator } from '~/models/block.server';
 import { useProjectContext } from '../$slug';
 
@@ -119,6 +120,10 @@ export default function EditBlockPage() {
                     <HeightField />
                     <SubmitButton />
                 </GoodOldForm>
+            </section>
+            <section className="flex flex-col items-center pt-8 gap-1">
+                <h4>Delete Block</h4>
+                <Ornament.Button decoration="error" size="md" />
             </section>
         </aside>
     );
