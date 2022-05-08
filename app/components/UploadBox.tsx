@@ -51,8 +51,8 @@ export default function UploadBox(props: UploadBoxProps) {
                 onChange={handleChange}
             />
             <Ornament.Button
-                decoration={transition.state === 'submitting' ? 'loading' : 'upload'}
-                behavior={transition.state === 'submitting' ? 'spinning' : 'idle'}
+                decoration={transition.state === 'submitting' ? 'mandala' : 'upload'}
+                behavior={transition.state === 'submitting' ? 'heart-beat' : 'idle'}
                 size="md"
                 onClick={handleClick}
             />
