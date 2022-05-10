@@ -31,7 +31,7 @@ export async function getProjectsBySlugs(values: Array<string>) {
             isArchived: false
         },
         orderBy: {
-            createdAt: 'desc'
+            createdAt: 'asc'
         },
     });
 
