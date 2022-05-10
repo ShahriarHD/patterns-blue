@@ -1,9 +1,9 @@
 import { Project } from '@prisma/client';
 import { useEffect } from 'react';
-import { json, LoaderFunction, MetaFunction, redirect, useLoaderData } from 'remix';
+import { json, LoaderFunction, MetaFunction, useLoaderData } from 'remix';
 import { useLayoutContext } from '~/components/Layout';
 import ProjectCard from '~/components/project/ProjectCard';
-import { getPublicProjects } from '~/models/project.server';
+import { getProjectsBySlugs } from '~/models/project.server';
 
 export const meta: MetaFunction = () => ({
     title: 'Inner Light',
@@ -14,17 +14,24 @@ interface LoaderData {
     projects: Project[]
 }
 
-export const loader: LoaderFunction = async({ request }) => {
-    const { searchParams } = new URL(request.url);
-    const page = searchParams.get('page') || '';
+const firstPageProjectSlugs = [
+    'project-apbmmYHX0y5PvslLm-NPw',
+    'project-N0sKZqS2K60S8X5YR9Qvy',
+    'project-r44pXM6kCmEBCjQ5_rW47',
+    'project-IDcIltYqhcinBphtWZtOp',
+];
 
-    const pageNumber = parseInt(page);
+export const loader: LoaderFunction = async() => {
+    // const { searchParams } = new URL(request.url);
+    // const page = searchParams.get('page') || '';
 
-    if (!page || isNaN(pageNumber)) {
-        return redirect('/?page=1');
-    }
+    // const pageNumber = parseInt(page);
 
-    const projects = await getPublicProjects(pageNumber);
+    // if (!page || isNaN(pageNumber)) {
+    //     return redirect('/?page=1');
+    // }
+
+    const projects = await getProjectsBySlugs(firstPageProjectSlugs);
 
     return json({
         projects

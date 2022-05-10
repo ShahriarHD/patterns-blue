@@ -22,6 +22,22 @@ export async function getPublicProjects(pageIndex: number) {
     return projects;
 }
 
+export async function getProjectsBySlugs(values: Array<string>) {
+    const projects = await prisma.project.findMany({
+        where: {
+            slug: {
+                in: values
+            },
+            isArchived: false
+        },
+        orderBy: {
+            createdAt: 'desc'
+        },
+    });
+
+    return projects;
+}
+
 declare type GetUserProjectsArgs = {
     userId: string,
     isArchived: boolean,
