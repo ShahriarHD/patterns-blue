@@ -26,14 +26,6 @@ model Image {
     blockId String @unique
 }
 
-model Sequence {
-    uuid    String   @id @default(uuid())
-    title   String
-    steps   String[]
-    block   Block    @relation(fields: [blockId], references: [uuid])
-    blockId String   @unique
-}
-
 model Text {
     uuid    String @id @default(uuid())
     content String @default("")
@@ -41,21 +33,12 @@ model Text {
     blockId String @unique
 }
 
-enum ColorMetaStates {
-    PROJECT_BACKGROUND_LIGHT
-    PROJECT_BACKGROUND_DARK
-    PROJECT_ACCENT_COLOR
-    GLOWING
-    JUST_A_BEAUTIFUL_COLOR
-}
-
 model Color {
-    uuid    String          @id @default(uuid())
-    hex     String          @default("")
-    name    String          @default("")
-    block   Block           @relation(fields: [blockId], references: [uuid])
-    blockId String          @unique
-    meta    ColorMetaStates @default(JUST_A_BEAUTIFUL_COLOR)
+    uuid    String @id @default(uuid())
+    hex     String @default("")
+    name    String @default("")
+    block   Block  @relation(fields: [blockId], references: [uuid])
+    blockId String @unique
 }
 
 enum BlockSize {
@@ -83,10 +66,13 @@ model Block {
     project   Project @relation(fields: [projectId], references: [uuid])
     projectId String
 
-    color    Color?
-    image    Image?
-    sequence Sequence?
-    text     Text?
+
+    color Color?
+    image Image?
+    text  Text?
+
+    // since i don't want to get involved in cascade rules now, we will KISS
+    isDeleted Boolean @default(false)
 }
 
 model Project {

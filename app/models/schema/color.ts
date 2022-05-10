@@ -1,5 +1,4 @@
 import * as z from 'zod';
-import { ColorMetaStates } from '@prisma/client';
 import { CompleteBlock, RelatedBlockModel } from './index';
 
 export const ColorModel = z.object({
@@ -7,7 +6,6 @@ export const ColorModel = z.object({
     hex: z.string(),
     name: z.string(),
     blockId: z.string(),
-    meta: z.nativeEnum(ColorMetaStates),
 });
 
 export interface CompleteColor extends z.infer<typeof ColorModel> {

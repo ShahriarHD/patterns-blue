@@ -1,6 +1,6 @@
 import * as z from 'zod';
 import { BlockSize, BlockSize } from '@prisma/client';
-import { CompleteProject, RelatedProjectModel, CompleteColor, RelatedColorModel, CompleteImage, RelatedImageModel, CompleteSequence, RelatedSequenceModel, CompleteText, RelatedTextModel } from './index';
+import { CompleteProject, RelatedProjectModel, CompleteColor, RelatedColorModel, CompleteImage, RelatedImageModel, CompleteText, RelatedTextModel } from './index';
 
 export const BlockModel = z.object({
     /**
@@ -21,13 +21,13 @@ export const BlockModel = z.object({
    */
     height: z.nativeEnum(BlockSize),
     projectId: z.string(),
+    isDeleted: z.boolean(),
 });
 
 export interface CompleteBlock extends z.infer<typeof BlockModel> {
     project: CompleteProject
     color?: CompleteColor | null
     image?: CompleteImage | null
-    sequence?: CompleteSequence | null
     text?: CompleteText | null
 }
 
@@ -40,6 +40,5 @@ export const RelatedBlockModel: z.ZodSchema<CompleteBlock> = z.lazy(() => BlockM
     project: RelatedProjectModel,
     color: RelatedColorModel.nullish(),
     image: RelatedImageModel.nullish(),
-    sequence: RelatedSequenceModel.nullish(),
     text: RelatedTextModel.nullish(),
 }));
