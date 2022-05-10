@@ -19,6 +19,12 @@ const firstPageProjectSlugs = [
     'project-N0sKZqS2K60S8X5YR9Qvy',
     'project-r44pXM6kCmEBCjQ5_rW47',
     'project-IDcIltYqhcinBphtWZtOp',
+
+    // local-dev
+    'project-cL2cgf4NjVVuScQF5qSIR',
+    'project-brFE6llffVwM5GyztEdWf',
+    'project--6-UIy5gsszV9YiT4Lao2',
+    'project-HU6Vvvn3zP1QPrCq-2HF8'
 ];
 
 export const loader: LoaderFunction = async() => {
@@ -49,7 +55,7 @@ export default function Index() {
     ));
 
     return (
-        <div className="grid grid-cols-1 gap-16 tablet:grid-cols-3 container mx-auto items-center">
+        <div className="grid grid-cols-1 items-stretch gap-16 tablet:grid-cols-3 desktop:grid-cols-4 mx-auto p-8">
             {projectCards}
         </div>
     );
