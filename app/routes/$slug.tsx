@@ -211,7 +211,7 @@ export default function ProjectPageLayout() {
                 kind: 'create'
             };
         }
-        console.log(block.index === state.createBlockIndex && `inja ${block.index} ${ state.createBlockIndex}`);
+
         return (
             <Fragment
                 key={uuid}
@@ -237,30 +237,33 @@ export default function ProjectPageLayout() {
             <p className="pb-8 w-72">
                 {project.description}
             </p>
-            <div className="grid grid-cols-3 gap-1 place-items-center
+            {
+                isOwner &&
+                <div className="grid grid-cols-3 gap-1 place-items-center
                             border-b pb-8 mb-8 border-black-alpha-500 dark:border-white-alpha-500">
-                <Ornament.Link
-                    to="." state={{ scroll: false }}
-                    decoration="eye"
-                    size="md"
-                >
-                </Ornament.Link>
-                <Ornament.Link
-                    to="edit" state={{ scroll: false }}
-                    decoration="settings"
-                    size="md"
-                >
-                </Ornament.Link>
-                <Ornament.Link
-                    to="draw" state={{ scroll: false }}
-                    decoration="brush"
-                    size="md"
-                >
-                </Ornament.Link>
-                <p className="mx-4">view</p>
-                <p className="mx-4">edit</p>
-                <p className="mx-4">draw</p>
-            </div>
+                    <Ornament.Link
+                        to="." state={{ scroll: false }}
+                        decoration="eye"
+                        size="md"
+                    >
+                    </Ornament.Link>
+                    <Ornament.Link
+                        to="edit" state={{ scroll: false }}
+                        decoration="settings"
+                        size="md"
+                    >
+                    </Ornament.Link>
+                    <Ornament.Link
+                        to="draw" state={{ scroll: false }}
+                        decoration="brush"
+                        size="md"
+                    >
+                    </Ornament.Link>
+                    <p className="mx-4">view</p>
+                    <p className="mx-4">edit</p>
+                    <p className="mx-4">draw</p>
+                </div>
+            }
             <div className="blocks-grid mb-32">
                 {children}
                 {
