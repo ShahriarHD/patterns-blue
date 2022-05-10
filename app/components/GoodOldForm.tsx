@@ -39,6 +39,12 @@ export function useField<T extends FormShape>(name: keyof T & string, choiceValu
     return result;
 }
 
+export function useValue<T extends FormShape>(name: keyof T & string) {
+    const { values } = useContext(GoodOldFormContext);
+
+    return values[name];
+}
+
 interface GoodOldFormProps<T extends FormShape> extends FormProps {
     initialValues: T,
 }

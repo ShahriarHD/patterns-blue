@@ -49,9 +49,10 @@ export default function UploadBox(props: UploadBoxProps) {
                 name={name}
                 accept={mimeType}
                 onChange={handleChange}
+                required
             />
             <Ornament.Button
-                decoration={transition.state === 'submitting' ? 'mandala' : 'upload'}
+                decoration={'upload'}
                 behavior={transition.state === 'submitting' ? 'heart-beat' : 'idle'}
                 size="md"
                 onClick={handleClick}

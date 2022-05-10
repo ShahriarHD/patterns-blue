@@ -1,11 +1,10 @@
-import { Fragment, RefObject, useMemo, useRef, useState } from 'react';
+import { Dispatch, Fragment, useCallback, useMemo } from 'react';
 import { json, Link, LinksFunction, LoaderFunction, Outlet, useLoaderData, useOutletContext } from 'remix';
 import invariant from 'tiny-invariant';
-import Block, { BlockActiveMode } from '~/components/living-centers/Block';
-import ColorBlock from '~/components/living-centers/ColorBlock';
+import { Reducer, useImmerReducer } from 'use-immer';
+import Block, { BlockMode, BlockProps } from '~/components/living-centers/Block';
 import CreateBlock from '~/components/living-centers/CreateBlock';
-import ImageBlock from '~/components/living-centers/ImageBlock';
-import TextBlock from '~/components/living-centers/TextBlock';
+import { Ornament } from '~/components/ornament';
 import { getProjectBySlug } from '~/models/project.server';
 import { magicLinkStrategy } from '~/services/auth.server';
 
@@ -17,7 +16,7 @@ export const links:LinksFunction = () => [
 ];
 
 declare type ProjectWithBlocks = Exclude<Awaited<ReturnType<typeof getProjectBySlug>>, null>;
-
+declare type LoadedBlockType = ProjectWithBlocks['blocks'][0]
 interface ProjectLoaderData {
     project: ProjectWithBlocks,
     isOwner: boolean
@@ -41,137 +40,231 @@ export const loader:LoaderFunction = async({ request, params }) => {
     }
 };
 
-declare type ActiveBlockState = {
-    mode: BlockActiveMode,
+
+declare type BlockState = {
+    mode: BlockMode,
+    block: LoadedBlockType,
+}
+
+declare type BlocksManagerState = {
+    activeBlockId?: string,
+
+    createBlockIndex: number,
+
+    blocksStateEssence: Record<string, BlockState>
+}
+
+declare type BlockActions = {
+    actionType: 'set-all-to-view-mode',
+} | {
+    actionType: 'set-all-link-to-edit'
+} | {
+    actionType: 'set-editing-block',
+    uuid: string
+} | {
+    actionType: 'move-create-block',
+    to: 'left' | 'right'
+} | {
+    actionType: 'patch-block',
+    update: Partial<LoadedBlockType>,
     uuid: string,
+};
+
+const blocksManagerReducerFunction: Reducer<BlocksManagerState, BlockActions> =
+    // eslint-disable-next-line complexity
+    (draft, action) => {
+        switch (action.actionType) {
+            case 'set-all-to-view-mode': {
+                const keys = Object.keys(draft.blocksStateEssence);
+                for (const key of keys) {
+                    draft.blocksStateEssence[key].mode = 'view';
+                }
+                break;
+            }
+            case 'set-all-link-to-edit': {
+                const keys = Object.keys(draft.blocksStateEssence);
+                for (const key of keys) {
+                    draft.blocksStateEssence[key].mode = 'link-to-editing';
+                }
+                break;
+            }
+            case 'set-editing-block': {
+                draft.activeBlockId = action.uuid;
+                const keys = Object.keys(draft.blocksStateEssence);
+                for (const key of keys) {
+                    if (key === action.uuid) {
+                        draft.blocksStateEssence[key].mode = 'is-editing';
+                    } else {
+                        draft.blocksStateEssence[key].mode = 'link-to-editing';
+                    }
+                }
+                break;
+            }
+            case 'move-create-block': {
+                const to = action.to;
+                const blockLength = Object.keys(draft.blocksStateEssence).length;
+                if (to === 'left' && draft.createBlockIndex > 0) {
+                    draft.createBlockIndex --;
+                } else if (to === 'right' && draft.createBlockIndex < blockLength) {
+                    draft.createBlockIndex ++;
+                }
+                break;
+            }
+            case 'patch-block': {
+                const { uuid, update } = action;
+                const current = draft.blocksStateEssence[uuid].block;
+                draft.blocksStateEssence[uuid].block = {
+                    ...current,
+                    ...update
+                };
+            }
+        }
+    };
+
+function useBlocksManager(project: ProjectWithBlocks) {
+
+    const initialState: BlocksManagerState = {
+        createBlockIndex: project.blocks.length,
+        blocksStateEssence:
+            Object.fromEntries(project.blocks.map((block): [string, BlockState] => [block.uuid, { mode: 'view', block }]))
+    };
+    const [state, dispatch] = useImmerReducer(blocksManagerReducerFunction, initialState);
+
+    return { state, dispatch };
 }
 export interface ProjectPageContextStructure {
     project: ProjectWithBlocks,
     isOwner: boolean,
-    layoutContext: {
-        activeBlock?: ActiveBlockState,
-        activateBlock(state: ActiveBlockState): void,
-        restore(): void
-    },
-    createBlockIndex: number,
-    createBlockRef: RefObject<HTMLDivElement>
-    // hideEveryoneExceptId(id: string): void;
+
+    blocksManagerDispatch: Dispatch<BlockActions>,
+    blockManagerState: BlocksManagerState
 }
 
 export function useProjectContext() {
     return useOutletContext<ProjectPageContextStructure>();
 }
 
-function useCreateBlockPositioning(project: ProjectWithBlocks) {
-    const [createBlockIndex, setCreateBlockIndex] = useState(project.blocks.length);
-    const increaseCreateBlockIndex = useMemo(() => {
-        if (createBlockIndex < project.blocks.length) {
-            return () => setCreateBlockIndex(createBlockIndex + 1);
-        }
-        return undefined;
-    }, [createBlockIndex, project.blocks.length]);
-
-    const decreaseCreateBlockIndex = useMemo(() => {
-        if (createBlockIndex > 0) {
-            return () => setCreateBlockIndex(createBlockIndex - 1);
-        }
-        return undefined;
-    }, [createBlockIndex, project.blocks.length]);
-
-    return {
-        createBlockIndex,
-        increaseCreateBlockIndex,
-        decreaseCreateBlockIndex,
-    };
-}
-
 export default function ProjectPageLayout() {
     const { project, isOwner } = useLoaderData<ProjectLoaderData>();
-    const [activeBlock, setActiveBlock ] = useState<ActiveBlockState | undefined>();
-    const {
-        createBlockIndex,
-        decreaseCreateBlockIndex, increaseCreateBlockIndex
-    } = useCreateBlockPositioning(project);
+    const { state, dispatch } = useBlocksManager(project);
 
-    const createBlockRef = useRef<HTMLDivElement>(null);
 
     const context: ProjectPageContextStructure = {
         project,
         isOwner,
-        layoutContext: {
-            activeBlock,
-            activateBlock: info => setActiveBlock(info),
-            restore: () => setActiveBlock(undefined)
-        },
-        createBlockIndex,
-        createBlockRef,
+
+        blocksManagerDispatch: dispatch,
+        blockManagerState: state
     };
 
+    const increaseCreateBlockIndex = useCallback(() => dispatch({ actionType: 'move-create-block', to: 'right' }), [dispatch]);
+    const decreaseCreateBlockIndex = useCallback(() => dispatch({ actionType: 'move-create-block', to: 'left' }), [dispatch]);
+    const blocksLength = useMemo(() => Object.keys(state.blocksStateEssence).length, [state.blocksStateEssence]);
 
-    const createBlock = (
-        <Block width="MD" height="MD" index={-1} ref={createBlockRef}>
+    const createBlock = isOwner && (
+        <Block
+            block={{
+                height: 'MD',
+                width: 'SM',
+                index: -1,
+                projectId: project.uuid,
+                uuid: 'create-block-id'
+            }}
+            blockKind={{
+                kind: 'create'
+            }}
+        >
             <CreateBlock
-                index={createBlockIndex}
-                decreaseIndex={decreaseCreateBlockIndex}
-                increaseIndex={increaseCreateBlockIndex}
+                newBlockFormData={{
+                    createBlockIndex: state.createBlockIndex,
+                    projectId: project.uuid,
+                    projectSlug: project.slug
+                }}
+                increaseIndex={state.createBlockIndex !== blocksLength ? increaseCreateBlockIndex : undefined}
+                decreaseIndex={state.createBlockIndex !== 0 ? decreaseCreateBlockIndex : undefined}
             />
         </Block>
     );
 
-    const children = project.blocks.map(blockInfo => {
+    const children = Object.entries(state.blocksStateEssence).map(([uuid, blockState]) => {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        const { color, text, image, sequence, ...block } = blockInfo;
-        let child;
+        const { color, image, text, ...block } = blockState.block;
+        let blockKind: BlockProps['blockKind'];
 
         if (color) {
-            child = (
-                <ColorBlock {...color} />
-            );
+            blockKind = {
+                kind: 'color',
+                color
+            };
+        } else if (image) {
+            blockKind = {
+                kind: 'image',
+                image
+            };
+        } else if (text) {
+            blockKind = {
+                kind: 'text',
+                text
+            };
+        } else {
+            blockKind = {
+                kind: 'create'
+            };
         }
-
-        if (text) {
-            child = (
-                <TextBlock {...text} />
-            );
-        }
-
-        if (image) {
-            child = (
-                <ImageBlock {...image} isFullWidth={block.width === 'COVER'} />
-            );
-        }
-
-        if (!child) {
-            return null;
-        }
-
+        console.log(block.index === state.createBlockIndex && `inja ${block.index} ${ state.createBlockIndex}`);
         return (
             <Fragment
-                key={block.uuid}
+                key={uuid}
             >
                 {
-                    block.index === createBlockIndex && isOwner && createBlock
+                    block.index === state.createBlockIndex && createBlock
                 }
                 <Block
-                    {...block}
-                    blockActiveState={activeBlock?.uuid === block.uuid ? activeBlock.mode : undefined}
-                    isEditable={isOwner}
-                >
-                    {child}
-                </Block>
+                    block={block}
+                    blockKind={blockKind}
+                    blockActiveState={state.blocksStateEssence[block.uuid].mode}
+                />
             </Fragment>
         );
     });
 
     return (
         <article className="flex flex-col gap-4 items-center">
+            <img src={project.coverImage} alt="" className="w-56"/>
             <Link to={`/${project.slug}`}>
-                <h1 className="text-3xl font-display font-bold">{project.name}</h1>
+                <h1 className="text-7xl font-display font-bold">{project.name}</h1>
             </Link>
-            <div className="flex gap-3 tablet:gap-8 flex-row flex-wrap items-end justify-center">
+            <p className="pb-8 w-72">
+                {project.description}
+            </p>
+            <div className="grid grid-cols-3 gap-1 place-items-center
+                            border-b pb-8 mb-8 border-black-alpha-500 dark:border-white-alpha-500">
+                <Ornament.Link
+                    to="." state={{ scroll: false }}
+                    decoration="eye"
+                    size="md"
+                >
+                </Ornament.Link>
+                <Ornament.Link
+                    to="edit" state={{ scroll: false }}
+                    decoration="settings"
+                    size="md"
+                >
+                </Ornament.Link>
+                <Ornament.Link
+                    to="draw" state={{ scroll: false }}
+                    decoration="brush"
+                    size="md"
+                >
+                </Ornament.Link>
+                <p className="mx-4">view</p>
+                <p className="mx-4">edit</p>
+                <p className="mx-4">draw</p>
+            </div>
+            <div className="blocks-grid mb-32">
                 {children}
                 {
-                    isOwner && createBlockIndex === project.blocks.length && createBlock
+                    state.createBlockIndex === project.blocks.length && createBlock
                 }
             </div>
             <Outlet context={context}/>

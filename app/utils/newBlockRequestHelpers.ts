@@ -18,7 +18,7 @@ export async function getBlockDataFromRequest({ request }: GetBlockDataFromReque
     return {
         projectId,
         index: blockIndex,
-        width: 'MD',
+        width: 'SM',
         height: 'MD',
     };
 }

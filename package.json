@@ -30,6 +30,7 @@
     "classnames": "^2.3.1",
     "compression": "^1.7.4",
     "express": "^4.18.1",
+    "immer": "^9.0.12",
     "markdown-it": "^13.0.1",
     "morgan": "^1.10.0",
     "nanoid": "^3.2.0",
@@ -41,6 +42,7 @@
     "remix-auth-supabase": "^4.0.0",
     "remix-validated-form": "^4.4.1",
     "tiny-invariant": "^1.2.0",
+    "use-immer": "^0.7.0",
     "uuid": "^8.3.2",
     "zod": "^3.14.3"
   },

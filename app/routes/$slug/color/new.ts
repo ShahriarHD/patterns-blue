@@ -8,9 +8,8 @@ export const action: ActionFunction = async({ params, request }) => {
     await createColorBlock({
         block,
         color: {
-            hex: '#00000010',
+            hex: '#01010110',
             name: '',
-            meta: 'JUST_A_BEAUTIFUL_COLOR'
         }
     });
 
