@@ -99,10 +99,12 @@ export async function getProjectBySlug(slug: string) {
         },
         include: {
             blocks: {
+                where: {
+                    isDeleted: false,
+                },
                 include: {
                     color: true,
                     image: true,
-                    sequence: true,
                     text: true
                 },
                 orderBy: {

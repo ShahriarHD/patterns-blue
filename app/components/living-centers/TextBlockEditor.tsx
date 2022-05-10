@@ -1,24 +1,23 @@
 import { Text } from '@prisma/client';
 import { useCallback, useEffect, useRef } from 'react';
+import { useParams } from 'remix';
 import { UpdateTextByIdArgs } from '~/models/text.server';
-import { useProjectContext } from '~/routes/$slug';
 import GoodOldForm, { useField } from '../GoodOldForm';
+import { Ornament } from '../ornament';
 
 declare type TextBlockEditorProps = Omit<Text, 'blockId'>;
 
 export default function TextBlockEditor(props: TextBlockEditorProps) {
     const { uuid, content } = props;
 
-    const { project } = useProjectContext();
-
-    if (!project) {
-        return null;
-    }
-
+    const slug = useParams().slug;
     return (
         <GoodOldForm<UpdateTextByIdArgs>
-            className="flex flex-col gap-4"
-            action={`/${project.slug}/text/update`}
+            className="flex box flex-col gap-4
+                       w-full h-full p-4
+                       absolute z-route30 top-0 left-0"
+            action={`/${slug}/text/update`}
+            reloadDocument
             method="post"
             initialValues={{
                 uuid,
@@ -28,6 +27,20 @@ export default function TextBlockEditor(props: TextBlockEditorProps) {
             <UUIDField />
             <ContentField />
             <button type="submit" className="button">Save</button>
+            <details className="text-black-alpha-500 dark:text-white-alpha-500 text-center list-none">
+                <summary className ="list-none flex items-baseline justify-center">
+                    <Ornament.Button size="sm" decoration="question" className="pointer-events-none scale-75" />
+                    <span>Markdown guide </span>
+                </summary>
+                # Huge text
+                <br/>
+                ## Large text
+                <br/>
+                ### Medium text
+                <br/>
+
+                normal text!
+            </details>
         </GoodOldForm>
     );
 }
@@ -66,7 +79,7 @@ function ContentField() {
     return (
         <textarea
             ref={textarea}
-            className="text-input"
+            className="text-input flex-grow"
             onChange={adjustHeight}
             {...inputProps}
         />

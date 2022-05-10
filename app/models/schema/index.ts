@@ -1,5 +1,4 @@
 export * from './image';
-export * from './sequence';
 export * from './text';
 export * from './color';
 export * from './block';

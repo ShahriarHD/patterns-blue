@@ -5,6 +5,7 @@ import { BlockModel } from './schema';
 
 export const createBlockArgsValidator = BlockModel.omit({
     uuid: true,
+    isDeleted: true,
 });
 
 export declare type CreateBlockArgs = z.infer<typeof createBlockArgsValidator>;
@@ -58,4 +59,32 @@ export async function updateBlockById(args: UpdateBlockByIdArgs) {
     });
 
     return updatedBlock;
+}
+
+export async function deleteBlockById({ uuid }: {uuid: string}) {
+    const deletedBlock = await prisma.block.update({
+        data: {
+            isDeleted: true
+        },
+        where: {
+            uuid
+        }
+    });
+
+    await prisma.block.updateMany({
+        where: {
+            projectId: deletedBlock.projectId,
+            isDeleted: false,
+            index: {
+                gt: deletedBlock.index
+            }
+        },
+        data: {
+            index: {
+                decrement: 1
+            }
+        }
+    });
+
+    return deletedBlock;
 }

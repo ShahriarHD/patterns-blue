@@ -7,7 +7,6 @@ import { ColorModel } from './schema';
 const createColorArgsValidator = z.object({
     color: ColorModel.pick({
         hex: true,
-        meta: true,
         name: true
     }),
     block: createBlockArgsValidator
@@ -22,14 +21,12 @@ export async function createColorBlock({ color, block }: CreateColorArgs) {
 
     const {
         hex,
-        meta,
         name
     } = color;
 
     const newColor = await prisma.color.create({
         data: {
             hex,
-            meta,
             name,
             block: {
                 connect: {
@@ -46,7 +43,6 @@ const updateColorByIdArgsValidator = ColorModel.pick({
     uuid: true,
     hex: true,
     name: true,
-    meta: true
 });
 
 export declare type UpdateColorByIdArgs = z.infer<typeof updateColorByIdArgsValidator>;
